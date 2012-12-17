@@ -1,0 +1,269 @@
+\documentclass[10pt,letterpaper]{article}
+\renewcommand{\rmdefault}{ptm}
+
+\usepackage[left=1in,right=1in,top=1in,bottom=1in]{geometry} 
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{polynomial}
+\usepackage{layouts}
+\usepackage{enumerate}
+\usepackage{syntax}
+\usepackage{gensymb}
+\usepackage{enumitem}
+\usepackage{cancel}
+\usepackage{calc}
+
+\usepackage{xcolor}
+
+\usepackage{minted}
+
+\usepackage[version=0.96]{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,automata,backgrounds,petri,positioning}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.shapes}
+\usetikzlibrary{decorations.text}
+\usetikzlibrary{decorations.fractals}
+\usetikzlibrary{decorations.footprints}
+\usetikzlibrary{shadows}
+\usetikzlibrary{calc}
+\usetikzlibrary{spy}
+\usetikzlibrary{matrix}
+
+\usepackage{tikz-qtree}
+
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{4}
+\usepackage[bookmarksopen,bookmarksdepth=3]{hyperref}
+\usepackage{titlesec}
+
+
+%define new colors
+\definecolor{dark-red}{rgb}{0.8,0.15,0.15}
+\definecolor{dark-blue}{rgb}{0.15,0.15,0.7}
+\definecolor{medium-blue}{rgb}{0,0,0.5}
+
+%set up color for table of contents
+\hypersetup{
+    colorlinks, linkcolor={dark-red},
+    citecolor={dark-blue}, urlcolor={medium-blue}
+}
+
+\usepackage{tocloft}
+
+%preven linebreak between subsection header and its content
+\titleformat{\subsection}[runin]{\normalfont\bfseries}{\thesubsection.}{2pt}{}
+%\titleformat{\section}[runin]{\normalfont\bfseries\filcenter}{\thesection.}{5pt}{}
+
+
+\titleformat{\section}[block]
+{\normalfont\sffamily\LARGE}
+{\thesection}{.2em}{\titlerule\\[.2ex]\bfseries}
+
+%title
+\title{\textbf{Math 350 - Advanced Calculus \\ Homework 1}}
+\author{Chan Nguyen}
+
+%set numwidth of section
+\setlength{\cftsecnumwidth}{1.5cm} 
+%make subsection numwidth different than as section
+\setlength{\cftsubsecnumwidth}{3cm}
+%make subsection indent the same as section
+\setlength{\cftsubsecindent}{\cftsecindent} 
+
+\newcommand{\sol}{\textbf{Solution. }}
+
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usetikzlibrary{shapes,backgrounds}
+
+\makeatletter
+\newcommand{\DESCRIPTION@original@item}{}
+\let\DESCRIPTION@original@item\item
+\newcommand*{\DESCRIPTION@envir}{DESCRIPTION}
+\newlength{\DESCRIPTION@totalleftmargin}
+\newlength{\DESCRIPTION@linewidth}
+\newcommand{\DESCRIPTION@makelabel}[1]{\llap{#1}}%
+\newcommand{\DESCRIPTION@item}[1][]{%
+  \setlength{\@totalleftmargin}%
+       {\DESCRIPTION@totalleftmargin+\widthof{\textbf{#1 }}-\leftmargin}%
+  \setlength{\linewidth}
+       {\DESCRIPTION@linewidth-\widthof{\textbf{#1 }}+\leftmargin}%
+  \par\parshape \@ne \@totalleftmargin \linewidth
+  \DESCRIPTION@original@item[\textbf{#1}]%
+}
+\newenvironment{DESCRIPTION}
+  {\list{}{\setlength{\labelwidth}{0cm}%
+           \let\makelabel\DESCRIPTION@makelabel}%
+   \setlength{\DESCRIPTION@totalleftmargin}{\@totalleftmargin}%
+   \setlength{\DESCRIPTION@linewidth}{\linewidth}%
+   \renewcommand{\item}{\ifx\@currenvir\DESCRIPTION@envir
+                           \expandafter\DESCRIPTION@item
+                        \else
+                           \expandafter\DESCRIPTION@original@item
+                        \fi}}
+  {\endlist}
+\makeatother
+
+\begin{document}
+
+\tableofcontents 
+\maketitle
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex}
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 1}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 1}
+	Let $X, Y$ be subsets of a set $S$, and let $C$ denote the complement with respect to $S$ that is
+	$C(X) = S \setminus X$. Prove that: \\
+	(a) $C(C(X)) = X$ \\
+	(b) $C(X \cup Y) = C(X) \cap C(Y)$ \\
+	(c) $C(X \cap Y) = C(X) \cup C(Y)$ \\
+	(d) $X \cap Y = \emptyset \Leftrightarrow X \subset C(Y) \Leftrightarrow Y \subset C(X)$ \\
+	(e) $X \cup Y = S \Leftrightarrow C(X) \subset Y \Leftrightarrow C(Y) \subset X$ \\
+	
+	\textbf{Solution.} \\
+	(a) $C(C(X))= C(S \setminus X) = S \setminus (S \setminus X) = X$ \\
+	Or: If $x \in X \implies x \not\in C(X) \implies x \in C(C(X) \implies C(C(X)) = X$ \\
+	(b) $C(X \cup Y) = S \setminus (X \cup Y) = (S \setminus X) \cap (S \setminus Y) = C(X) \cap C(Y)$ \\
+	Or: If $x \in C(X \cup Y) \implies x \in (C(X) \cap C(Y)) \implies x \not\in X$ and $x \not\in Y \implies x \in C(X)$ and 
+	$x \in C(Y) \implies C(X \cup Y) = C(X) \cap C(Y)$ \\
+	(c) $C(X \cap Y) = S \setminus (X \cap Y) = (S \setminus X) \cup (S \setminus Y) = C(X) \cup C(Y)$ \\
+	Or: If $x \in C(X \cap Y) \implies x \in (C(X) \cup C(Y)) \implies x \in C(X)$ and $x \in C(Y) \implies
+	C(X \cap Y) = C(X) \cup C(Y)$ \\
+	(d) Without loss of generality, proving $X \subset C(Y)$ implies $Y \subset C(X)$ \\
+	Assume $X$ and $Y$ in $S$, if $X \cap Y = \emptyset \implies C(Y) = (X \cup (S \setminus Y)) 
+	\implies X \subset C(Y)$ \\
+	(e) If $X \cup Y = S \implies C(X) = Y \cap (X \cap Y) \implies C(X) \subset Y$\\
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 2}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 2}
+	Let $F: X \rightarrow Y$ be a mapping of the set $X$ into the set $Y$. Let $A$ and $B$ be subsets of $X$, and let 
+	$C$ and $D$ be subsets of $Y$. Prove or give a counterexample: \\
+	(a) $F(A \cup B) = F(A) \cup F(B)$ \\
+	(b) $F(A \cap B) = F(A) \cap F(B)$ \\
+	(c) $F^{-1}(C \cup D) = F^{-1}(C) \cup F^{-1}(D)$ \\
+	(d) $F^{-1}(C \cap D) = F^{-1}(C) \cap F^{-1}(D)$ \\
+	(e) $F^{-1}(F(A)) = A$ \\
+	(f) $F(F^{-1}(C)) = C$ \\
+	
+	\textbf{Solution.} \\
+	(a) True. By definition of mapping we have:
+	$$F(A) = \{ y \in Y \mid (\exists x \in A)(F(x) = y) \}$$
+	$$F(B) = \{ y \in Y \mid (\exists x \in B)(F(x) = y) \}$$
+	where $A \cup B = \{x \mid x \in A \cup B\} \implies F(A \cup B) = \{ y \in Y \mid (\exists x \in (A \cup B))(F(x) = y) \}$.
+	Thus $F(A \cup B) = F(A) \cup F(B)$ \\
+	(b) False. It's only true if $F$ is one to one. Counter example:
+	$$F: y = x^2$$
+	$A = \{2, -1\}, B = \{2, 1\}$
+	Then $F(A \cap B) = \{4\}$ but $F(A) \cap F(B) = \{4, 1\}$ \\
+	(c) True. Assume $C, D$ are subsets of $Y$ under the mapping $F: X \rightarrow Y$, then
+	$$F^{-1}(C) = \{x \in X \mid F(x) \in C\}$$
+	$$F^{-1}(D) = \{x \in X \mid F(x) \in D\}$$
+	Then $F^{-1}(C \cap D) = F^{-1}(C) \cup F^{-1}(D)$
+	(d) True. Assume $C, D$ are subsets of $Y$ under the mapping $F: X \rightarrow Y$, then
+	$$F^{-1}(C) = \{x \in X \mid F(x) \in C\}$$
+	$$F^{-1}(D) = \{x \in X \mid F(x) \in D\}$$
+	Then $F^{-1}(C \cap D) = F^{-1}(C) \cap F^{-1}(D)$
+	(e) False. Counterexample: $F : x \rightarrow x^2$, let $A = \{-1, 1\}$, then $F(-1) = F(1) = 1$, but
+	$F^{-1}(A) = \{1\}$. In fact it's only true if $F$ is one to one\\
+	(f) False. Counterexample: same as above with $C = \{1, -1\}$, then $F(F^{-1}(C)) = {1}$. Again, it's only
+	true if $F$ is one to one
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 3}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 3}
+	Let $F: X \rightarrow Y$ be a mapping of the set $X$ into the set $Y$. Prove the following properties are equivalent: \\
+	(a) $F$ is injective (one to one) \\
+	(b) For any subset $A$ of $X$, $F^{-1}(F(A)) = A$ \\
+	(c) For any pair of subsets $A, B$ of $X$, $F(A \cap B) = F(A) \cap F(B)$ \\
+	(d) For any pair of subsets $A, B$ of $X$ such that $A \cap B = \emptyset$, the intersection $F(A) \cap F(B) = \emptyset$ \\
+	(e) For any pair of subsets $A, B$ of $X$ such that $B \subset A$, the image $F(A \setminus B) = F(A) \setminus F(B)$ \\
+	
+	\textbf{Solution.} \\
+	(a) Use (b) to prove (a): \\
+		For any $A \subset X$, if $F^{-1}(F(A))$ then $F$ must be one to one.
+	(b) Use (a) to prove (b): \\ 
+		Because $F$ is one to one, $F(A)$ is a subset of $Y$, then $F^{-1}(F(A)) = A$\\
+	(c) Use (c) to prove (a): \\ 
+	We have:
+	\begin{itemize}
+		\item $F(A) = \{ y \in Y \mid (\exists x \in A)(F(x) = y)\}$
+		\item $F(B) = \{ y \in Y \mid (\exists x \in B)(F(x) = y)\}$
+	\end{itemize}
+ 	where $F(A \cap B) = \{ y \in Y \mid (\exists x \in (A \cap B))(F(x) = y)\}$ which implies $F$ must be one to one \\
+ 	(d) Use (d) to prove (a): \\
+ 	If $A \cap B = \emptyset$ implies $F(A) \cap F(B) = \emptyset$ is only true if $F$ is one to one otherwise $F(A) \cap
+ 	F(B) \neq \emptyset$ \\
+ 	(e) Use (a) to prove (e): \\
+ 	Again this is only true if $F$ is one to one, because $A \setminus B$ implies $x \in A$ and $x \not\in B$, which could
+ 	be decomposed into $F(A) \setminus F(B)$. \\
+ 	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 4}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 4} \text{  } \\
+	(a) How many subsets are there of the set $\{1, 2, 3, \ldots, n\}$? \\
+	(b) How many functions from this set to itself? \\
+	(c) How many injective (one to one) mappings of this set into itself? \\
+	(d) How many surjective (onto) mappings of this set into itself? \\
+	
+	\textbf{Solution.} \\
+	(a) $2^{n}$ \\
+	(b) $n$  \\
+	(c) $n!$ \\
+	(d) $n!$ \\
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 5}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 5} Let $\mathbf{Z_{+}}$ denote the set of positive
+	integers $\mathbf{Z_{+}} = \{1, 2, 3, \ldots \}$. Let $F: \mathbf{Z_{+}} \times \mathbf{Z_{+}} \rightarrow \mathbf{Z_{+}}$
+	be the mapping given by:
+	$$F(x, y) = \dfrac{(x + y - 2)(x + y - 1)}{2} + y$$
+	Prove that $F$ is bijection (one to one and onto).\\
+	
+	\textbf{Solution.} \\
+	\begin{proof} To prove $F$ is bijection, we need to prove it's injective and surjective. \\
+	\begin{itemize}
+		\item one-to-one \\
+		Suppose there exists $x', y'$ where $x \neq x', y \neq y'$ such that $F((x, y)) = F((x',y')$:
+		$$\Leftrightarrow \dfrac{(x + y - 2)(x + y - 1)}{2} + y = \dfrac{(x' + y' - 2)(x' + y' - 1)}{2} + y'$$
+		However, this is impossible because the extra $y$ at the end. We can have multiple pairs of $(x, y)$ such that:
+		$x + y = x_0 + y_0 = x_1 + y_1 \ldots$ but we can only have one $y$. Thus $x = x'$ and $y = y'$. Therefore
+		$F$ is one to one. (1)
+		\item onto \\
+		What we need to show is that for any $z \in \mathbf{Z_{+}}$, there exits a pair solution $(x, y)$. \\
+		If we rewrite $F$ as:
+		$$F(x, y) = \dfrac{(x + y - 2)(x + y - 2 + 1)}{2} + y$$ 
+		we can see that it's of the form accumulative sum $f(n) = \dfrac{n(n + 1)}{2}$, plug in some $n$, we see that:
+		$$f(1) = \dfrac{1(1 + 1)}{2} = 1$$
+		$$f(2) = \dfrac{2(2 + 1)}{2} = 3$$
+		$$f(3) = \dfrac{3(3 + 1)}{2} = 6$$
+		$$f(4) = \dfrac{4(4 + 1)}{2} = 10$$
+		$$ \ldots $$	
+		However, the results do not consists of all positive integers in $\mathbf{Z_{+}}$, there are gaps between
+		$1 \rightarrow 3 \rightarrow 6 \rightarrow 10 \ldots$. Fortunately, $n = x + y$ and the extra $y$ at the end
+		of this mapping indeed generate all these positive numbers. Also the extra $-2$ in the expression does yield
+		a bigger range for $x$ and $y$. Assume we want $n = 3$, there are two pairs of $(x, y)$ which yields the same
+		result in $f(n) = \dfrac{n(n + 1)}{2}$, where the extra $y$ at the end could make the difference. \\
+		If we choose $y = 1$, then the result is:
+		$$F(2, 1) = \dfrac{(3 - 2)(3 - 1)}{2} + 1 = 1 + 1 = 2$$
+		If we choose $y = 2$, then the result is:
+		$$F(2, 1) = \dfrac{(3 - 2)(3 - 1)}{2} + 2 = 1 + 2 = 3$$
+		Similarly for $n = 4, 5, 6, \ldots$, and as $n$ becomes larger and larger we have more solution
+		to the Diophantine equations $x + y = n$, for $x, y \geq 1$. In fact, the number of solutions of
+		non-negative integer values to the equation $n = x + y$ is:
+			$$\dbinom{n + 2 - 1}{2 - 1} = (n + 1)$$
+		So it's sufficient to generate all positive integers in $\mathbf{Z_{+}}$
+		Note that although we don't have $x, y \geq 1$, $x + y - 1$ and $x + y - 2$ does include
+		these two cases. The other way to look at it is to subtract the two cases $(0, n)$ and $(n, 0)$
+		which still yields $n + 1 - 2 = n - 2$ choices for $x, y$.
+		Thus this mapping yields all positive integers in $\mathbf{Z_{+}}$ which implies
+		$F$ is onto. (2)
+	\end{itemize}
+	From (1) and (2) we can conclude that $F$ is bijection.
+	\end{proof}
+	
+\end{document}

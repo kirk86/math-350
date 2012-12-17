@@ -1,0 +1,700 @@
+\documentclass[10pt,letterpaper]{article}
+\renewcommand{\rmdefault}{ptm}
+
+\usepackage[left=1in,right=1in,top=1in,bottom=1in]{geometry} 
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{polynomial}
+\usepackage{layouts}
+
+\usepackage{enumerate}
+
+\usepackage{syntax}
+\usepackage{gensymb}
+\usepackage{cancel}
+\usepackage{calc}
+\usepackage{xcolor}
+
+\usepackage{minted}
+
+\usepackage[version=0.96]{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,automata,backgrounds,petri,positioning}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.shapes}
+\usetikzlibrary{decorations.text}
+\usetikzlibrary{decorations.fractals}
+\usetikzlibrary{decorations.footprints}
+\usetikzlibrary{shadows}
+\usetikzlibrary{calc}
+\usetikzlibrary{spy}
+\usetikzlibrary{matrix}
+
+\usepackage{tikz-qtree}
+
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{4}
+\usepackage[bookmarksopen,bookmarksdepth=3]{hyperref}
+\usepackage{titlesec}
+
+
+%define new colors
+\definecolor{dark-red}{rgb}{0.8,0.15,0.15}
+\definecolor{dark-blue}{rgb}{0.15,0.15,0.7}
+\definecolor{medium-blue}{rgb}{0,0,0.5}
+\definecolor{dark-green}{rgb}{0.2,0.7,0.7}
+
+%set up color for table of contents
+\hypersetup{
+    colorlinks, linkcolor={dark-green},
+    citecolor={dark-blue}, urlcolor={medium-blue}
+}
+
+\usepackage{tocloft}
+
+%preven linebreak between subsection header and its content
+\titleformat{\subsection}[runin]{\normalfont\bfseries}{\thesubsection.}{2pt}{}
+%\titleformat{\section}[runin]{\normalfont\bfseries\filcenter}{\thesection.}{5pt}{}
+
+
+\titleformat{\section}[block]
+{\normalfont\sffamily\LARGE}
+{\thesection}{.2em}{\titlerule\\[.2ex]\bfseries}
+
+%title
+\title{\textbf{Math 350 - Advanced Calculus \\ Homework 7}}
+\author{Chan Nguyen}
+
+%set numwidth of section
+\setlength{\cftsecnumwidth}{1.5cm} 
+%make subsection numwidth different than as section
+\setlength{\cftsubsecnumwidth}{3cm}
+%make subsection indent the same as section
+\setlength{\cftsubsecindent}{\cftsecindent} 
+
+\newcommand{\sol}{\textbf{Solution}}
+
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usetikzlibrary{shapes,backgrounds}
+
+\makeatletter
+\newcommand{\DESCRIPTION@original@item}{}
+\let\DESCRIPTION@original@item\item
+\newcommand*{\DESCRIPTION@envir}{DESCRIPTION}
+\newlength{\DESCRIPTION@totalleftmargin}
+\newlength{\DESCRIPTION@linewidth}
+\newcommand{\DESCRIPTION@makelabel}[1]{\llap{#1}}%
+\newcommand{\DESCRIPTION@item}[1][]{%
+  \setlength{\@totalleftmargin}%
+       {\DESCRIPTION@totalleftmargin+\widthof{\textbf{#1 }}-\leftmargin}%
+  \setlength{\linewidth}
+       {\DESCRIPTION@linewidth-\widthof{\textbf{#1 }}+\leftmargin}%
+  \par\parshape \@ne \@totalleftmargin \linewidth
+  \DESCRIPTION@original@item[\textbf{#1}]%
+}
+\newenvironment{DESCRIPTION}
+  {\list{}{\setlength{\labelwidth}{0cm}%
+           \let\makelabel\DESCRIPTION@makelabel}%
+   \setlength{\DESCRIPTION@totalleftmargin}{\@totalleftmargin}%
+   \setlength{\DESCRIPTION@linewidth}{\linewidth}%
+   \renewcommand{\item}{\ifx\@currenvir\DESCRIPTION@envir
+                           \expandafter\DESCRIPTION@item
+                        \else
+                           \expandafter\DESCRIPTION@original@item
+                        \fi}}
+  {\endlist}
+\makeatother
+
+\begin{document}
+
+\tableofcontents 
+\maketitle
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex}
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 1}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 1}
+	\begin{enumerate}[(a)]	
+	\item Suppose that f is a function satisfying $|f(x)| \leq |x|$ for all $x$. Show that $f$ is continuous
+at $0$. \\
+	\begin{proof}
+		Recall definition of continuity, if $\displaystyle\lim_{x\to a}f(x) = f(a)$, then $f(x)$
+		is continuous at $a$. Using the definition of limit, given a $\epsilon > 0$, we need
+		to find $\delta = \delta(\epsilon)$ such that if $0 < |x - a| < \delta$ then $|f(x) - f(a)| < \epsilon$.
+		Since $|f(x)| \leq |x| \Rightarrow 0 \leq |f(0)| \leq 0$, thus $f(0) = 0$. Fix
+		$\epsilon > 0$, pick $\delta = \epsilon$ then $|x - 0| < \delta 
+		\Leftrightarrow |x| < \epsilon \Rightarrow
+		|f(x) - 0| = f(x) \leq |x| < \epsilon$ for all $x \in dom(f)$. Since $\epsilon$ is arbitrary,
+		$\displaystyle\lim_{x\to 0}f(x) = f(0)$ or $f(x)$ is continuous at $0$.
+	\end{proof}
+	
+	\item Give an example of such a function $f$ which is not continuous at any $a = 0$. 
+	\begin{proof}
+	An example of $f(x)$ not continuous at any $a \neq 0$ could be:
+	$$f(x) = 
+	\begin{cases}
+		0  &, x \text{ rational } \\
+		x  &, x \text{ irrational } 
+	\end{cases}
+	$$ 
+	As we can see the limit $\displaystyle\lim_{x\to\ 0}f(x) = f(0)$ exists. But
+	if $a \neq 0$, given $\epsilon > 0$, we
+	can't find $\delta > 0$ such that if $0 < |x - 0| < \delta$ then $|f(x) - L| < \epsilon$
+	no matter what $L$ is because by the "Denseness of $\mathbb{Q}$", if $a, b \in \mathbb{R}$,
+	then there is a rational $r \in \mathbb{Q}$ such that $a < r < b$. So as we come close 
+	to any $a \neq 0$, the limit alternates between $x$ and $0$. Thus it is only continuous at $0$.	
+	\end{proof}
+	
+	\item Suppose that $g$ is continuous at $0, g(0) = 0$, and $f$ is a function satisfying 
+	$|f(x)| \leq |g(x)|$ for all $x$. Show that $f$ is continuous at $0$. 
+	\begin{proof}
+		Since $g(x)$ is continuous at $0$ and $g(0) = 0$, we have
+		$$\displaystyle\lim_{x\to\ 0}g(x) = g(0) = 0$$
+		which can be translated to the definition of limit as,
+		$\forall \epsilon > 0, \exists \delta > 0$, such that for all $x$ if $0 < |x - 0| = |x| < \delta$
+		then $|g(x) - 0| = g(x) < \epsilon$. But $|f(x)| \leq |g(x)|$ for all $x$, thus we can choose 
+		a $\delta > 0$, such that if $|x - 0| < \delta$ then $|g(x) - 0| = g(x) \leq |f(x)| < \epsilon$.
+		In other words, $f(x)$ is continuous at $0$. 
+	\end{proof}
+	\end{enumerate}
+	
+	\newpage
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 2}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 2}
+	\begin{enumerate}[(a)]
+	\item Prove that if $f$ is continuous at $a$, then so $|f|$.
+	\begin{proof}
+		Since $f$ is continuous at $a$, we have that:
+		$$\displaystyle\lim_{x\to\ a}f(x) = f(a)$$
+		By definition of limit, $\forall \epsilon > 0, \exists \delta > 0$ such that $\forall x$,
+		if $0 < |x - a| < \delta$ implies $|f(x) - f(a)| < \epsilon$. On the other hand,
+		using Triangle inequality, we have:
+		$$|f(x)| - |f(a)| \leq |f(x) - f(a)| \text{ and } |f(x)| - |f(a)| \leq |f(a) - f(x)|$$
+		which implies $||f(x)| - |f(a)|| \leq |f(x) - f(a)| < \epsilon$. Thus we can choose
+		$\delta > 0$ such that if $0 < |x - a| < \delta$ then $||f(x)| - |f(a)|| < \epsilon$
+		which is equivalent to $\displaystyle\lim_{x\to\ a}|f(x)| = |f(a)|$. Hence,
+		$|f|$ is continuous at $a$. 
+	\end{proof}
+	\item Give an example of a function $f$ such that $f$ is continuous nowhere, but $|f|$
+	is continuous everywhere.
+	\begin{proof}
+	We have to be careful here because it's easy to come up with an example where $f$ is
+	continuous everywhere but $f$ is not continuous at some $a$, for example
+	$$
+	f(x) = 
+	\begin{cases}
+		1  &, x \geq 0  \\
+		-1 &, x < 0
+	\end{cases}
+	$$
+	To make $f$ is not continuous "nowhere" we have to use "rational" and 
+	"irrational" trick as mentioned in class.
+	$$
+	f(x) = 
+	\begin{cases}
+		a  &, x \text{ rational } \\
+		-a &, x \text{ irrational }
+	\end{cases}
+	$$
+	for some $a \in \mathbb{N}$.
+	As we can see $\displaystyle\lim_{x\to\ a}f(x) = \text{DNE}$ but $\displaystyle\lim_{x\to\ a}|f|(x) = a$.
+	Hence $|f|$ is continuous at any $a$, while $f$ always alternates between $a$ and $-a$ no matter
+	what $a$ is, thus $f$ is not continuous nowhere. 	
+	
+	\end{proof} 
+	\item Prove that if $f$ and $g$ are continuous, so are $\max(f, g)$ and $\min(f, g)$.
+	\begin{proof}
+		Recall from Problem 4 - Homework 3, we have:
+		$$\max(a, b) = \dfrac{a + b + |a - b|}{2}$$
+		$$\min(a, b) = \dfrac{a + b - |a - b|}{2}$$
+		Although we did not prove the $\min(a, b)$, we can prove it quite easily. 
+		Consider three cases, \\
+		If $a > b$, then 
+			$$\min(a, b) = \dfrac{a + b - a + b}{2} = \dfrac{2b}{2} = b$$
+		If $a < b$, then
+			$$\min(a, b) = \dfrac{a + b - b + a}{2} = \dfrac{2a}{2} = a$$
+		If $a = b$, then 
+		 	$$\min(a, b) = \dfrac{a + b - 0}{2} = a = b$$  		
+		Hence,
+		We have,
+			$$\max(f, g) = \dfrac{f + g + |f - g|}{2} \text{ and } \min(f, g) = \dfrac{f + g - |f - g|}{2}$$
+		Apply Problem 3 (Algebra of Continuity) we have that $(f + g)$ and $(f - g)$ are continuous, where 
+		apply part (a), we know that $|f - g|$ is also continuous. Thus $\max(f, g)$ and $\min(f, g)$ are
+		continuous.
+	\end{proof}		
+	
+	
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 3}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 3}
+	\begin{enumerate}[(a)]
+	\item Prove that if $f$ and $g$ are continuous, then so is $f + g$.
+	\begin{proof}
+		Since $f(x), g(x)$ are continuous at $a$, we have that
+		$$\displaystyle\lim_{x\to\ a}f(x) = f(a)$$
+		$$\displaystyle\lim_{x\to\ a}g(x) = g(a)$$
+		Apply Theorem 8.4 from lecture notes to $f$ and $g$, we have that
+		$$\displaystyle\lim_{x\to\ a}(f + g)(x) = 
+		\displaystyle\lim_{x\to\ a}f(x) + \displaystyle\lim_{x\to\ a}g(x)
+		= f(a) + g(a) = (f + g)(a)$$
+		Thus $f + g$ is continuous at $a$.
+	\end{proof}
+	
+	\item Prove that if $f$ and $g$ are continuous, then so is $f \cdot g$.
+	\begin{proof}
+		Again, we can use Theorem 8.4 from lecture notes to obtain:
+		$$\displaystyle\lim_{x\to\ a}(f \cdot g)(x) = 
+		\displaystyle\lim_{x\to\ a}f(x) \cdot \displaystyle\lim_{x\to\ a}g(x)
+		= f(a) \cdot g(a) = (f \cdot g)(a)$$
+		Thus $f \cdot g$ is continuous at $a$.
+	\end{proof}
+	
+	\item Give an example of two functions $f$ and $g$, both discontinuous at 0, whose sum is continuous at 0.
+	
+	
+	\item Give an example of two functions $f$ and $g$, both discontinuous at 0, whose product is continuous at 0.
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 4}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 4}
+	Prove that 
+	\begin{enumerate}[(a)]
+	\item A function, $f$, is continuous if and only if $f$ takes convergent sequences to convergent sequences (that
+is, if $(x_n)$ is a sequence in $\mathrm{dom}(f)$ that converges to a point in 
+$\mathrm{dom}(f)$, then $(f(x_n))$ converges).
+\begin{proof}
+	Generally, \\
+	\textbf{Theorem .} Let $f$ be a function with domain $\mathrm{dom}(f)$ and suppose $a \in \mathrm{dom}(f)$. Then 
+	$f$ is continuous at $a$ if and only if whenever $\{x_n\}$ is a sequence in $\mathrm{dom}(f)$ which converges
+	to $a$, then the sequence $\{f(x_n)\}$ converges to $f(a)$. \\
+	We first prove the "only if" - that is we assume $f$ is continuous and proceed to prove the statement about the sequences.
+	Let $\{x_n\}$ be a sequence in $\mathrm{dom}(f)$ with $x_n \rightarrow a$. Given $\epsilon > 0$, there is a $\delta > 0$ such
+	that
+	$$|f(x) - f(a)| < \epsilon \text{ whenever } x \in \mathrm{dom}(f) \text{ and } |x - a| < \delta $$
+	For this $\delta$, there is an $N$ such that
+	$$|x_n - a| < \delta \text{ whenever } n > N$$
+	Combining these statements, we conclude that
+	$$|f(x_n) - f(a)| < \epsilon \text{ whenever } n > N$$
+	Thus $f(x_n) \rightarrow f(a)$. This completes the proof of "only if". \\
+	
+	We will prove the "if" part, by proving the contrapositive - that is, we will prove that if 
+	$f$ is not continuous at $a$, there is a sequence $\{x_n\}$ in $\mathrm{dom}(f)$ such that 
+	$x_n \rightarrow a$ but $\{f(x_n)\}$ does not converges to $f(a)$. \\
+	The assumption that $f$ is not continuous at $a$ means that there is an $\epsilon > 0$ for 
+	which no $\delta$ can be found for which the definition of continuous is true. This means
+	that, no matter what $\delta$ we choose, there is always an $x \in \mathrm{dom}(f)$ such that
+	$$|x - a| < \delta \text{ but } |f(x) - f(a)| \geq e$$
+	In particular, for each of the number $\dfrac{1}{n}$ for $n \in \mathbb{N}$ we may choose
+	$x_n \in \mathrm{dom}(f)$ such that 
+	$$|x_n - a| < \dfrac{1}{n} \text{ but } |f(x_n) - f(a)| \geq \epsilon$$
+	These numbers form a sequence $\{x_n\}$ which converges to $a$ since $\dfrac{1}{n} \rightarrow 0$.
+	but the image sequence $\{f(x_n)\}$ does not converges to $f(a)$. This completes the proof.
+	
+	
+\end{proof}
+
+
+	\item A function, $f$, is continuous if and only if $f$ takes Cauchy sequences to Cauchy sequences (that is, if
+$(x_n)$ is a Cauchy sequence in $\mathrm{dom}(f)$, then $(f(x_n))$ is a Cauchy sequence.	
+	\begin{proof}
+	See previous Homework.
+	\end{proof}
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 5}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 5} 
+	Let I, J be open intervals in R and let $f : I \rightarrow J$ be a function that is increasing (that is, if
+	$x < y$, then $f(x) < f(y)$) and surjective. Prove that $f$ is continuous.
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 6}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 6} 
+	\begin{enumerate}	
+	\item Give an example of a family of open sets, $\{U_n\}_{n \in \mathbb{N}}$, of real numbers, 
+	such that $U_1 \supset U_2 \supset U_3 \supset \ldots$ such that the intersection
+	$\displaystyle\bigcap_{n \in \mathbb{N}}$ is closed and non-empty.
+	\item 
+	Give an example of a collection of closed sets $\{F_n\}_{n \in \mathbb{N}}$ of numbers, such that 
+	$F_1 \supset F_2 \supset F_3 \supset \ldots$ such that
+	$F_n \neq \emptyset$ for all $n$ and the intersection $\displaystyle\bigcap_{n \in \mathbb{N}} = \emptyset$
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 7}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 7}
+	\begin{enumerate}[(a)]
+	\item Prove than any intersection of compact sets is a compact set.
+	\begin{proof}
+		Recall, \\
+		\textbf{Theorem. }
+		A set $S \subset \mathbb{R}$ is compact if only if it's closed and bounded. \\
+		
+		Let $S, T$ be compact sets, so $S, T$ are closed and bounded. Let $U = S \cap T$.
+		If $U = \emptyset$, then $U$ is compact because $\emptyset$ is closed and bounded.
+		If $U \neq \emptyset$, then $U$ is closed by Theorem 7.2 (iv). Hence, it remains to show that $U$ is bounded.
+		Indeed, since $S, T$ are bounded, $S, T$ are bounded above and below, so 
+		$\inf(S), \inf(T), \sup(S), \sup(T)$ exist. Let $m = \min(\inf(S), \inf(T))$ and 
+		$s = \max(\sup(S), \sup(T))$ then for all $x \in U, x \geq m, x \leq s$, thus $U$ is bounded.
+		Therefore, $U$ is compact.			
+	\end{proof}
+	
+	\item Prove that a union of finitely many compact sets is a compact set.	
+	\begin{proof}
+		From Theorem 7.2 (iii), we have that \\
+		\textbf{Theorem. } The union of finitely many closed sets is a closed set. 
+		Hence, it remains to show that
+		$U = \displaystyle\bigcup_{i=1}^{n} S_i$ is bounded. 
+		Since there are only "finitely many" such sets, we can define
+		$m = \min(\inf(S_1), \inf(S_2), \inf(S_3), \ldots, \inf(S_n))$ and 
+		$s = \max(\sup(S_1), \sup(S_2), \sup(S_3), \ldots, \sup(S_n))$, then for all 
+		$x \in U$, $x \geq m, x \leq s$, thus $U$ is bounded. Thus $U$ is compact.
+	\end{proof}
+	
+	
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 8}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 8}
+	Prove or give a counterexample:
+	\begin{enumerate}[(a)]
+	\item Any union of infinitely many compact sets is compact.
+	\begin{proof}
+	False! Since compact implies closed and bounded, which implies
+	union of infinitely many closed sets is closed which is clearly false.
+	A counterexample could be:
+		$$S = \displaystyle\bigcup_{i = 1}^{\infty}[-i, i]$$
+	Each closed interval $[-i, i]$ is closed and bounded so it's compact but
+	$S$ is not because $S$ is not bounded above.
+		
+	\end{proof}
+	\item A non-empty subset $S \subset \mathbb{R}$ that has both a maximum and a minimum is compact.
+	\begin{proof}
+		False! a counter example could be:
+		$$S = [-a, 0) \cup (0, a]$$
+		S has $a$ as maximum and $-a$ as minimum but it's not closed because we can find a
+		sequence $(a_n) = \dfrac{1}{n}$ which converges to $0$ but $0$ is not in $S$.
+	\end{proof}		
+	
+	
+	
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 9}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 9}
+	\begin{enumerate}[(a)]
+	 \item Consider a family of compact intervals, $I_1 = [a_1, b_1], I_2 = [a_2, b_2], \ldots$. 
+	 Suppose that $a_n \leq a_{n+1}$ and $b_{n+1} \leq b_n$ for all $n$. 
+	 Prove that there is an $x$ which is in every $I_n$, that is, there is an 
+	 $x \in \displaystyle\bigcap_{n=1}^{\infty} I_n$.
+	 \begin{proof}
+	 Visually, \\
+	 	\begin{tikzpicture}
+			\draw (0, 0) -- (14, 0);
+			\draw (1, 0) node {$|$};
+			\draw (1, 0) node[yshift=6mm] {$a_n$};
+			\draw (13, 0) node {$|$};
+			\draw (13, 0) node[yshift=6mm] {$b_n$};
+			
+			\draw (0, 1) -- (14, 1);
+			\draw (3, 1) node {$|$};
+			\draw (3, 1) node[yshift=6mm] {$a_{n+1}$};
+			\draw (11, 1) node {$|$};
+			\draw (11, 1) node[yshift=6mm] {$b_{n+1}$};
+			
+			\draw (0, 2) -- (14, 2);
+			\draw (5, 2) node {$|$};
+			\draw (5, 2) node[yshift=6mm] {$a_{n+2}$};
+			\draw (9, 2) node {$|$};
+			\draw (9, 2) node[yshift=6mm] {$b_{n+2}$};
+			
+			\draw (0, 3) -- (14, 3);
+			\draw (6, 3) node {$|$};
+			\draw (6, 3) node[yshift=6mm] {$a_{n+3}$};
+			\draw (8, 3) node {$|$};
+			\draw (8, 3) node[yshift=6mm] {$b_{n+3}$};
+			
+			\draw (7, 4) node {$\ldots$};	
+		\end{tikzpicture} \\
+		As we can see, it $x$ belongs to the smallest interval, it will be in all other intervals.
+		To prove it formally, note that if $x \in [a_{n+1}, b_{n+1}]$ then $x \in [a_n, b_n]$ because
+		$a_n \leq a_{n+1}$ and $b_{n+1} \leq b_{n}$ for all $n$. Thus by induction on $n$, $x$
+		must be in all other intervals. In fact, another way to look at this problem is consider the 
+		two sets:
+		$$A = \{a_n: n \in \mathbb{N} \} \text{ and } B = \{b_n: n \in \mathbb{N}\}$$
+		Since $A \neq \emptyset$ and $a_n \leq b_1$ for all $n \Rightarrow \sup(A)$ exists.
+		Also, since $B \neq \emptyset$ and $b_1 \leq b_n$ for all $n \geq 2 \Rightarrow \inf(B)$ exists. 
+		On the other hand, we have that
+			$$a_n \leq a_{n+1} \text{ and } b_{n+1} \leq b_{n} ,\, \, \,  \forall n$$
+		And this tell us that $\inf(B)$ is also an upper bound of $A$ and it's the least at 
+		such, where $\sup(A)$ is also the a lower bound of $B$ and it's the greatest as such.
+		In other words, we have to sequences, $(a_n)$ is non-decreasing, bounded above
+		and converges to $\sup(A)$ whereas $(b_n)$ is non-increasing, bounded below and converges to $\inf(B)$. 
+		Besides, since $a_n \leq a_{n+1} \leq a_{n+2} \leq \ldots \text{ and } 
+		\ldots \leq b_{n+2} \leq b_{n+1} \leq b_{n} \Leftrightarrow
+		a_n \leq a_{n + k} \leq b_{n + k} \leq b_n$ for $k \in \mathbb{N}$, we must have
+		$\sup(A) \leq \inf(B)$. Hence if $a_n \leq x \leq b_n$ for 
+		all $n$. Therefore $x \in I_n$ for all $n$ or there exists $x$ such that
+		$x \in \displaystyle\bigcap_{n=1}^{\infty} I_n$.
+	 \end{proof}
+	 
+	\item Prove that if the sequence length $I_n = b_n - a_n \neq 0$, then the $x$ in $(a)$ is unique. \\
+	\begin{proof}
+		From part (a), we have shown that $b_n \rightarrow \inf(B)$ and $(a_n) \rightarrow \sup(A)$.
+		Using Algebra Limit Theorem, we have
+		$$\displaystyle\lim_{n\to\infty}I_n = 
+		\displaystyle\lim_{n\to\infty} (b_n - a_n) = 
+		\displaystyle\lim_{n\to\infty} b_n - \displaystyle\lim_{n\to\infty}a_n = 
+		\inf(B) - \sup(A) = 0$$
+		Hence, $\inf(B) = \sup(A)$ so if $x \in \displaystyle\bigcap_{n=1}^{\infty} I_n$ then 
+		$\sup(A) \leq x \leq \inf(B) \Rightarrow x = \inf(B) = \sup(A)$. Thus by the uniqueness property
+		of $\inf$ and $\sup$, $x$ is unique. 
+	\end{proof}
+	
+	\item Show that the conclusion in $(a)$ is false if we consider open intervals instead of closed intervals. 
+	Is it true if we consider open and bounded intervals?
+	\begin{proof}
+	To show that $(a)$ is false, we need a counterexample interval $I_n$ such that 
+	$x \in \displaystyle\bigcap_{n=1}^{\infty} I_n$ is false. In other words,
+	if the intersection $\displaystyle\bigcap_{n=1}^{\infty} I_n = \emptyset$ then
+	there is no such $x$. Hence if $(a_n) \rightarrow a$ (strictly increasing) and $(b_n) \rightarrow b$ (strictly
+	decreasing), then an interval of the form 
+			$$(a, b_n) \text{ and } (a_n, b)$$
+	will do. Thus a counterexample would be
+	$$I_n = \bigg(\dfrac{-1}{n}, 0\bigg) \text{ or } I_n = \bigg(0, \dfrac{1}{n}\bigg)$$
+	As we can see, these intervals are both bounded by 0, so it's false even if we consider open
+	and bounded intervals.
+	\end{proof}
+	
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 10}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 10}
+	\begin{enumerate}[(a)]
+	\item Prove that $f(x) = x^2$ is not uniformly continuous. 
+	\begin{proof}
+		Recall the definition of uniformly continuous, \\
+		\textbf{Definition. } The function $f$ is uniformly continuous on an 
+		interval $A$ for every $\epsilon > 0$, there exists $\delta > 0$ such that
+		$\forall x \in A$, if $|x - y| < \delta$ then $|f(x) - f(y)| < \epsilon$. \\
+		And the negation of the definition is: \\
+		The function $f$ is \emph{not} uniformly continuous on an interval $A$ means
+		there exists $\epsilon > 0$, for all $\delta > 0$ such that $\exists x \in A$
+		such that if $|x - y| < \delta$ then $|f(x) - f(y)| \geq \epsilon$. \\
+		Now consider a fix $\epsilon > 0$, choose $\delta = \epsilon$. Let $y = x + \dfrac{\delta}{2}$, we have
+		that if $|x - y| = |x - (x + \dfrac{\delta}{2})| = \bigg|\dfrac{\delta}{2}\bigg| < \delta$ 
+		which is true, but 
+		$$|f(x) - f(y)| = |x^2 - (x + \dfrac{\delta}{2})^2|
+		|x^2 - x^2 - 2 \cdot x \dfrac{\delta}{2} - \dfrac{\delta^2}{4}| = 
+		|-x\delta - \dfrac{\delta^2}{4}| = |x \epsilon + \dfrac{\epsilon^2}{4}| \geq |x \epsilon|$$
+		
+		Thus if $x \geq 1$ then $|f(x) - f(y)| \geq |x\epsilon| \geq \epsilon$. Therefore,
+		$f(x) = x^2$ is not uniformly continuous.	
+	\end{proof}
+	
+	\item Prove that $f(x) = \sqrt{x}$ is uniformly continuous. 
+	\begin{proof}
+		Fix $\epsilon > 0$, let $\delta = \epsilon^2$, then for all $x \in \mathrm{dom}(f) = [0, \infty)$.
+		If $|x - y| < \epsilon^2 \Leftrightarrow x - y < \epsilon^2 \Leftrightarrow 
+		x < \epsilon^2 + y$. \\
+		On the other hand, we claim that $\sqrt{x + y} < \sqrt{x} + \sqrt{y}$. To prove
+		we square both sides, $(\sqrt{x + y})^2 \leq (\sqrt{x} + \sqrt{y})^2 \Leftrightarrow
+		x + y \leq x + y + 2\sqrt{x}{y} \Leftrightarrow 0 \leq 2\sqrt{x}{y}$ which is true. \\
+		Now consider 
+		$x < \epsilon^2 + y \Leftrightarrow \sqrt{x} < \sqrt{\epsilon^2 + y} \leq
+		\sqrt{\epsilon^2} + \sqrt{y} \Rightarrow \sqrt{x} - \sqrt{y} < \epsilon \Rightarrow
+		\sqrt{x} - \sqrt{y} > -\epsilon \Rightarrow |\sqrt{x} - \sqrt{y}| < \epsilon$.
+		Since $\epsilon$ is arbitrary, $f(x) = \sqrt{x}$ is uniformly continuous. 
+	\end{proof}		
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 11}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 11}
+	\begin{enumerate}[(a)]
+	\item Prove that if $f$ and $g$ are uniformly continuous on $\mathbb{R}$, then so is $f + g$.
+	\begin{proof}
+		By definition of uniformly continuous, let $\epsilon > 0$, 
+		$$\exists \delta_1 > 0 \text{ such that if } |x - y| < \delta_1 \Rightarrow |f(x) - f(y)| < \dfrac{\epsilon}{2}$$
+		$$\exists \delta_2 > 0 \text{ such that if } |x - y| < \delta_2 \Rightarrow |g(x) - g(y)| < \dfrac{\epsilon}{2}$$
+		What we want to show is that if $|x - y| < \delta = \min(\delta_1, \delta_2)$ then 
+		$|(f + g)(x) - (f + g)(y)| < \epsilon$. Consider,
+		$$|(f + g)(x) - (f + g)(y)| = |f(x) + g(x) - f(y) - g(y)| \leq 
+		|f(x) - f(y)| + |g(x) - g(y)| < \dfrac{\epsilon}{2} + \dfrac{\epsilon}{2} = \epsilon$$
+	\end{proof}
+	
+	\item Prove that if $f$ and $g$ are uniformly continuous and bounded on 
+	$\mathbb{R}$, then $f \cdot g$ is uniformly continuous on $\mathbb{R}$.
+	\begin{proof}
+		Similarly to part a), but this time we want our $\epsilon$ slightly different because we have
+		to take into account the bounded property. In fact, if we expand,
+		\begin{eqnarray*}		
+		|(f \cdot g)(x) - (f \cdot g)(y)| &=& |f(x)g(x) - f(y)g(y)| \\
+		&=& |f(x)g(x) - g(x)f(y) + g(x)f(y) - f(y)g(y)| \\
+		&=& |g(x)[f(x) - f(y)] + f(y)[g(x) - g(y)]|\\
+		& \leq & |g(x)[f(x) - f(y)]| + |f(y)[(g(x) - g(y)]|\\ 
+		& \leq & |g(x)|(f(x) - f(y))| + |f(y)|(g(x) - g(y))| \\ 
+		& < & M \dfrac{\epsilon}{2M} + M \dfrac{\epsilon}{2M} = \epsilon
+		\end{eqnarray*}
+		where $M$ is the bound for both $f$ and $g$, specifically $M = \max(M_1, M_2)$.
+	\end{proof}
+
+	\item Show that the conclusion in $(a)$ above does not hold if one of the function $f$ or $g$ is not bounded.	
+	\begin{proof}
+		Consider the last inequality
+		$$|g(x)|(f(x) - f(y))| + |f(y)|(g(x) - g(y))| < \epsilon$$
+		If either $g$ or $f$ is unbounded, without loss of generality assume $g(x)$ is unbounded and it's 
+		increasing, then no matter what $\epsilon$ we choose, there will be some $x$ such that $
+		|g(x)| > \epsilon$ because it's unbounded! Thus, $(a)$ will not hold if one of the functions is
+		not bounded.
+	\end{proof}		
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 12}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 12}
+	Let $f$ be uniformly continuous. Prove that if $(x_n)$ is a Cauchy sequence in 
+	$\mathrm{dom}(f)$, 
+	then $(f(x_n))$ is also a Cauchy sequence. Show by counterexample that the condition 
+	"uniformly" is necessary.
+	\begin{proof}
+	Recall, \\
+	\textbf{Cauchy Sequence. } A sequence $X = (x_n)$ of real numbers is said to be
+	a Cauchy Sequence if for every $\epsilon > 0$, there exists a natural number $N$
+	such that for all natural numbers $m, n \geq N$, then $|x_n - x_m| < \epsilon$. \\
+	
+	\textbf{Uniformly continuous. } The function $f$ is said to be uniformly continuous if
+	$\forall \epsilon > 0$, $\exists \delta < 0$ such that $|f(x) - f(y)| < \epsilon$
+	for every $x, y \in \mathrm{dom}(f)$ satisfying $|x - y| < \delta$. 
+	
+	From the hypothesis there exists a Cauchy sequence $(x_n)$ in $\mathrm{dom}(f)$.
+	By definition of Cauchy sequence, fix $\epsilon > 0$, there exists $N \in \mathrm{N}$
+	such that for all natural numbers $m, n \geq N$, then $|x_n - x_m| < \epsilon$.
+	What we want to show is that, for all $\gamma > 0$,
+	\begin{equation}
+		|f(x_n) - f(x_m)| < \gamma \text{,   if } |x_n - x_m| < \epsilon 
+	\end{equation}
+	On the other hand, since $f$ is uniformly continuous, $(1)$ holds. Thus
+	$(f(x_n))$ is also a Cauchy sequence. \\
+	The uniformly continuous condition is necessary, otherwise we could have,
+	$$\mathrm{dom}(f) = \{\dfrac{1}{n}: n \in \mathrm{N}\}$$
+	We claim that $\dfrac{1}{n}$ is a Cauchy sequence. In fact, given $\epsilon > 0$,
+	we choose $N = \dfrac{2}{\epsilon}$, then if $m, n > N$, we have
+	$\dfrac{1}{n} \leq \dfrac{1}{N} < \dfrac{\epsilon}{2}$ and 
+	$\dfrac{1}{m} \leq \dfrac{1}{N} < \dfrac{\epsilon}{2}$, then
+	$$\bigg|\dfrac{1}{n} - \dfrac{1}{m}\bigg| < \dfrac{\epsilon}{2} + \dfrac{\epsilon}{2} = \epsilon$$
+	Since $\epsilon$ is arbitrarily chosen, $\mathrm{dom}(f)$ contains a Cauchy sequence.
+	Now to find a function $f$ that is \emph{not} "uniformly" continuous for this domain, we can just choose
+	$f$ to be:
+	$$
+	f(x) = 
+	\begin{cases}
+		1 &, \text{ if } n \text{ is odd } \\
+		0 &, \text{ if } n \text{ is even }
+	\end{cases}
+	$$
+	Apparently, $f$ is continuous but it's not uniformly continuous because no matter what
+	$\delta > 0$ we choose to satisfy $|x - y| < \delta$, $|f(x) - f(y)| = 1 > \epsilon$ for $\epsilon = \dfrac{1}{2}$ for example. Therefore we can conclude that the condition "uniformly" is essential 
+	for $(f(x_n))$ to be a Cauchy sequence.
+	\end{proof}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 13}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 13}
+	We proved in class that a continuous function attains a maximum value on any compact subset
+	of its domain. Find the maximum value of $f(x) = x^3 - 9x$ in the interval $[-3,3]$. 
+	\textbf{Note}: No derivatives!
+	
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 14}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 14}
+	Let $f: \mathbb{R} \rightarrow \mathbb{R}$ be the function given by $f(x) = x$ if $x$ is rational and $f(x) = -x$ if $x$ is irrational.
+	Prove that $f$ is continuous at $p = 0$.
+	\begin{proof}
+	$f$ is continuous at $0$. Given $\epsilon > 0$, take $\delta = \epsilon$. If $|x| < \delta$, then
+	$$|f(x) - f(0)| = |f(x)| = |x| < \delta = \epsilon$$
+	If $p \neq 0$ then $f$ is not continuous at $p$. Indeed, if $p$ is not rational there is a sequence $(p_n)$ of rational numbers such that
+	$p_n \rightarrow p$, and if $p$ is rational, there is a sequence of irrational numbers $p_n \rightarrow p$ (for example, 
+	$p_n = p + \sqrt{2}/n$. In either case, $\displaystyle\lim_{n\to \infty}f(p_n) = -p$ for $p \neq 0$.
+	\end{proof}
+	
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 15}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 15}
+	\begin{enumerate}[(a)]	
+	\item For which of the following values of $\alpha$ is the function $f(x) = x^{\alpha}$ uniformly continuous on $[0, \infty): \alpha = 1/3, 1/2, 2, 3$?
+	\begin{proof}
+		For $y > x$, we have by Mean Value Theorem,
+		$$y^{\alpha} - x^{\alpha} = (y - x)\alpha c^{\alpha - 1}, \, \, \, \, x < c < y$$
+		So for $\alpha > 1$ we have
+		$$y^{\alpha} - x^{\alpha} \geq \alpha x^{\alpha - 1}(y - x)$$
+		Since $x^{\alpha - 1}$ is unbounded on $[0, \infty)$, we cannot make $y^{\alpha} - x^{\alpha} < \epsilon$ simply by making 
+		$y - x$ less than any fixed $\delta$. So $f$ is not uniformly continuous on $[0, \infty)$ for $\alpha > 1$. For $0 < \alpha < 1$ we have
+		to be a little more careful, we have
+		$$y^{\alpha} - x^{\alpha} \leq \alpha y^{\alpha - 1}(y - x) \leq \alpha (y - x), \, \, \, \, \text{ for } y \geq 1$$
+		which at least show that $f$ is uniformly continuous on $[1, \infty)$. Since it is also uniformly continuous on $[0, 1]$,
+		it follows that it is uniformly continuous on $[0, \infty)$. 
+	\end{proof}
+
+	\item Find a function $f$ that is continuous and bounded on $(0, 1]$ but not uniformly continuous on $(0, 1]$.
+	\begin{proof}
+		$f(x) = \sin(1/x)$
+	\end{proof}
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 16}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 16}
+	\begin{enumerate}[(a)]
+	\item Prove that the intersection of arbitrary family of compact sets is compact.
+	\begin{proof}
+	Let $\{K_i\}_{i\in I}$ be a family of compact sets, and let 
+	$$K = \displaystyle\bigcap_{i \in I} K_i$$ denote their intersection. We will show that
+	$K$ is compact by showing that it is closed and bounded. \\
+	In fact, each $K_i$ is bounded because it is compact and $K \subset K_i$ for all $i$ so
+	$K$ must be bounded as any bound for $K_i$ will also be a bound for $K$. \\
+	The set $K$ is closed because the intersection of closed sets is a closed set.
+	\end{proof}
+	
+	\item Prove that the union of finitely compact sets is compact.
+	\begin{proof}
+	Suppose that $K_1$ and $K_2$ are compact, and let $K = K_1 \cup K_2$ be their union.
+	Let $(x_n)$ be a sequence in $K$. Each $x_n$ is in one of the two sets $K_1$ or $K_2$ (it could be in both),
+	so it follows that there is a subsequence $(x_{n_m})$ of $(x_n)$ where all terms $x_{n_m}, m = 1, 2, 3, \ldots$
+	are in the same $K_i, i = 1 or 2$. Since $K_i$ is compact, this subsequence $(x_{n_m})$ has a subsequence $(x_{n_{m_l}})$
+	which converges to a point $x$ in $K_i$. But $(x_{n_{m_l}})$ is also a subsequence of original sequence $(x_n)$ and its 
+	limit $x$ is in $K \supset K_i$. \\
+	This proves that the union of two compact sets is compact. For finite unions, the proof proceeds by induction
+	on the number of sets. Suppose that you have proved that the union of $< n$ compact sets is a compact.
+	If $K_1, K_2, \ldots K_n$ is a collection of $n$ compact sets, then their union can be written as $K
+	 = K_1 \cup (K_2 \cup \ldots K_n)$, the union of two compact sets, hence compact.
+	\end{proof}
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 17}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 17}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+\end{document}

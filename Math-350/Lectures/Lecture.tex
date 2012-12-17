@@ -1,0 +1,1559 @@
+\documentclass[10pt,letterpaper]{article}
+\renewcommand{\rmdefault}{ptm}
+
+\usepackage[left=1in,right=1in,top=1in,bottom=1in]{geometry} 
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{polynomial}
+\usepackage{layouts}
+\usepackage{enumerate}
+\usepackage{syntax}
+\usepackage{gensymb}
+\usepackage{cancel}
+\usepackage{calc}
+\usepackage{enumerate}
+\usepackage{xcolor}
+
+\usepackage{minted}
+
+\usepackage[version=0.96]{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,automata,backgrounds,petri,positioning}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.shapes}
+\usetikzlibrary{decorations.text}
+\usetikzlibrary{decorations.fractals}
+\usetikzlibrary{decorations.footprints}
+\usetikzlibrary{shadows}
+\usetikzlibrary{calc}
+\usetikzlibrary{spy}
+\usetikzlibrary{matrix}
+
+\usepackage{tikz-qtree}
+
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{4}
+\usepackage[bookmarksopen,bookmarksdepth=3]{hyperref}
+\usepackage{titlesec}
+
+
+%define new colors
+\definecolor{red}{rgb}{1.0,0.0,0.0}
+\definecolor{green}{rgb}{0.0,1.0,0.0}
+\definecolor{blue}{rgb}{0.0,0.0,1.0}
+\definecolor{yellow}{rgb}{1.0,1.0,0.0}
+\definecolor{orange}{rgb}{1.0,0.65,0.0}
+
+\definecolor{dark-blue}{rgb}{0.15,0.15,0.7}
+\definecolor{medium-blue}{rgb}{0,0,0.5}
+
+%set up color for table of contents
+\hypersetup{
+    colorlinks, linkcolor={dark-red},
+    citecolor={dark-blue}, urlcolor={medium-blue}
+}
+
+\usepackage{tocloft}
+
+%preven linebreak between subsection header and its content
+\titleformat{\subsection}[runin]{\normalfont\bfseries}{\thesubsection.}{2pt}{}
+%\titleformat{\section}[runin]{\normalfont\bfseries\filcenter}{\thesection.}{5pt}{}
+
+
+\titleformat{\section}[block]
+{\normalfont\sffamily\LARGE}
+{\thesection}{.2em}{\titlerule\\[.2ex]\bfseries}
+
+%title
+\title{\textbf{{\color{orange}Math 350 - Lecture}}}
+
+%set numwidth of section
+\setlength{\cftsecnumwidth}{1.5cm} 
+%make subsection numwidth different than as section
+\setlength{\cftsubsecnumwidth}{3cm}
+%make subsection indent the same as section
+\setlength{\cftsubsecindent}{\cftsecindent} 
+
+\newcommand{\sol}{\emph{\textbf{Solution. }}}
+
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usetikzlibrary{shapes,backgrounds}
+
+\makeatletter
+\newcommand{\DESCRIPTION@original@item}{}
+\let\DESCRIPTION@original@item\item
+\newcommand*{\DESCRIPTION@envir}{DESCRIPTION}
+\newlength{\DESCRIPTION@totalleftmargin}
+\newlength{\DESCRIPTION@linewidth}
+\newcommand{\DESCRIPTION@makelabel}[1]{\llap{#1}}%
+\newcommand{\DESCRIPTION@item}[1][]{%
+  \setlength{\@totalleftmargin}%
+       {\DESCRIPTION@totalleftmargin+\widthof{\textbf{#1 }}-\leftmargin}%
+  \setlength{\linewidth}
+       {\DESCRIPTION@linewidth-\widthof{\textbf{#1 }}+\leftmargin}%
+  \par\parshape \@ne \@totalleftmargin \linewidth
+  \DESCRIPTION@original@item[\textbf{#1}]%
+}
+\newenvironment{DESCRIPTION}
+  {\list{}{\setlength{\labelwidth}{0cm}%
+           \let\makelabel\DESCRIPTION@makelabel}%
+   \setlength{\DESCRIPTION@totalleftmargin}{\@totalleftmargin}%
+   \setlength{\DESCRIPTION@linewidth}{\linewidth}%
+   \renewcommand{\item}{\ifx\@currenvir\DESCRIPTION@envir
+                           \expandafter\DESCRIPTION@item
+                        \else
+                           \expandafter\DESCRIPTION@original@item
+                        \fi}}
+  {\endlist}
+\makeatother
+\newtheorem{thm}{Theorem}
+\newtheorem{den}{Definition}
+\begin{document}
+
+\maketitle
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex}
+	
+	
+	\begin{thm} A sequence can converge to at most 1 point.
+	\end{thm}
+	\begin{proof}
+	Suppose a sequence converges to $L$ and $L'$ where $L \neq L'$. Let
+	$$\epsilon = \bigg|\dfrac{L - L'}{2}| > 0$$
+	By definition of limit, we have:
+	$$\displaystyle\lim_{n\to\infty} a_n = L$$
+	Hence, there exists a $N \in \mathbf{N}$ such that for all $n > N$, 
+	$$|a_n - L| < \epsilon \text{ and } |a_n - L'| < \epsilon$$
+	Thus 
+	$$|L - L'| = |L - a_n + a_n - L'| \leq |L - a_n| + |a_n - L'| < \epsilon + \epsilon$$
+	which is a contradiction.
+	\end{proof}
+	\begin{den}
+		A sequence $(a_n)$ is bounded if there exists $M$ such that $|a_n| \leq M$, for every natural
+		number $n$.	
+	\end{den}
+	\begin{thm}
+		A convergent sequence is bounded. In fact, if $(a_n)$ converges to $a$ limit and $|a_n| \leq M$ then
+		$|a| \leq M$ also.
+	\end{thm}
+	\begin{proof}
+		Let $$\displaystyle\lim_{n\to\infty} a_n = a$$
+		Apply the definition of limit to $\epsilon = 1$ to obtain $N \in \mathbf{N}$ if $n > N$ then
+		$|a_n - a| < 1$, we then have
+		$$|a_n| = |a_n - a + a| \leq |a_n - a| + |a| < 1 + |a|, \, \, \, \text{ if } n > N$$
+		If $M = \mathrm{max}(|a_0|, |a_1|, |a_2|, \ldots , |a_n|, 1 + |a|)$, then
+		$|a_n| \leq M$ for all $n$. \\
+		\begin{center}
+		If $n > N$, then $|a_n| < |a| + 1$ \\
+		If $n \leq N$, then $|a_n| \leq \mathrm{max}(|a_0|, |a_1|, \ldots, |a_n|) \leq M$.
+		\end{center}
+	\end{proof}
+	
+	\begin{thm}
+		A convergent sequence is bounded and it converges. If $(a_n)$ is bounded by $M$, $|a_n| \leq M \,\,\,, \forall n
+		\in \mathbf{N}$
+		and $\displaystyle\lim_{n\to\infty} a_n = a$ then $|a| \leq M$.
+		\begin{proof}
+		We can prove this by contradiction by suppose that $|a| > M$. By the definition of limit,
+		we have $\forall \epsilon > 0, \exists N \in \mathbf{N}$ such that $\forall n > N$, then 
+		$$|a_n - a| < \epsilon$$ 
+		Let $\epsilon = |a| - M > 0$ because $|a| > M$, we then have
+		$$|a_n - a| < |a| - M (*)$$
+		On the other hand, $(a_n)$ is bounded by $M$, so 
+		$$a_n \leq |M| \,\,\,, \forall n \in \mathbf{N}$$
+		which implies
+		$$M \geq {\color{red}|a_n - a + a| \geq |a| - |a_n - a| \text{ triangle inequality }}$$
+		or $$|a_n - a| \geq |a| - M$$
+		which contradicts (*).
+		\end{proof}
+	\end{thm}
+	
+	\begin{thm}
+		Let 
+			$$a_n \rightarrow a$$
+			$$b_n \rightarrow b$$
+		and $k \in \mathbf{R}$
+		\begin{enumerate}
+		\item $k \cdot a_n \rightarrow k \cdot a$
+		\item $a_n + b_n \rightarrow a + b$ 
+		\item $a_n \cdot b_n \rightarrow a \cdot b$ 
+		\item If $b \neq 0$, then $b_n \neq 0$, and $\dfrac{a_n}{b_n} \rightarrow \dfrac{a}{b}$
+		\end{enumerate}
+	\end{thm}
+	\begin{proof}
+		\begin{enumerate}
+			\item If $k = 0$, there is nothing to prove. If $k \neq 0$, apply the definition of limit
+			$\displaystyle\lim_{n\to\infty}a_n = a$ to $\dfrac{\epsilon}{|k|}$. Then there exits
+			a $N \in \mathbf{N}$ and for all $n > N$ which implies
+			$$|a_n - a| < \dfrac{\epsilon}{|k|}$$
+			Hence,
+			$$|k| \cdot |a_n - a| < \dfrac{\epsilon}{|k|} \cdot |k| = \epsilon$$
+			
+			\item We have
+			$$|a_n + b_n - (a + b)| = |a_n - a + b_n - b| \leq |a_n - a| + |b_n - b|$$
+			For all $\epsilon > 0$,
+			$$\exists N_1 \in \mathbf{N} \text{ such that } \forall n \geq N_1,  |a_n - a| < \dfrac{\epsilon}{2}$$
+			$$\exists N_2 \in \mathbf{N} \text{ such that } \forall n \geq N_1,  |a_n - a| < \dfrac{\epsilon}{2}$$  
+			Now we let $N = \max(N_1, N_2)$, then if $n > N \rightarrow |a_n - a| < \dfrac{\epsilon}{2}$ and 
+			$|b_n - b| < \dfrac{\epsilon}{2}$
+			$$\therefore |(a_n + b_n) - (a + b)| \leq \dfrac{\epsilon}{2} + \dfrac{\epsilon}{2} = \epsilon$$  		
+		\end{enumerate}
+	\end{proof}
+	
+		\begin{thm} A sequence can converge to at most 1 point.
+	\end{thm}
+	\begin{proof}
+	Suppose a sequence converges to $L$ and $L'$ where $L \neq L'$. Let
+	$$\epsilon = \bigg|\dfrac{L - L'}{2}| > 0$$
+	By definition of limit, we have:
+	$$\displaystyle\lim_{n\to\infty} a_n = L$$
+	Hence, there exists a $N \in \mathbf{N}$ such that for all $n > N$, 
+	$$|a_n - L| < \epsilon \text{ and } |a_n - L'| < \epsilon$$
+	Thus 
+	$$|L - L'| = |L - a_n + a_n - L'| \leq |L - a_n| + |a_n - L'| < \epsilon + \epsilon$$
+	which is a contradiction.
+	\end{proof}
+	\begin{den}
+		A sequence $(a_n)$ is bounded if there exists $M$ such that $|a_n| \leq M$, for every natural
+		number $n$.	
+	\end{den}
+	\begin{thm}
+		A convergent sequence is bounded. In fact, if $(a_n)$ converges to $a$ limit and $|a_n| \leq M$ then
+		$|a| \leq M$ also.
+	\end{thm}
+	\begin{proof}
+		Let $$\displaystyle\lim_{n\to\infty} a_n = a$$
+		Apply the definition of limit to $\epsilon = 1$ to obtain $N \in \mathbf{N}$ if $n > N$ then
+		$|a_n - a| < 1$, we then have
+		$$|a_n| = |a_n - a + a| \leq |a_n - a| + |a| < 1 + |a|, \, \, \, \text{ if } n > N$$
+		If $M = \mathrm{max}(|a_0|, |a_1|, |a_2|, \ldots , |a_n|, 1 + |a|)$, then
+		$|a_n| \leq M$ for all $n$. \\
+		\begin{center}
+		If $n > N$, then $|a_n| < |a| + 1$ \\
+		If $n \leq N$, then $|a_n| \leq \mathrm{max}(|a_0|, |a_1|, \ldots, |a_n|) \leq M$.
+		\end{center}
+	\end{proof}
+	
+	\begin{thm}
+		A convergent sequence is bounded and it converges. If $(a_n)$ is bounded by $M$, $|a_n| \leq M \,\,\,, \forall n
+		\in \mathbf{N}$
+		and $\displaystyle\lim_{n\to\infty} a_n = a$ then $|a| \leq M$.
+		\begin{proof}
+		We can prove this by contradiction by suppose that $|a| > M$. By the definition of limit,
+		we have $\forall \epsilon > 0, \exists N \in \mathbf{N}$ such that $\forall n > N$, then 
+		$$|a_n - a| < \epsilon$$ 
+		Let $\epsilon = |a| - M > 0$ because $|a| > M$, we then have
+		$$|a_n - a| < |a| - M (*)$$
+		On the other hand, $(a_n)$ is bounded by $M$, so 
+		$$a_n \leq |M| \,\,\,, \forall n \in \mathbf{N}$$
+		which implies
+		$$M \geq {\color{red}|a_n - a + a| \geq |a| - |a_n - a| \text{ triangle inequality }}$$
+		or $$|a_n - a| \geq |a| - M$$
+		which contradicts (*).
+		\end{proof}
+	\end{thm}
+	
+	\begin{thm}
+		Let 
+			$$a_n \rightarrow a$$
+			$$b_n \rightarrow b$$
+		and $k \in \mathbf{R}$
+		\begin{enumerate}
+		\item $k \cdot a_n \rightarrow k \cdot a$
+		\item $a_n + b_n \rightarrow a + b$ 
+		\item $a_n \cdot b_n \rightarrow a \cdot b$ 
+		\item If $b \neq 0$, then $b_n \neq 0$, and $\dfrac{a_n}{b_n} \rightarrow \dfrac{a}{b}$
+		\end{enumerate}
+	\end{thm}
+	\begin{proof}
+		\begin{enumerate}
+			\item If $k = 0$, there is nothing to prove. If $k \neq 0$, apply the definition of limit
+			$\displaystyle\lim_{n\to\infty}a_n = a$ to $\dfrac{\epsilon}{|k|}$. Then there exits
+			a $N \in \mathbf{N}$ and for all $n > N$ which implies
+			$$|a_n - a| < \dfrac{\epsilon}{|k|}$$
+			Hence,
+			$$|k| \cdot |a_n - a| < \dfrac{\epsilon}{|k|} \cdot |k| = \epsilon$$
+			
+			\item We have
+			$$|a_n + b_n - (a + b)| = |a_n - a + b_n - b| \leq |a_n - a| + |b_n - b|$$
+			For all $\epsilon > 0$,
+			$$\exists N_1 \in \mathbf{N} \text{ such that } \forall n \geq N_1,  |a_n - a| < \dfrac{\epsilon}{2}$$
+			$$\exists N_2 \in \mathbf{N} \text{ such that } \forall n \geq N_1,  |a_n - a| < \dfrac{\epsilon}{2}$$  
+			Now we let $N = \max(N_1, N_2)$, then if $n > N \rightarrow |a_n - a| < \dfrac{\epsilon}{2}$ and 
+			$|b_n - b| < \dfrac{\epsilon}{2}$
+			$$\therefore |(a_n + b_n) - (a + b)| \leq \dfrac{\epsilon}{2} + \dfrac{\epsilon}{2} = \epsilon$$  		
+		\end{enumerate}
+	\end{proof}
+
+	\newpage
+	\textbf{Definition. } A number $a \in \mathbf{R}$ is a limit point of a set $S \subset \mathbf{R}$ if
+	for every $r > 0$, the intersection $S \cup (a - r, a + r) \setminus \{a\} \neq \emptyset$, that
+	is, a number in $S \cup (a - r, a + r)$ other than $a$. \\
+	$S'$ is the set of limit points of $S$. \\
+	
+	Ex: 
+	\begin{enumerate}
+		\item $S = \emptyset$, then $S' = \emptyset$
+		\item $S = \mathbf{R}$. We have that $\mathbf{R} \cup (a - r, a + r) = (a - r, a + r)$,
+		so $\mathbf{R'} = (a - r, a + r) \setminus \{a\} = (a - r, a) \cup (a, a + r)$
+		\item $S = \{a\}$. We have that,
+		$$S \cap (a - r, a + r) = a \cap (a - r, a + r) = a$$
+		So $a \setminus \{a\} = \emptyset \rightarrow a \not\in S'$ or $a$ is not a limit
+		point.
+		\item Consider \\
+		\begin{tikzpicture}
+			\draw (0, 0) -- (8, 0);
+			\draw (2, 0) node {$|$};
+			\draw (1, 0) node {$($};
+			\draw (3, 0) node {$)$};
+			\draw (2, 0) node[yshift=3mm] {$a$};
+			
+			\draw (5, 0) node {$|$};
+			\draw (5, 0) node[yshift=3mm] {$b$};
+		\end{tikzpicture} \\
+		If $b \neq a$, then $b \not\in S'$. We need to show $\exists r > 0$ such that
+		$S \cap (b - r, b + r) \setminus \{b\} = \emptyset$. In other words,
+		$r = |b - a|$ any other number $> 0$ and $ < r$ would work.
+		
+		\item If $S$ is a finite set, then $S' = \emptyset$, (prove it)
+		\item $S = \{1, \dfrac{1}{2}, \dfrac{1}{3}, \dfrac{1}{4}, \ldots \}$ then $S' = \{0\}$
+		and $0 \in S'$ because given $r > 0, \exists n \in \mathbf{N}$ such that $\dfrac{1}{n} \in (-r, r)$,
+		recall in chapter 4, we have proved that: \\
+		(ii) For each $a \in \mathbf{F+}$ there is a $n \in \mathbf{N}$ such that $\dfrac{1}{n} < a$ \\
+		Now consider \\
+		\begin{tikzpicture}
+			\draw (0, 0) -- (10, 0);
+			\draw (2, 0) node {$|$};
+			\draw (2, 0) node[yshift=6mm] {$\dfrac{1}{4}$};
+			
+			\draw (4, 0) node {$|$};
+			\draw (4, 0) node[yshift=6mm] {$\dfrac{1}{3}$};
+			
+			\draw (6, 0) node {$|$};
+			\draw (6, 0) node[yshift=6mm] {$\dfrac{1}{2}$};
+			
+			\draw (8, 0) node {$|$};
+			\draw (8, 0) node[yshift=6mm] {$1$};
+			
+			\draw (5, 0) node[yshift=3mm] {$\downarrow$};
+			\draw (5, 0) node[yshift=7mm] {$a$};
+		\end{tikzpicture}
+		\newline
+		then $r = \min(|a - 1/2|, |a - 1/3|)$ \\
+		If $a = \dfrac{1}{4}$, then $r = \min(|1/4 - 1/3|, |1/4 - 1/5|)$
+	\end{enumerate}
+
+
+	\textbf{Theorem. } A number $a$ is a limit point of $S \subset \mathbf{R}$ iff 
+	there exists a sequence $(x_n)$ such that $x_n \in S$, $x_n \neq a$ for all $n$ and
+	$x_n \rightarrow a$.
+	\begin{proof}
+		If and only if
+		\begin{itemize}
+		\item $\Rightarrow$: \\
+		Let $a \in S'$, by definition for $r = 1, \dfrac{1}{2}, \dfrac{1}{3}, \dfrac{1}{4} \ldots \dfrac{1}{n},
+		\ldots$. There exists $x_n \in (S \cap (a - \dfrac{1}{n}, a + \dfrac{1}{n})) \setminus \{a\}$.
+		Therefore, 
+		$$
+		\begin{cases}
+			x_n \in S \\
+			x_n \neq a \\
+			|x_n - a| < \dfrac{1}{n} \Leftrightarrow \displaystyle\lim_{n\to\infty}x_n = a	\\
+		\end{cases}
+		$$
+		\item $\Leftarrow$: \\ 
+		Let $x_n \in S$, $x_n \neq a, x_n \rightarrow a$. Given $r > 0, S \cap (a - r, a + r) \setminus \{a\} \neq \emptyset$
+		because $\displaystyle\lim_{n\to\infty}x_n = a$, there exits a $N \in \mathbf{N}$ such that
+		$|x_n - a| < r$ if $n > N$. Since $x_n \in S, x_n \neq a$, we have that 
+		$$x_n \in (S \cap (a - r, a + r)) \setminus \{a\}$$
+		\end{itemize}
+	\end{proof}
+	\textbf{Definition. } A set $F \subset \mathbf{R}$ is closed if it contains all its limit points, i.e.
+	$F' \subset F$. \\
+	
+	\textbf{Theorem. } 
+	\begin{enumerate}
+		\item $\emptyset$ is a closed set.
+		\item $\mathbf{R}$ is a closed set.
+		\item A finite union of closed set is a closed set.
+		\item The intersection of closed sets is a closed set. 
+	\end{enumerate}
+	
+	Ex: \\
+	\begin{itemize}
+		\item $S = \{a\}$, then $S' = \emptyset \subset \{a\}$, it's closed. \\
+		In general, finite set is closed since it has no limit points. 
+		\item $S = \{1, \dfrac{1}{2}, \dfrac{1}{3}, \dfrac{1}{4}, \ldots \}$ is not closed because
+		$S' = \{0\} \not\subset S$.
+		\item $S = [0, 1]$, then $S' = S$ so it's closed.
+		\item $S = (0, 1]$, then $S' = [0, 1]$ not closed.
+	\end{itemize}
+	
+	\textbf{Theorem. }
+	If $E, F$ are closed set then $E_1 \cup E_2$ is a closed set.
+	\begin{proof}
+		Let $x$ be a limit point, then $x \in (E_1 \cup E_2)'$. We want to show that
+		$x \in (E_1 \cup E_2)$. By previous theorem, there exists a sequence $(x_n)$ such that
+		$x_n \in (E_1 \cup E_2), x_n \neq x$ for all $n$ and $x_n \rightarrow x$.  Hence
+		$\exists$ a sequence $n_0 < n_1 < n_2 < \ldots $ such that $x_{n_k} \in E_i$ for all $k = 0, 1, 2, \ldots$
+		where $i = 1, 2$. Thus $(x_{n_k})$ is a subsequence of $(x_n)$ that converges to $x$.
+		Therefore,
+		$$x_{n_k} \rightarrow x, x_{n_k} \neq x$$
+		which implies
+		$$x \in E'_i \subset E_i (E_i\text{ is closed})$$		
+	\end{proof}
+	
+	Ex: \\
+	\begin{itemize}
+		\item An arbitrary union of closed sets need not be closed.
+		\item $S = \{1, \dfrac{1}{2}, \dfrac{1}{3}, \ldots \} = \displaystyle\bigcup_{n \in \mathbf{N}, n \neq 0}
+		\bigg( \dfrac{1}{n} \bigg)$
+		\item $[0, 1) = \displaystyle\bigcup_{0 < r < 1} [0, r]$ 
+	\end{itemize}
+	
+	\textbf{Theorem. } Let $F_i, i \in I$ be closed set then 
+	$F = \displaystyle\bigcap_{i \in I}F_i$ is closed.
+	\begin{proof}
+		Let $x \in F'$ be a limit point of $F$, by definition $\exists r \in (F \cap (x - r, x + r))$, $x_r \neq x$
+		then 
+		\begin{eqnarray*}	
+		F \cap (x - r, x + r) &=& \bigg(\displaystyle\bigcap_{i \in I}F_i\bigg)
+		\cap (x - r, x + r) \\
+		&=& \displaystyle\bigcap_{i \in I} [F_i \cap (x - r, x + r)]
+		\end{eqnarray*}	
+		Hence $x_r \in F_i \cap (x - r, x + r) \, \, \forall i$ because $F_i \subset F'_i$
+	\end{proof}
+	Ex:
+	\begin{itemize}
+		\item $\displaystyle\bigcap_{0 < r}(0, r) = \emptyset$
+	\end{itemize}
+	
+	\textbf{Definition. } A set $U \subset \mathbf{R}$ is open if and only if $\mathbf{R} \setminus U$ is closed.
+	Ex: \\
+	\begin{itemize}
+		\item $\emptyset$ is both open and closed. 
+		\item $\mathbf{R}$ is both open and closed.
+		\item $(-\infty, a]$ is closed, $[b, \infty)$ is closed.
+		while $(a, b)$ is not closed and it's in fact open.
+		\item $\mathbf{R} \setminus (a, b) = (\infty, a] \cup [b, \infty)$ is closed
+		because finite union of closed sets.
+		\item $(0, 1]$ is not closed because $0$ is a limit point $\in (0, 1]'$ and it's not open.
+	\end{itemize}
+	
+
+	{\color{green}\textbf{Limit point of a set $S \subset \mathbb{R}$, $S'$ is the set of limit points of $S$}}. \\	
+	Ex: Let $S, T \subset \mathbb{R}$,
+	\begin{enumerate}[(a)]
+	\item $S' \cap T' \supset (S \cap T)'$
+	\begin{proof}
+		For example:
+		$$S = \{ \dfrac{1}{n} \mid n \geq 1 \}$$
+		$$T = \{ \dfrac{-1}{n} \mid n > 0 \}$$
+		Then $S' = T' = \{0\} \Rightarrow S' \cap T' = \{0\}$ but $(S \cap T)' = \emptyset$. \\
+		Formal proof: \\
+		If $x \in (S \cap T)'$, then $\exists x_n \in (S \cap T)$ such that $x_n \neq x$ for all $n$ 
+		and $x_n \rightarrow x$. In other words,
+		$$x_n \in S, x_n \neq x, x_n \rightarrow x$$
+		$$x_n \in T, x_n \neq x, x_n \rightarrow x$$
+		$\therefore x \in S'$ and $x \in T'$.
+	\end{proof}
+	
+	\item $S' \cup T' = (S \cup T)'$ 
+	\begin{proof} Two cases: \\
+	"$\subset$": If $x \in S'$ then $\exists x_n \in S, x_n \neq x, x_n \rightarrow x$, so
+	$x_n \in (S \cup T), x_n \neq x, x_n \rightarrow x \Rightarrow x_n \in (S \cup T)'$. \\
+	"$\supset$": If $x \in (S \cup T)'$, $\exists x_n \in (S \cup T), x_n \neq x, x_n \rightarrow x$. 
+	Also, there exists a subsequence $x_{n_0}, x_{n_1}, x_{n_2}, \ldots$ such that $x_{n_k} \in S$ for 
+	all $k$ (or in $T$). Therefore $x \in S'$ or $x \in T'$. \\
+	Ex: $S = (-\infty, 0), T = (0, \infty)$, then $x_n = \dfrac{(-1)^n}{n}, n > 0$.
+	\end{proof}
+	\end{enumerate}
+	
+	{\color{orange}\textbf{Definition } $S$ is closed if $S' \subset S$. $S$ is open iff 
+	$\mathbb{R} \ S$ is closed.}
+	
+	\textbf{Theorem. } A set $U \subset \mathbb{R}$ is open iff $\forall x \in U$, $\exists r_x > 0$
+	such that $(x - r_x, x + r_x) \subset U$. 
+	\begin{proof}
+	"$\Rightarrow$": Let $x \in U$, $S = \mathbb{R} \ U$ is closed, that is $S' \subset S$, and since
+	$x \not\in S$, $x$ is not a limit point of $S$. Suppose $\forall r > 0$, $(x - r, x + r) \not\subset U$,
+	then for $r = 1, \dfrac{1}{2}, \dfrac{1}{3}, \ldots, \dfrac{1}{n}$, $\exists x_n \in 
+	\underbrace{(x - \dfrac{1}{n}, x + \dfrac{1}{n})}_{
+	\displaystyle\lim_{n\to\infty}x_n = x}$ such that $x \not\in U \Rightarrow x_n \neq x$ because $x_n \in 
+	\mathbb{R} \setminus U$. Then $x \in (\mathbb{R} \setminus U)'$ but $(\mathbb{R} \setminus U)'$ is closed
+	so $(\mathbb{R} \setminus U)' \subset (\mathbb{R} \ U) \Rightarrow x \in (\mathbb{R} \setminus U)$ contradicts
+	that $x \in U$. \\
+	"$\Leftarrow$: Suppose that $\forall x \in U$, $\exists r_x > 0$ such that $(x - r_x, x + r_x) \subset U$,
+	but $U$ is not open then by definition $(\mathbb{R} \setminus U)$ is not closed. $\exists$ a limit point 
+	$x \in (\mathbb{R} \setminus U)'$ but $x \not\in (\mathbb{R} \setminus U) \Rightarrow x \in U$. But then
+	if $x \in U$, $\exists r_x > 0$, $(x - r_x, x + r_x) \subset U$. If $x_n \rightarrow x \Rightarrow
+	x_n$ is eventually in $U$, not in $\mathbb{R} \ U$, so $x$ cannot be in $(\mathbb{R} \ U)'$.
+	\end{proof}
+	
+	\textbf{{\color{purple}Compact Set}}
+	$S \subset \mathbb{R}$ is compact if every sequence in $S$ has a subsequence
+	that converges in $S$. \\
+	Ex: \\
+	\begin{itemize}
+		\item $\emptyset$ is compact since we have nothing to check.
+		\item $\mathbb{R}$ is not compact.
+		\item $[a,b]$ is compact.
+		\item $(a,b)$ is not compact.
+	\end{itemize}
+	\textbf{Theorem. } $S \subset \mathbb{R}$ is compact if and only if $S$
+	is closed and bounded.
+	\begin{proof}
+		$\leftarrow$:\\
+		Hypothesis: $S$ is compact. \\
+		$S$ is bounded if not for every $n \in \mathbb{N}$, $\exists x_n \in S$ such that
+		$|x_n| > n$. The sequence $(x_n) \in S$ has no convergent subsequence because 
+		a convergent sequence is bounded but no subsequence of $(x_n)$ can be bounded. 
+		Indeed if $(x_{n_k})$ is a subsequence that converges to $s \in S$, then by definition
+		of convergence, fix $\epsilon = 1, \exists K \in \mathbb{N}$ if $k > K$
+		$$|x_{n_k} - s| < 1 \Leftrightarrow |x_{n_k}| < 1 + |s|$$
+		S closed, every limit point of $S$ belongs to $S$. Let $a \in S'$  then 
+		either $a \in S$ or $a \not\in S$. By Theorem 7.1, $\exists (x_n) \in S$,
+		$x_n \neq a, \forall n, x_n \rightarrow a$. Apply definition of compactness of $S$
+		to sequence $(x_n)$ to obtain subsequence $(x_{n_k})$ such that $(x_{n_k}) \rightarrow b \in S$.
+		Since $x_{n_k} \rightarrow a$ we have $a = b$ because limit is unique. $\therefore a \in S$. \\
+		$\Rightarrow$:\\
+		$S$ is closed and bounded. We have,
+		Let $(x_n)$ be a sequence in $S$, and $(x_n)$ is bounded. Hence it has a convergent
+		subsequence says $(x_{n_k}) \rightarrow a$. We want to show that $a \in S$. Suppose 
+		$a \not\in S'$, then $\exists r > 0$ such that $S \cap (a - r, a + r) \setminus \{a\} = \emptyset$
+		that is if $x \in S \cap (a - r, a + r)$ then it must be that $x = 0$. \\
+		If $(x_{n_k}) \rightarrow a$ then $x_{n_k} = a$ eventually. Thus if $a \not\in S'$ then 
+		$a \in S$ because $x_{n_k} \in S$ for all $k$. If $a \in S' \Rightarrow a \in S$ because
+		$S$ is closed and $S' \subset S$. Contradiction.
+	\end{proof}
+	\textbf{Corollary } If $S \subset \mathbb{R}$ is bounded then $S \cup S'$ is compact.
+	\begin{proof}
+		Suppose that $S$ is bounded. Thesis from Homework:
+		$$S \cup S' = \bar{S} \text{ closure }$$
+		which is closed and bounded. On the other hand, bounded implies $\exists M > 0$
+		such that $S \subset [-M, M]$. Recall
+		$X \subset Y$ and $X' \subset Y' \Rightarrow S' \subset [-M, M]' = [-M, M]$ \\
+		\begin{tikzpicture}
+			\draw (0, 0) -- (6, 0);
+			\draw (2, 0) node {$|$};
+			\draw (2, 0) node[yshift=3mm] {$A$};
+			
+			\draw (5, 0) node {$|$};
+			\draw (5, 0) node[yshift=3mm] {$B$};
+		\end{tikzpicture}
+		$$M = \max(|A|, |B|)$$
+		If $a \in (S \cup S')'$ then $a \in (S \cup S') \Rightarrow (S \cup S')' = (S \cup S')$
+	\end{proof}
+		
+	{\color{purple}\textbf{Theorem} If $K \subset \mathbb{R}$ is compact and non-empty then 
+	$\exists m, n \in K$ such that $k \subset [m, K]$}
+	
+	
+	{\color{purple}\textbf{Theorem} If $f$ is continuous and $K \subset \mathrm{dom}(f)$ is compact
+	then $f(K)$ is compact.}
+	\begin{proof}
+	Let $(y_n)$ be a sequence in $f(K)$ then $y_n \in f(K) \Rightarrow \exists x_n \in K$ such that
+	$f(x_n) = y_n$. But because $K$ is compact, $(x_n)$ has a subsequence says $(x_{n_i})$ that 
+	converges in $K$, says $\displaystyle\lim_{i}x_{n_i} = a \in K$. On the other hand, $f$ is continuous
+	$(f(x_{n_i}))$ converges to $f(a) \in K$, but $f(x_{n_i}) = y_{n_i}$ so $(y_n)$ has subsequence
+	$(y_{n_i})$ that converges to $f(a) \in f(K)$. $\therefore f(K)$ is compact.
+	\end{proof}
+	
+	{\color{blue}\textbf{Corollary} 
+		A continuous function attains a maximum value and a minimum value on every compact set that is not
+		empty in its domain. In particular, if $f$ is continuous on $[a, b]$ then there are $x_m, x_n \in 
+		[a, b]$ such that $f(x_{m}) \leq f(x) \leq f(x_n), \, \, \forall x \in [a, b]$.
+	}
+	\begin{proof}
+		Let $f$ be continuous, $K \subset \mathrm{dom}(f)$ compact and non-empty then $f(K)$ is compact
+		by Theorem 10.3, $K \neq \emptyset \Rightarrow f(K) \neq \emptyset$. By Theorem 10.2, 
+		$\exists y_m, y_M \in f(K)$ such that $[y_m, y_M] \supset f(K)$ or $y_m \leq f(x) \leq y_M$ for
+		every $x \in K$. But $y_m, y_M \in f(K)$ which implies $y_m = f(x_m), y_M = f(x_M)$ for some
+		$x_m \in K, x_M \in K$.
+	\end{proof}
+	
+	\phantomsection
+	\subsection*{{\color{red}\underline{Tuesday - 11/06/2012}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Tuesday - 11/06/2012} 
+	\text{ } \\
+	
+	\textbf{Definition. } $f'$, $a \in \mathrm{dom}(f) \cap \mathrm{dom}(f)'$. \\
+	\textbf{Theorem. } $f$ is differential at $a \Leftrightarrow \exists a$ defined
+	on $\mathrm{dom}(f) \setminus \{a\}$. 
+	$$\displaystyle\lim_{x\to a}\epsilon(x) = 0$$.
+	$$f(x) - f(a) = (f'(a) + \epsilon(x))(x - a), \, \, \forall x \in \mathrm{dom}(f), x \neq a$$
+	
+	\textbf{Theorem. } $f$ is diff at $a \Rightarrow f$ is continuous at $a$.
+	\begin{proof}
+		$$f(x) - f(a) = [f'(a) + \epsilon(x)](x - a)$$
+		We want to show that $$\displaystyle\lim_{x\to a}(f(x) - f(a)) = 0$$
+		In other words,
+		$$\displaystyle\lim_{x\to a} \mathrm{lhs} = \displaystyle\lim_{x\to a} \mathrm{rhs}
+		= \displaystyle\lim_{x\to a}[f'(a) + \epsilon(x)](x - a) = 0$$
+		by Algebra Limit Theorem and $\displaystyle\lim_{x\to a}\epsilon(x) = 0$.
+	\end{proof}
+	
+	\textbf{Theorem. } Suppose $f, g$ are diff at $a$ and $a$ is a limit point of $\mathrm{dom}(f) 
+	\cap \mathrm{dom}(g)$. Then $f + g$, $f - g$, $f \cdot g$ and if $g(a) \neq 0$, $f/g$ are
+	all diff at $a$. Their derivatives at $a$ are:
+	\begin{enumerate}
+		\item $(f \pm g)'(a) = f'(a) \pm g'(a)$
+		\item $(f \cdot g)'(a) = f'(a) \cdot g(a) + f(a) \cdot g'(a)$
+		\begin{proof}
+			$$f(x) - f(a) = [f'(a) + \epsilon(x)](x - a)$$
+			$$g(x) - g(a) = ['g(a) + \gamma(x)](x - a)$$
+			We want,
+		$$f(x)g(x) - f(a)g(a) = [f'(a)g(a) + f(a)g'(a) + \delta(x)](x - a)$$
+		where $\displaystyle\lim_{x\to a}\delta(x) = 0$.
+		On the other hand,
+		\begin{eqnarray*}
+			f(x)g(x) - f(a)g(a) &=& [f(x) - f(a)]g(a) + f(x)[g(x) - g(a)]\\
+	&=& g(a)[f'(a) + \epsilon(x)](x - a) + f(x)[g'(a) + \gamma(x)](x - a) \\
+	&=& [g(a)f'(a) + g(a)\epsilon(x) + f(x)g'(a) + f(x)\gamma(x)](x - a) \\
+	&=& [g(a)f'(a) + g(a)\epsilon(x) + f(x)g'(a) + f(x)\gamma(x) + f(a)g'(a) - f(a)g'(a)](x - a)
+		\end{eqnarray*}
+		Hence, our $\delta$ is:
+		$$\delta(x) = g(a)\epsilon(x) + f(x)g'(a) + f(x)\delta(x) - f(a)g'(a)$$
+		Then
+		$$\displaystyle\lim_{x\to a}\delta(x) =
+\displaystyle\lim_{x\to a}g(a)\epsilon(x) + \displaystyle\lim_{x\to a}f(x)\gamma(x)
++ \displaystyle\lim_{x\to a}g'(a)[f(x) - f(a)]
+= 0 + 0 + 0 = 0$$
+		\end{proof}
+		\item $(f/g)'(a) = \dfrac{f'(a)g(a) - f(a)g'(a)}{g(a)^2}$
+	\end{enumerate}
+	
+	\textbf{Theorem. } If $f$ is diff at $a$ and $g$ is diff at $f(a)$ then $g \circ f$ is diff
+	at $a$ and 
+	$$(g \circ f)'(a) = g'(f(a)) \cdot f'(a)$$
+	\begin{proof}
+		Because $f$ is diff at $a$ we can write
+		$$f(x) - f(a) = [f'(a) + \epsilon(x)](x - a) \text{ with } \displaystyle\lim_{x\to a}\epsilon(x) = 0$$
+		Because $g$ is diff at $f(a)$,
+		$$g(y) - g(f(a)) = [g'(f(a)) + \gamma(y)](y - f(a)) \text{ where } \displaystyle\lim_{y\to f(a)}\gamma(y) = 0$$
+		We want to show that
+		$$(g \circ f)(x) - (g \circ f)(a)
+		= [g'(f(a))f'(a) + \delta(x)](x - a) \text{ with } \lim_{x\to a}\delta(x) = 0$$	
+		We have,
+\begin{eqnarray*}
+	g((f(x)) - g(f(a)) &=& [g'(f(a)) + \gamma(f(x))][f(x) - f(a)] \\
+&=& [g'(f(a)) - \gamma(f(x))][f'(a) + \epsilon(x)](x - a)\\
+&=& [g'(f(a)) f'(a) + g'(f(a)) \epsilon(x) + \gamma(f(x))f'(a) + \gamma(f(x)) \epsilon(x)](x - a) \\
+\end{eqnarray*}
+	Let $\delta(x) = g'(f(a)) \epsilon(x) + \gamma(f(x))f'(a) + \gamma(f(x)) \epsilon(x)$, we want
+	$\displaystyle\lim_{x\to a}\delta(x) = 0$. \\
+	First we have that,
+	$$\displaystyle\lim_{x\to a}g'(f(a))\epsilon(x) = 0$$
+	We claim that
+	$$\displaystyle\lim_{x\to a}\gamma(f(x)) = 0$$
+	because $\displaystyle\lim_{y\to f(a)}\gamma(y) = 0$
+	\end{proof}
+	
+	\textbf{Significant of Derivative} \\
+	Approximate 
+	$$\sqrt{17}$$
+	We guess that $\sqrt{16} = 4$, then error = error/ 2 (guess).
+	$$\log(2)$$
+	Consider $2^{10} = 1024 \approx 10^3 \Rightarrow 10 \log(2) \approx 3$. \\
+
+	\textbf{Theorem. } If $f$ is defined on an open set $U \subset \mathbb{R}$ and attains
+	a maximum or a minimum value at $a \in U$, then $f$ is differentiable at $a$, then $f'(a) = 0$.
+	\begin{proof}
+		Suppose that $f'(a) = 0$ and since $f$ is differentiable at $a$, we write
+		$$\underbrace{f(x) - f(a)}_{\text{either} > 0 \text{ or } < 0} = [f'(a) + \epsilon(x)]
+		\underbrace{(x - a)}_{\text{sign can be changed}}$$
+		By definition of $\displaystyle\lim_{x\to a}\epsilon(x) = 0$, there exists $\delta > 0$
+		such that $|\epsilon(x)| < \dfrac{|f'(a)|}{2}$ for $x \in (a - \delta, a + \delta), x \neq a$ or
+		$\dfrac{-|f'(a)|}{2} < \epsilon(x) < \dfrac{|f'(a)|}{2}$ for 
+		$x \in (a - \delta, a + \delta), x \neq a$. Hence
+		$$f'(a) - \dfrac{|f'(a)|}{2} < f'(a) + \epsilon(x) < f'(a) + \dfrac{|f'(a)|}{2}$$
+		Then $\{rhs, lhs\}$ of that inequality is $\{\dfrac{f'(a)}{2}, \dfrac{3}{2}f'(a)\}$ and 
+		$\dfrac{f'(a)}{2}, \dfrac{3}{2}f'(a)$ have same sign as $f'(a)$.
+	\end{proof}
+	
+	\phantomsection
+	\subsection*{{\color{red}\underline{Thursday - 11/08/2012}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Thursday - 11/08/2012}
+	\text{ } \\
+	
+	\textbf{Rolle's Theorem. } If $f$ is continuous on $[a, b]$ differentiable on $(a, b)$ and
+	$f(a) = f(b)$ then there ix $x \in (a, b)$ such that $f'(x) = 0$.
+	\begin{proof}
+		$f$ is continuous on a compact interval $[a, b]$ implies that $f$ attains a maximum and
+		minimum values on $[a, b]$. If one of these values is attained at $x \in (a, b)$. then
+		$f'(x) = 0$ by Theorem 13.1. \\
+		On the other hand, if neither of max and min is attained in $(a, b)$, both must be 
+		attained at $a$ and $b$ since $f(a) = f(b)$ which implies $f$ must be constant on $[a, b]$.
+		Therefore $f'(x) = 0$ for every $x \in (a, b)$.
+	\end{proof}
+	
+	\textbf{Mean Value Theorem. } If $f$ is continuous on $[a, b]$ and differentiable on $(a, b)$
+	then 
+	$$f(b) - f(a) = f'(c)(b - a)$$
+	for some $c \in (a, b)$.
+	\begin{proof}
+	Write $$h(x) = f(x) - \dfrac{f(b) - f(a)}{b - a} \cdot (x - a)$$
+	so $h$ is continuous on $[a, b]$ differentiable on $(a, b)$. Thus $h(a) = f(a)$ and $h(b) = f(a)$.
+	By Rolle's Theorem, $\exists c \in (a, b)$, we have $h'(c) = 0$. Hence,
+	$$h'(c) = f'(c) - \dfrac{f(b) - f(a)}{b - a}$$
+	Therefore $$f'(c) = \dfrac{f(b) - f(a)}{b - a}$$
+	\end{proof}
+	
+	\textbf{Corollary. } If $f, g$ are defined on open interval $I$ and $f'(x) = g'(x)$. For all
+	$x \in I$, then there is a number $C$ such that $g(x) = f(x) + C$ for all $x \in I$. \\
+	
+	\textbf{Application. } \\
+	To find max or min of $f$ on a set. \\ 
+	If $f$ is continuous on $[a, b]$, then there is
+	a solution since $[a, b]$ is compact and attained max and min. \\
+	Critical points are points $x \in [a, b]$ where $f'(x) = 0$ or $f'(x) = \text{DNE}$.
+	If $f$ attains max or min at $x \in [a, b]$ then $x \in \{a, b\} cup $ critical points. \\
+	
+	Ex:
+	\begin{itemize}
+		\item Given $a > 0$,
+		$$f(x) = \dfrac{1}{1 + |x|} + \dfrac{1}{1 + |x - a|}$$
+		Find max value.
+
+		\item Prove that
+		$$\dfrac{1}{9} < \sqrt{66} - 8 < \dfrac{1}{8}$$
+		Consider $f(x) = \sqrt{x}$ on interval $[64, 66]$, then $f'(x) = \dfrac{1}{2\sqrt{x}}$.
+		By Mean Value Theorem, 
+		$$f(66) - f(64) = f'(c)(66 - 64)$$
+		for some $c \in (64, 66)$.		
+		Since $f'(x)$ is decreasing on $[64, 66]$, we have		
+		\begin{eqnarray*}
+			& & \dfrac{1}{2\sqrt{66}} < f'(c) < \dfrac{1}{2\sqrt{64}} \\
+			& \Leftrightarrow & \dfrac{2}{2\sqrt{81}} < \sqrt{66} - 8 < \dfrac{2}{2\cdot 8} \\
+			& \Leftrightarrow & \dfrac{1}{\sqrt{81}} < \dfrac{1}{\sqrt{66}} < \sqrt{66} - 8 < \dfrac{1}{8}
+		\end{eqnarray*}				
+	\end{itemize}
+
+	\textbf{Definition. } If $U \subset \mathbb{R}$ open set and $f: U \rightarrow \mathbb{R}$ is 
+	such that $f'(x)$ exists $\forall x \in U$, we say that $f$ is differentiable on $U$, 
+	and write $f': U \rightarrow \mathbb{R}$ for this function.  \\
+	If $f': U \rightarrow \mathbb{R}$ is differentiable on $U$ we say that $f$ is twice differentiable
+	on $U$, and write $f'': U \rightarrow \mathbb{R}$ for the derivative of $f'$, second derivative of
+	$f$. \\
+	Inductively define $f$ is $n$ times differentiable on $U$ and write $f^{(n)}: U \rightarrow \mathbb{R}$
+	for the $n^{th}$ derivative of $f$.  \\
+	
+	\textbf{Taylor's Theorem. } Let $U \subset \mathbb{R}$ be an open interval, $f:U \rightarrow \mathbb{R}$
+	be $n$ times differentiable on $U$. For every $a, b \in U$, there is $c$ between $a$ and $b$ such that
+	$$f(b) = f(a) + \dfrac{1}{1!}f'(a)(b - a) + \dfrac{1}{2!}f''(a)(b - a)^2 + \ldots + 
+	\dfrac{1}{(n - 1)!}f^{(n-1)}(a)(b - a)^{n-1} + \dfrac{1}{n!}f^{(n)}(c)(b - a)^n$$
+	\begin{proof}
+		Let $$R_{n,b}(x) = f(b) - \bigg[f(x) + \dfrac{f'(x)}{1!}(b - x) + \ldots + 
+		\dfrac{f^{(n-1)}(x)}{(n - 1)!}(b - x)^{n-1} \bigg]$$
+		Then $x \rightarrow R_{n,b}(x)$ is defined for all $x \in U$. It is also differentiable
+		on $U$ because $f, f', \ldots, f^{(n-1)}$ are all differentiable on $U$.
+		We have 
+		$$R'_{n,b}(x) = 
+		-\dfrac{f'(x)} + \\
+		\dfrac{f''(x)}{2!}(b - x)^2 + \\
+		$$
+		Thus		
+		$$R'_{n,b}(x) = -\dfrac{f^{(n)}(x)}{(n - 1)!} \cdot (b - x)^{n-1}$$
+		If $a = b$, nothing to prove. \\
+		If $a \neq b$, consider
+		$$g(x) = R_{n,b}(x) - \bigg(\dfrac{b - x}{b - a}\bigg)^nR_{n,b}(a)$$
+		We have,
+		$$g(a) = 0$$
+		$$g(b) = R_{n,b}(b) = 0$$
+		By Rolle's Theorem $\exists c$ between $a$ and $b$ such that $g'(c) = 0$.
+		Hence $g'(c) = R'_{n,b}(c) - n \cdot \bigg(\dfrac{b - c}{b - a}\bigg)^{n-1}
+		\cdot \bigg(\dfrac{-1}{b - a}\bigg)R_{n,b}(a)$
+		or
+		$$\dfrac{f^{(n)}(c)}{(n - 1)!}(b - c)^{n-1} = n \cdot \dfrac{(b-c)^{n-1}}{(b - a)^n}R_{n,b}(a)$$
+		$$R_{n,b}(a) = \dfrac{f^{(n)}(c)}{n!}(b - a)^{n}$$		
+	\end{proof}
+	\framebox{\textbf{{\color{orange}Challenge. }} Try out the case $n = z$ iterating Mean Value Theorem.}
+
+	\textbf{{\color{cyan}Inverse Function. }} \\
+	\textbf{Definition. } $f$ is increasing on $A$ if wherever $a, b \in A$ and $a < b$ then $f(a) < f(b)$
+	decreasing if $a < b \Rightarrow f(a) > f(b)$. \\
+	non-decreasing: $a < b \Rightarrow f(a) \geq f(b)$ \\
+	non-increasing: $a < b \Rightarrow f(a) \leq f(b)$ \\
+
+	\textbf{Theorem. } If $f'(x) > 0$ for all $x$ in an open interval, then $f$ is increasing on that interval
+	$f'(x) \geq 0, \forall x \Rightarrow f$ non-decreasing. 
+	\begin{proof}
+		Let $a, b$ be in that interval be such that $a < b$. We want to show that $f(a) < f(b)$. If 
+		$f(a) = f(b)$ then $f'(c) = 0$ for some $c \in (a, b)$. Since $c$ is interval where
+		$f'(x) > 0$, a contradiction.
+	\end{proof}
+
+	\textbf{Take Home}
+	\begin{itemize}
+		\item $f$ is continuous and one to one on an interval, then $f$ is increasing
+		or $f$ is decreasing on that interval.
+	\end{itemize}
+
+	
+	\textbf{{\color{cyan}Riemann Integral}} \\
+	\textbf{Definition. } A partition of an interval $[a, b]$ is a finite
+	set of points in $[a, b]$, one of which is $a$, and another is $b$.
+	$$P = \{t_0, t_1, \ldots, t_n\}, \, \, \, t_i \in [a, b]$$
+	We agree that $t_0 = a < t_1 < t_2 < \ldots < t_n = b$. \\
+	Let $f: [a, b] \rightarrow \mathbb{R}$ be bounded. \\
+	Let $P = \{t_0, t_1, \ldots, t_n\}$ be partition of $[a, b]$ \\
+	Let 
+	$$m_i = \inf\{f(x) : t_{i-1} \leq x \leq t_i\}$$
+	$$M_i = \sup\{f(x) : t_{i-1} \leq x \leq t_i\}$$
+	Then the lower sum of $f$ for $P$,
+	$$L(f, P) = m_1(t_1 - t_0) + m_2(t_2 - t_1) + \ldots + m_n(t_n - t_{n-1})$$
+	$$U(f, P) = M_1(t_1 - t_0) + M_2(t_2 - t_1) + \ldots + M_n(t_n - t_{n-1})$$
+	
+	\textbf{{\color{green}Theorem. }} 
+	\begin{enumerate}[(1)]
+		\item $L(f, P) \leq U(f, P)$
+		\begin{proof}
+			We have that $m_i \leq M_i$ because
+			$\inf\{f(x) : t_{i-1} \leq x \leq t_i\} \leq \sup\{f(x) : t_{i-1} \leq x \leq t_{i}\}$
+			which implies
+	$$L(f, P) = \displaystyle\sum_{i=1}^{n} m_i(t_i - t_{i-1}) \leq 
+	\sum_{i=1}^{n} M_i(t_i - t_{i-1})$$
+		\end{proof}
+		\item If $Q$ is a partition that contains $P$ that is $P \subset Q$
+		$$L(f, P) \leq L(f, Q)$$
+		$$U(f, Q) \leq U(f, P)$$
+		\begin{proof}
+			For $P$, we have
+			$$m = \inf\{f(x) : a \leq x \leq b\}$$
+			$$M = \sup\{f(x) : a \leq x \leq b\}$$
+			For $Q$, we have
+			$$m_1 = \inf\{f(x) : a \leq x \leq t_1\}$$
+			$$m_2 = \inf\{f(x) : t_1 \leq x \leq b\}$$
+			$$M_1 = \sup\{f(x) : a \leq x \leq t_1\}$$
+			$$M_2 = \sup\{f(x) : t_1 \leq x \leq b\}$$
+			Note that $m \leq m_1, m_2$ and $M \geq M_1, M_2$. So
+			$$L(f, P) = m(b - a) = m(t_1 - a) + m(b - t_1) 
+			\leq m_1(t_1 - a) + m_2(b - t_1) = L(f, Q)$$
+			$$U(f, Q) = M_1(t_1 - a) + M_2(b - t_1) \leq M(t_1 - a) + M(b - t_1)
+			= M(b - a)$$
+		\end{proof}
+		\item For every $P_1, P_2$, 
+		$$L(f, P_1) \leq U(f, P_2)$$
+		\begin{proof}
+		Let $P$ be any partition of $[a, b]$ that contains both $P_1$ and $P_2$, i.e.
+		$P = P_1 \cup P_2$. By (2), it follows that
+		$$L(f, P_1) \leq L(f, P) \leq U(f, P) \leq U(f, P_2)$$
+		\end{proof}
+		
+		\textbf{Definition. } $f: [a, b] \rightarrow \mathbb{R}$ is Riemann Integral
+		on $[a, b]$ if it is bounded on $[a, b]$ and 
+		$$
+		\underbrace{\sup\{L(f, P) : P \text{ is any partition of } [a, b]\}}_
+		{L(f, P) \leq \sup\{f(x) : a \leq x \leq b\} \cdot (b - a)}
+		= 
+		\underbrace{\inf\{U(f, P) : P \text{ is any partition of } [a, b]\}}_
+		{U(f, P) \geq \inf\{f(x) : a \leq x \leq b\} \cdot (b - a)}$$
+		If $f$ is integrable, we write $\displaystyle\int_{a}^{b}$ for
+		$\sup_P L(f, P) = \inf_P U(f, P)$. \\
+		
+		Example: \\
+		\begin{enumerate}[(1)]
+		\item $f(x) = c, \, \, \, \forall x \in [a, b]$
+		where $P = \{t_0, t_1, t_2, \ldots, t_n\}$, and $m_i = c, M_i = c$ for all $i = 1, 2, 3 \ldots n$.
+		Then
+		$$L(f, P) = c(t_1 - t_0) + c(t_2 - t_1) + \ldots c(t_n - t_{n-1}) = c(b - a)$$
+		$$U(f, P) = c(b - a)$$
+		Thus
+		$$\displaystyle\int_{a}^{b} = c(b - a)$$
+		
+		\item 
+		$$f(x) =
+		\begin{cases}
+			0  & \text{ if } x \text{ is rational } \\
+			1  & \text{ if } x \text{ is irrational } 
+		\end{cases}
+		$$
+		We have $P = \{t_0, t_1, \ldots, t_n\}$ partition of $[a, b]$. Then
+		$$m_i = \inf\{f(x) : t_{i-1} \leq x \leq t_i\} = 0$$
+		which implies 
+		$$L(f, P) = 0 \cdot (t_1 - t_0) + 0 \cdot (t_2 - t_1) + \ldots + 0 \cdot (t_n - t_{n-1}) = 0$$
+		$$U(f, P) = 1 \cdot (t_1 - t_0) + 1 \cdot (t_2 - t_1) + \ldots + 1 \cdot (t_n - t_{n-1}) = t_n - t_0 = b - a$$
+		\end{enumerate}
+	\end{enumerate}
+	
+	\textbf{{\color{purple}Lebesgue Integral}} \\
+	This $f$ is integrable and $\displaystyle\int_{a}^{b} f = b - a$. 
+	If 
+	$$g(x) = 
+	\begin{cases}
+		1 & \text{ if } x \text{ is rational } \\
+		0 & \text{ if } x \text{ is irrational } 
+	\end{cases}				
+	$$
+	$g$ is not Riemann integrable but it is Lebesgue integrable and $\displaystyle\int_{a}^{b} = 0$. \\
+	
+	\textbf{{\color{red}Theorem. }} Let $f: [a, b] \rightarrow \mathbb{R}$ be bounded, 
+	$f$ is integrable on $[a, b] \Leftrightarrow \forall \epsilon > 0$, there is a
+	partition $P$ of $[a, b]$ such that 
+	$$0 \leq U(f, P) - L(f, P) < \epsilon$$
+	\begin{proof}
+		Suppose that $f$ is integrable, we have
+		$$\sup_P L(f, P) = \inf_P U(f, P)$$
+		Given $\epsilon$, there are $P', P''$ partitions of $[a, b]$, there exists
+		$$U(f, P') - L(f, P'') < \epsilon$$
+		By (2) of previous Theorem, if $P = P' \cup P''$, then
+		$$U(f, P) - L(f, P) \leq U(f, P') - L(f, P'') < \epsilon$$ 	
+	\end{proof}
+
+	Example: \\
+	\begin{enumerate}[(1)]
+		\item Consider $[a, b] = [0, 2]$ and 
+		$$f(x) = 
+		\begin{cases}
+			0 &, x \neq 1 \\
+			1 &, x = 1
+		\end{cases}
+		$$
+		Then $\int_{0}^{2} f = 0$.
+		Given $\epsilon > 0$, let $n \in \mathbb{Z}, n > 0$ such that $\dfrac{1}{n} < \epsilon$.
+		$$P_{\epsilon} = \{0, 1 - \dfrac{1}{2n}, 1 + \dfrac{1}{2n}, 2\}$$
+		So, 
+		$m_1 = 0, m_2 = 0, m_3 = 0$ and $M_1 = 0, M_2 = 1, M_3  = 0$
+		Then it follows that
+		$$L(f, P_{\epsilon}) = 0$$
+		and $$U(f, P_{\epsilon}) = 1(1 + \dfrac{1}{2n} - 1 + \dfrac{1}{2n}) = \dfrac{1}{n}$$
+		Thus,		
+		$$U(f, P_{\epsilon}) - L(f, P_{\epsilon}) = \dfrac{1}{n} < \epsilon$$	
+		Next, prove that $$\displaystyle\int_{0}^{2} = 0$$.
+	\end{enumerate}
+	 
+	
+	\textbf{Theorem. }
+	If $f$ is continuous on $[a, b]$ then $f$ is integrable on $[a, b]$.
+	\begin{proof}
+		$f$ is bounded on $[a, b]$ because it's continuous and $[a, b]$ is compact. 
+		We want to show that for every $\epsilon > 0$, there exists a partition $P$
+		of $[a, b]$ such that 
+		$$U(f, P) - L(f, P) < \epsilon$$
+		But $f$ is also uniformly continuous on $[a, b]$ because $[a, b]$ compact.
+		For $\dfrac{\epsilon}{b - a} > 0$, $\exists \delta > 0$ such that
+		$$|f(x) - f(y)| < \dfrac{\epsilon}{2(b - a)} \text{ whenever } |x - y| < \delta$$
+		Let $P = \{t_0, t_1, t_2, \ldots, t_n\}$ be a partition of $[a, b]$,
+		such that $|t_i - t_{i-1}| < \delta$. \\
+		On any interval $[t_{i-1}, t_i]$, we have
+		$$m_i = \min\{f(x) : x \in [t_{i-1}, t_i]\}$$
+		$$M_i = \max\{f(x) : x \in [t_{i-1}, t_i]\}$$
+		Thus
+		$$U(f, P) - L(f, P) = 
+		\displaystyle\sum_{i=1}^{n} M_i(t_i - t_{i-1}) - \displaystyle\sum_{i=1}^{n} m_i(t_i - t_{i-1})
+			= \displaystyle\sum_{i=1}^{n}(M_i - m_i)(t_i - t_{i-1})$$
+			
+		On every $[t_{i-1}, t_i]$ there is $x_i, y_i$ such that
+		$f(x_i) = m_i, f(y_i) = M_i$ because $f$ is continuous on $[t_{i-1}, t_i]$ and $[t_{i-1}, t_i]$ is compact.
+		by property of $P$, so
+		$$|x_i - y_i| \leq t_i - t_{i-1} < \delta$$
+		Hence,
+		$$|f(x_i) - f(y_i)| = M_i - m_i < \dfrac{\epsilon}{b - a}$$
+	\end{proof}
+	
+	\textbf{Theorem. } Let $a < c < b$, $f$ is integrable on $[a, b]$ then $f$ is integrable on both 
+	$[a, c]$ and $[c, b]$. Furthermore,
+	$$\displaystyle\int_{a}^{b} f = \displaystyle\int_{a}^{c} f + \displaystyle\int_{c}^{b} f$$
+	Conversely, if $f$ is integrable on $[a, c]$ and on $[c, b]$ then $f$ is integrable on $[a, b]$.
+	\begin{proof}
+		\begin{itemize}
+		\item $\Rightarrow$:
+		Note that $f$ is bounded on $[a, c]$ and $[b, c]$ because $f$ is bounded on $[a, b]$. \\
+		Since $f$ is integrable on $[a, b]$, given $\epsilon > 0$, there is a partition $P = P( \epsilon )$ of $[a, b]$
+		such that 
+		$$U(f, P) - L(f, P) < \epsilon$$
+		Let $P' = P \cup \{c\}$ then $U(f, P') \leq U(f, P)$ and $L(f, P') \geq L(f, P)$. So
+		$$U(f, P') - L(f, P') \leq U(f, P) - L(f, P) < \epsilon$$
+		Let 
+		$$P_1 = P' \cap [a, c]$$
+		$$P_2 = P' \cap [c, b]$$
+		We claim $$U(f, P_1) + U(f, P_2) = U(f, P')$$
+		Therefore,
+		$$U(f, P') - L(f, P') = [U(f, P_1) - L(f, P_1)] + [U(f, P_2) - L(f, P_2)] < \epsilon$$
+		Next we show that
+		$$\displaystyle\int_{a}^{c} f + \displaystyle\int_{c}^{b} f = \displaystyle\int_{a}^{b} f$$
+		where
+		$\displaystyle\int_{a}^{c} f$ is the only number such that $L(f, P_1) \leq \displaystyle\int_{a}^{c} f 
+		\leq U(f, P_1)$ for every partition $P_1$ of $[a, c]$. \\
+		$\displaystyle\int_{c}^{b} f$ is the only number such that $L(f, P_2) \leq \displaystyle\int_{c}^{b} f
+		\leq U(f, P_2)$ for every partition $P_2$ of $[c, b]$. \\
+		By adding these inequalities, we have
+		$$\displaystyle\int_{a}^{c}f + \displaystyle\int_{c}^{b}f$$ is the only number such that
+		$$L(f, P) \leq \displaystyle\int_{a}^{c}f + \displaystyle\int_{c}^{b}f \leq U(f, P)$$	
+		But that number is $\displaystyle\int_{a}^{b} f$.
+		
+		\textbf{Fact} If $f$ is integrable on $[a, b]$, the number $\displaystyle\int_{a}^{b}$ is the only
+		number such that
+		$$L(f, P) \leq \displaystyle\int_{a}^{b} f \leq U(f, P)$$
+		for every partition $P$ of $[a, b]$.
+		
+		\item $\Leftarrow$: L Let $f$ be integrable on $[a, c]$ and on $[c, b]$. Given $\epsilon > 0$,
+		there are partitions $P_1$ of $[a, c]$ and $P_2$ of $[c, b]$ such that
+		$$U(f, P_1) - L(f, P_1) < \dfrac{\epsilon}{2}$$
+		$$U(f, P_2) - L(f, P_2) < \dfrac{\epsilon}{2}$$
+		$P = P_1 \cup P_2$ is a partition of $[a, b]$ that satisfies
+		$$U(f, P) - L(f, P) = U(f, P_1) - L(f, P_1) + U(f, P_2) - L(f, P_2) < \epsilon$$
+		\end{itemize}
+	\end{proof}
+	
+	\textbf{Define } 
+		For $a < b$, $\displaystyle\int_{b}^{a} f = - \displaystyle\int_{a}^{b} f$
+ 	
+ 	
+ 	\textbf{Theorem. } For $a, b, c$ if any of the two of
+ 	$$\displaystyle\int_{a}^{b} f, \displaystyle\int_{b}^{c} f, \displaystyle\int_{c}^{a} f$$
+ 	exists then the 3rd exists and 
+ 	$$\displaystyle\int_{a}^{b}f + \displaystyle\int_{b}^{c}f + \displaystyle\int_{c}^{a} f = 0$$
+ 	
+ 	\textbf{Theorem. } Let $f, g$ be integrable on $[a, b]$. Let $\lambda, \mu \in \mathbb{R}$.
+ 	Then $\lambda f + \mu \cdot g$ is integrable on $[a, b]$.
+ 	and 
+ 	$$\displaystyle\int_{a}^{b} (\lambda f + \mu g) = \lambda \cdot \displaystyle\int_{a}^{b} f 
+ 	+ \mu \displaystyle\int_{a}^{b} g$$
+ 	
+ 	\textbf{Theorem. } 
+ 	\begin{enumerate}[(1)]
+ 	\item $f$ is integrable on $[a, b]$, then $|f|$ is integrable on $[a, b]$ 
+ 	and $\bigg| \displaystyle\int_{a}^{b} f \bigg| \leq \displaystyle\int_{a}^{b} |f|$
+	\begin{proof}
+		Let $P = \{t_0, t_1, t_2, \ldots, t_n\}$ be a partition of $[a, b]$. \\
+		Note that $f$ is bounded implies $|f|$ is bounded. We have,
+		$$m_i(f) = \inf\{f(x) : x \in [t_{i-1}, t_i]\}$$
+			
+	\end{proof}
+	
+		 	
+ 	\item $f, g$ integrable on $[a, b]$, then
+ 	$\max(f, g)$ and $\min(f, g)$ are integrable on $[a, b]$.
+ 	\end{enumerate}
+
+
+
+
+
+
+	\textbf{Theorem. } $f$ is integrable on $[a, b]$ then $|f|$ is integrable on $[a, b]$.
+	and $\bigg|\displaystyle\int_{a}^{b} f\bigg| \leq \displaystyle\int_{a}^{b} |f|$. \\
+		textbf{Theorem. } 
+	\begin{enumerate}
+		\item $f \geq 0$ on $[a, b] \Rightarrow \displaystyle\int_{a}^{b} f \geq 0$.
+		\begin{proof}
+		For every partition $P$ of $[a, b]$, then 
+		$$L(f, P) \leq \displaystyle\int_{a}^{b} f \leq U(f, P)$$
+		If $P = \{a, b\}$, then
+		$L(f, P) = \underbrace{\inf\{f(x) : x \in [a, b]\}}_{\geq 0} (b - a) \geq 0$
+		\end{proof}
+		\item If $f, g$ integrable on $[a, b]$, $f \leq g \Rightarrow 
+		\displaystyle\int_{a}^{b} f \leq \displaystyle\int_{a}^{b} g$.
+		\begin{proof}
+		If $f \leq g$, then $g - f \geq 0$ and integrable on $[a, b]$.
+		Apply (1) to obtains $\displaystyle\int_{a}^{b} (g - f) \geq 0$ and
+		$$\displaystyle\int_{a}^{b} (g - f) = \displaystyle\int_{a}^{b} g - 
+		\displaystyle\int_{a}^{b} f$$
+		\end{proof}
+		\item If $m \leq f \leq M$, for some $m, M$ then 
+		$$m(b - a) \leq \displaystyle\int_{a}^{b} f \leq M(b - a)$$
+		\begin{proof}
+		If $P = \{a, b\}$ and $m \leq f(x) \leq M \forall x \in [a, b]$, then
+		$$L(f, P) = \inf\{f(x) : x \in [a, b]\}(b - a) \geq m(b - a)$$
+		$$U(f, P) = \sup\{f(x) : x \in [a, b]\}(b - a) \leq M(b - a)$$		
+		\end{proof}
+	\end{enumerate}
+
+	\subsection*{{\color{red}\underline{Tuesday - 11/28/2012}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Tuesday - 11/28/2012}
+	\text{ } \\
+	
+	{\color{green}\textbf{Fundamental Theorem of Calculus }} \\
+	\textbf{Theorem. } Let $f$ be integrable on $[a, b]$. The function
+	$F(x) = \displaystyle\int_{a}^{x} f, x \in [a, b]$
+	is continuous on $[a, b]$.
+	\begin{proof}
+	$f$ is integrable $\Rightarrow f$ is bounded on $[a, b]$, so
+	there exists $M \geq 0$ such that 	
+	$$-M \leq f(x) \leq M$$
+	for all $x \in [a, b]$. \\
+	Let $c \in [a, b]$, $F$ is continuous at $c$ if 
+	$$\displaystyle\lim_{h\to 0}F(c + h) - F(c) = 0$$
+	For $h$ such that $c + h \in [a, b]$. Hence,
+	\begin{eqnarray*}
+	F(c + h) - F(c) &=&
+	\displaystyle\int_{a}^{c+h} f - \displaystyle\int_{a}^{c} f \\
+	&=& \displaystyle\int_{a}^{c + h} f + \displaystyle\int_{c}^{a} f \\ 
+	&=& - \displaystyle\int_{c+h}^{c} f \\
+	&=& \displaystyle\int_{c}^{c + h} f 
+	\end{eqnarray*}
+	If $h \geq 0$, then
+	$$-Mh \leq \displaystyle\int_{c}^{c+h} f \leq M h$$
+	If $h \leq 0$, then
+	$$Mh \leq \displaystyle\int_{c}^{c+h} f \leq -M h$$	
+	Thus,
+	$$|F(c + h) - F(c)| \leq M|h|$$
+	which implies $0 \leq \displaystyle\lim_{h\to 0}|F(c + h) - F(c)| \leq M \cdot \displaystyle\lim_{h\to 0}|h| = 0$. 
+	\end{proof}
+	Example: \\
+	\begin{itemize}
+		\item $F(x) = x^{1/3}$ is not Lipschitz on $[0, 1]$ since
+		if $|F(x) - F(0)| = x^{1/3} \leq Mx$ then 
+		$x^{-2/3} \leq M$ for all $x$ but 
+		$x^{-2/3} = \dfrac{1}{\sqrt[3]{x^2}}$
+		Thus
+		$$\displaystyle\int_{0}^{x} f = x^{1/3} \, \, \, \,  \forall x \in [0, 1]$$
+	\end{itemize}
+	
+	\textbf{Theorem. } If $f$ is integrable on $[a, b]$ and $f$ is continuous at $c \in [a, b]$,
+	then $F(x) = \displaystyle\int_{a}^{x} f $ is differentiable at $c$. and
+	$F'(c) = f(c)$.
+	\begin{proof}
+		$$\displaystyle\lim_{h\to 0} F(c + h) - F(c) = 0$$
+		we want to show that
+		$$\displaystyle\lim_{h\to 0} \dfrac{F(c + h) - F(c)}{h} = 0$$
+		For $h \neq 0$, such that $a \leq c + h \leq b$. Let
+\begin{eqnarray*}
+	m_h &=& \inf\{f(x) : x \in [c, c + h]\} \\
+	M_h &=& \sup\{f(x) : x \in [c, c + h]\} 
+\end{eqnarray*}
+	$$F(c + h) - F(c) = \displaystyle\int_{c}^{c + h}f$$
+	If $h > 0$, $m_h \cdot h \leq F(c + h) - F(c) \leq M_h \cdot h$. \\
+	If $h < 0$, $M_h \cdot h \leq F(c + h) - F(c) \leq m_h \cdot h$ since
+	$$\displaystyle\int_{c}^{c+h} f = \displaystyle\int_{c+h}^{c} (-f) 
+	\leq \sup\{-f(x) : x \in [c, c + h]\} \cdot (-h) = -m_h \cdot (-h)$$
+	Divide by $h$ in both cases, we obtain
+	$$m_h \leq \dfrac{F(c + h) - F(c)}{h} \leq M_h$$
+	for all $h \neq 0$ such that $c + h \in [a, b]$. \\
+	If $f$ is continuous at $c$, 
+	$$\displaystyle\lim_{h\to 0}m_h = \displaystyle\lim_{h\to 0}M_h = f(c)$$
+	$\therefore f \text{ is continuous at } c$
+	In other words,
+	$$\displaystyle\lim_{h\to 0} \dfrac{F(c + h) - F(c)}{h} = f(c)$$
+	\end{proof}
+
+	Example:
+	\begin{itemize}
+	\item $f$ is continuous on $[a, b] \Rightarrow F(x) = \displaystyle\int_{a}^{x} f$
+	is differentiable on $[a, b]$. and
+	$F'(x) = f(x) \, \, \, \, \, , \forall x \in [a, b]$.
+	\item Let $G(x) = \displaystyle\int_{x}^{b} f$,, then
+	$$\displaystyle\int_{a}^{b}(f - F(x)) = \displaystyle\int_{a}^{b} - \displaystyle\int_{a}^{x} f
+	= \displaystyle\int_{a}^{b} f + \displaystyle\int_{x}^{a} f 
+	= -\displaystyle\int_{b}^{x} f = \displaystyle\int_{x}^{b} f $$
+	So $G$ is differentiable on $[a, b]$ and 
+	$$G'(x) = - F'(x) = -f(x)$$
+	Therefore
+	$F(x) + G(x) = \displaystyle\int_{a}^{b} f$ is constant, or 
+	$G = \text{ constant } - F$.
+	\end{itemize}
+	
+	\textbf{Theorem. } Let $f$ be continuous on an open interval
+	$U$, let $a \in U$. Define $F: U \rightarrow \mathbb{R}$ by
+	$$
+	F(x) = \displaystyle\int_{a}^{x} f =
+	\begin{cases}
+		\int_{a}^{x} f  &, a < x \\
+		\int_{x}^{a} (-f) &, x < a \\
+	\end{cases}
+	$$	
+	Then $F$ is differentiable on $U$ and $F'(x) = f(x)$ for all $x \in U$. \\
+	
+	\textbf{Corollary. } If $f$ is continuous on $[a, b]$ and $f = g'$ for some function
+	$g$ then 
+	$\displaystyle\int_{a}^{b} f = g(b) - g(a)$.
+	\begin{proof}
+		Let $F(x) = \displaystyle\int_{a}^{x} f$, $f$ is continuous on $[a, b] \Rightarrow 
+		F$ differentiable on $[a, b]$ and $F' = f$ on $[a, b]$. So
+		$$F(x) = g(x) + \text{ const }$$
+		for all $x \in [a, b]$. So
+		$$0 = F(a) = g(a) + \text{ const } \Rightarrow \text{ const } -g(a) \Rightarrow
+		F(x) = g(x) - g(a)$$.
+		Thus,
+		$$g(b) - g(a) = F(b) = \displaystyle\int_{a}^{b} f$$	
+	\end{proof}
+
+	\textbf{Theorem. } If $f$ is integrable on $[a, b]$, and $f = g'$ then
+	$$\displaystyle\int_{a}^{b} f = g(b) - g(a)$$.	
+	\begin{proof}
+	Let $P = \{t_0, t_1, \ldots, t_n\}$ partition of $[a, b]$. Apply MVT to $g$ on each
+	$[t_{i-1}, t_i]$ to obtain $x_i \in [t_{i-1}, t_i]$ such that 
+	$g(t_{i}) - g(t_{i-1}) = g'(x_i)(t_i - t_{i-1})$. 
+	We have
+	$$g(t_i) - g(t_{i-1}) = f(x_i)(t_i - t_{i-1})$$
+	which implies
+	$$m_i(t_i - t_{i-1}) \leq g(t_i) - g(t_{i-1}) \leq M_i(t_i - t_{i-1})$$
+	Add all these terms from $i = 1$ to $i = n$,
+	$$L(f, P) \leq g(b) - g(a) \leq U(f, P)$$
+	Therefore,
+	$$\displaystyle\int_{a}^{b} f = g(b) - g(a)$$
+	\end{proof}
+
+	\textbf{Corollary. } Let $\phi : I \rightarrow J$, be a function from interval $I$ to interval $J$ 
+	such that $\phi'$ is continuous on $I$. Let $f$ be continuous on $J$, for any $a, b \in I$,
+	$$\displaystyle\int_{a}^{b} (f \circ \phi) \cdot \phi' = 
+	\displaystyle\int_{\phi(a)}^{\phi(b)} f$$
+
+	
+	\textbf{Theorem. } Let $f$ be continuous on an interval $U$, let $a \in U$. Let
+	$F: U \rightarrow \mathbb{R}$ be defined by 
+	$$F(x) = \displaystyle\int_{a}^{x} f$$
+	Then $F$ is differentiable on $U$ with $F' = f$. 
+	\begin{proof} Since $a \in U$, if $x \in U$, then the smallest closed interval that 
+	contains $a$ and $x$ ($[a, x]$ or $[x, a]$) ins contained in $U$ because $U$ is an interval. \\
+	Moreover since $f$ is continuous on $U$, $f$ is integrable on $[a, x]$ or $[x, a]$. Hence
+	$$F(x) = \displaystyle\int_{a}^{x} f \bigg( \text{ or } - \displaystyle\int_{x}^{a} f \bigg)$$ 
+	is defined for all $x$ in $U$. \\
+	To show that $F$ is differentiable: If $x, a \in U$, and $U$ is an open interval, there 
+	is $b \in U$ such that $x$ is strictly between $a$ and $b$.
+	By Fundamental Theorem of Calculus applied to $f$ 
+	\begin{itemize}
+		\item on $[a, b]$ if ($a < x < b$)  
+		\item on $[b, a]$ if $(b < x < a$)
+	\end{itemize}	
+	then 
+	$$F(x) = \displaystyle\int_{a}^{x} f$$
+	is differentiable at $x$ and $F'(x) = f(x)$.
+	case $x = a$:\\
+		Pick $b \neq a$, let $G(x) = \displaystyle\int_{b}^{x} f$, then
+		$$F(x) = \displaystyle\int_{a}^{x} f = 
+		\displaystyle\int_{a}^{b} f + \displaystyle\int_{b}^{x} f =
+		\displaystyle\int_{a}^{b} f + G(x)$$
+	By above $G$ is differentiable at $a$ because $a \neq b$
+	and $G'(a) = f(a)$. Since $F = G + \text{const}$. Thus
+	$F$ is differentiable at $a$, $F'(a) = G'(a) = f(a)$.
+	\end{proof}
+		
+	{\color{purple}\textbf{The Logarithm and the Exponential}} \\
+	Let $\phi(x) = \dfrac{1}{x}, \phi: (0, \infty) \rightarrow \mathbb{R}$ \\
+	$\phi$ is continuous on open interval $(0, \infty)$. Let $a = 1, U = (0, \infty)$.
+	$$\log(x) = \displaystyle\int_{1}^{x} \phi$$
+	By previous theorem, we have 
+	$$\log(x) : (0, \infty) \rightarrow \mathbb{R}$$
+	is differentiable with $\log' = \phi$. \\
+	
+	\textbf{Theorem. } 
+	\begin{enumerate}[(1)]
+	\item $\log'(x) = \dfrac{1}{x}, \,\,\,\, \forall x > 0$
+	\item $\log(x)$ is increasing on $(0, \infty)$.
+	\item $\log(x \cdot y) = \log(x) + \log(y)$.
+	\begin{proof}
+	Let $m_y : \mathbb{R} \rightarrow \mathbb{R}$, $m_y(x) = y \cdot x$, then 
+	$m_y$ is differentiable and $m'_y(x) = y, \,\, \forall x$. Fix $y > 0$, 
+	let $f(x) = \log(x \cdot y) = (\ln \circ \, m_y)(x)$, so $f = \log \circ \, m_y$ is differentiable.
+	By chain rule we have
+	\begin{align*}
+		f'(x) &= \log'(m_y(x)) \cdot m'_y(x) \\
+		f' &= (\log' \circ \, m_y) \cdot m'_y
+	\end{align*}
+	Thus,
+	$$f'(x) = \phi(xy) \cdot y = \dfrac{1}{xy} \cdot y = \dfrac{1}{x} = \phi(x)$$
+	$$\therefore f' = \log'$$
+	$$\therefore f(x) = \log(x) + c \, \, \, \forall x \in (0, \infty)$$	
+	To find $c$, let $x = 1 \Rightarrow \log(1) = 0$ so $f(1) = c$. But $f(1) = \log(1 \cdot y)
+	= \log(y)$. Hence
+	$$f(x) = \log(xy) = \log(x) + \log(y)$$	
+	\end{proof}
+	
+	\item $\log(x) : (0, \infty) \rightarrow \mathbb{R}$ is surjective.
+	\begin{proof}
+	By (3), we have $\log(x^n) = n \cdot \log(x)$ for every integer $n$. \\
+	To prove that $\log: (0, \infty) \rightarrow \mathbb{R}$ is surjective, we need to show
+	that for every $y \in \mathbb{R}$ there is a $x \in (0, \infty)$ such that
+	$$\log(x) = y$$
+	Given $y$, there are integers $n, m$ so that
+	$$n\log(2) < y  < m\log(2) \Leftrightarrow \log(2^n) < y < \log(2^m)$$
+	Apply Intermediate Value Theorem to $\log(x)$ on an interval $[2^n, 2^m]$ to find $x \in (2^n, 2^m)$ such that
+	$\log(x) = y$. \\
+	In fact, $\log(x)$ is one-one with domain $(0, \infty)$, range $\mathbb{R}$ and $\log(x)$ has an inverse
+	$\exp : \mathbb{R} \rightarrow (0, \infty)$.
+	$$\exp(x) = y \Leftrightarrow \log(y) = x$$
+	\end{proof}
+	
+	\end{enumerate}
+	
+	
+	{\color{orange}\textbf{Theorem.} } 
+	\begin{enumerate}[(1)]
+	\item The function $\exp$ is increasing. 
+	\item $\exp(x + y) = \exp(x) \cdot \exp(y)$
+	\item $\exp$ is differentiable with $\exp' = exp$	
+	\end{enumerate}
+	
+	Note: If $f$ has inverse $f^{-1}$, then $(f \circ f^{-1})(x) = x$. If $f$ is differentiable
+	at $x$ and $f'(x) \neq 0$. By Chain rule,
+	$$(f \circ f')'(y) = f'(f^{-1}(y)) \cdot (f^{-1})'(y)$$
+	and $(f \circ f^{-1})'(y) = 1$. Thus
+	$$(f^{-1})'(y) = \dfrac{1}{f'(f^{-1}(y))}$$
+
+	\textbf{Theorem. } Let $e = \exp(1)$.  For every integer $n \geq 1$.
+	$$0 < \bigg|e - (1 + \dfrac{1}{1!} + \dfrac{1}{2!} + \ldots + \dfrac{1}{n!} \bigg| < \dfrac{4}{(n + 1)!}$$
+	In particular, $e$ is not rational.\\
+	
+	{\color{blue}\textbf{Last lecture}} \\
+	Definition. 
+	$$\log(x) = \displaystyle\int_{1}^{x} \phi$$
+	where $\phi(x) = \dfrac{1}{x}$
+	\begin{itemize}
+		\item $\log(xy) = \log(x) + \log(y)$
+		\item $\log'(x) = \dfrac{1}{x}$
+		\item $\log : (0, \infty) \rightarrow (-\infty, \infty)$ which is increasing 
+		hence one-one, and onto.	
+	\end{itemize}	 
+	Polynomial functions $$P(x) = a_0 + a_1x + \ldots + a_px^p$$
+	Rational functions $$R(x) = \dfrac{P(x)}{Q(x)}$$
+	
+	\textbf{Theorem. } There is no rational function $R(x)$ such that 
+	$R(x) = \log(x)$ for all $x$ in some intervals. 
+	\begin{proof}
+	Let $\log(x) = \dfrac{P(x)}{Q(x)}$ for all $x$ in some interval.
+	Take derivatives 
+	$$\dfrac{1}{x} = \dfrac{P'(x)Q(x) - P(x)Q'(x)}{Q(x)^2}$$
+	Now we have two cases. \\
+	Suppose that $P(0) \neq 0$, $P(x)$ is not divisible by $x$. Then
+	$Q(x) = x^q Q_0(x)$ where $Q_0(x)$ is not divisible by $x$. 
+	Substitute into the derivative we have
+\begin{align*}
+	& Q(x)^2 = xP'(x)Q(x) - xP(x)Q'(x) \\
+\Leftrightarrow & x^{2q}Q_0(x)^2 = x^{q+1}P'(x)Q_0(x) - qx^qP(x)Q_0(x) - x^{q+1}P(x)Q'_0(x) \\
+\Leftrightarrow & 
+x^qQ_0(x)^2 = xP'(x)Q_0(x) - qP(x)Q_0(x) - xP(x)Q'_0(x) \\
+\Leftrightarrow & 
+	qP(x)Q_0(x) = xP'(x)Q_0(x) - xP(x)Q'_0(x) - x^qQ_0(x)^2 \\
+\end{align*}
+	This implies $P(x)Q_0(x)$ is divisible by $x$ which contradicts that
+	 neither $P$ nor $Q_0$ is divisible by  $x$. \\
+	 Next suppose that $Q(0) \neq 0$, and $Q(x)$ is not divisible by $x$.
+	 Write $P(x) = x^p P_0(x) \Rightarrow P'(x)
+	 = px^{p-1}P_0(x) + x^pP_0'(x)$. We have
+	 $$\dfrac{1}{x} = \dfrac{P'(x)Q(x) - P(x)Q'(x)}{Q(x)^2}$$
+\begin{align*}
+	Q^2(x) &= xP'(x)Q(x) - xP(x)Q'(x) \\
+	&= px^pP_0(x)Q(x) + x^{p+1}P_0'(x)Q(x) - x^{p+1}P_0(x)Q'(x)
+\end{align*}
+	LHS not divisible by $x$, and RHS divisible by $x^p$.		
+	\end{proof}	 
+	Approximation for $\log(1 + x)$
+	$$\log(1 + x) \approx \dfrac{x + x^2/2}{1 + x + x^2/6}$$
+	
+	\textbf{Definition. } 
+	$\exp: (-\infty, \infty) \rightarrow (0, \infty)$ is defined as $\exp = \log^{-1}$
+	and $\exp(x) = y \Leftrightarrow x = \log(y)$. \\
+	
+	\textbf{Theorem. } 
+	\begin{enumerate}[(i)]
+\item $\exp$ is increasing
+\item $\exp(x + y) = \exp(x) \cdot \exp(y)$
+\item $\exp'(x) = \exp(x)$
+	\end{enumerate}
+
+	\textbf{Theorem. }
+	Let $e = \exp(1)$, then 
+	$$0 < e - \bigg(1 + \dfrac{1}{1!} + \dfrac{1}{2!} + \dfrac{1}{3!} + \ldots
+	+ \dfrac{1}{n!}\bigg) < \dfrac{4}{(n + 1)!}$$
+	\begin{proof}
+	$\exp'(x) = \exp(x)$ for all $x$ which implies
+	$\exp^{(n)}(x) = \exp(x)$ for all $x$ and for all $n = 1, 2, 3 \ldots$.
+	By Taylor's Theorem, there is a number $c$ between $a = 0, b = 1$.
+	such that	
+	$$\exp(1) = 1 + \dfrac{1}{1!} + \dfrac{1}{2!} + \ldots + \dfrac{1}{n!} + \dfrac{\exp(x)}{(n + 1)!}$$
+	We know that $\exp(x)$ is increasing and $0 < c < 1$, so 
+	$$1 = \exp(0) < \exp(c) < \exp(1) = e$$
+	On the other hand,
+	$$e - \bigg(1 + \dfrac{1}{1!} + \dfrac{1}{2!} + \ldots + \dfrac{1}{n!}\bigg) = 
+	\dfrac{\exp(c)}{(n + 1)!}$$
+	To show $\exp(x) < 4$ for $0 < c < 1$. \\
+	Using the definition of $\exp(x)$, it's the same as show $1 < \log(4) 
+	\Leftrightarrow \displaystyle\int_{1}^{4} \phi$ where $\phi = \dfrac{1}{t}$.
+	Consider a partition $P = \{1, 2, 3, 4\}$ of $[1, 4]$, we have
+	$$L(\phi, P) = \dfrac{1}{2} + \dfrac{1}{3} + \dfrac{1}{4} = \dfrac{13}{12} > 1$$
+	Thus
+	$$\displaystyle\int_{1}^{4} \phi > 1 \Rightarrow \log(4) > 1
+	\Rightarrow 4 > e$$
+	\end{proof}
+
+	\textbf{Theorem. } $e$ is irrational.
+	\begin{proof}
+	If $\dfrac{p}{q}$ and $\dfrac{r}{s}$ are different rational numbers, then 
+	$$\bigg|\dfrac{p}{q} - \dfrac{r}{s}\bigg| > 0$$
+	or
+	$$\bigg|\dfrac{ps - qr}{qs}\bigg| > 0$$
+	which implies 
+	$$\bigg|\dfrac{ps - qr}{qs}\bigg| > \dfrac{1}{|qs|}$$
+	Suppose that $e = \dfrac{p}{q}$ is rational, then for all natural number $n$,
+$$\bigg|\dfrac{p}{q} - \bigg(1 + \dfrac{1}{1!} + \dfrac{1}{2!} + \ldots + \dfrac{1}{n!} \bigg) \bigg| 
+< \dfrac{4}{(n + 1)!}$$
+	or
+	$$0 < \bigg| \dfrac{p}{q} - \dfrac{r}{n!} \bigg| < \dfrac{4}{(n + 1)!}$$
+	which implies
+	$$\dfrac{1}{qn!} < \dfrac{4}{(n + 1)!} , \forall n
+	\Leftrightarrow \dfrac{1}{q} < \dfrac{4}{n+1}$$ 
+	which is a contradiction because $q$ is fixed.
+		\end{proof}
+		
+		
+	\textbf{Theorem. } Let $E: \mathbb{R} \rightarrow (0, \infty)$ 
+	be homomorphism $E(x + y) = E(x) \cdot E(y), \forall x, y$. 
+	If $E$ is continuous then there is $\lambda \in \mathbb{R}$ such that
+	$E(x) = \exp(\lambda x) , \,\, \forall x \in \mathbb{R}$.
+	\begin{proof}
+	We have $E(0) = E(0 + 0) = E(0) \cdot E(0)$.
+	Since $E(0) \neq 0$ then $E(0) = 1$.
+	$$f(x + y) = \log(E(x + y)) = \log \circ E(x) + \log \circ E(y) = f(x) + f(y)$$
+	Facts:
+	\begin{enumerate}[(1)]
+		\item $f(-x) = -f(x)$ become $f(0) = f(x - x) = f(x) + f(-x)$
+		\item $f(n \cdot x) = f(x + x + x + \ldots x) = nf(x)$, follows from $f(x + y) = f(x) + f(y)$.
+		by iteration.
+		\item For $n$ integers,
+		\begin{itemize}
+			\item If $n > 0$, $f(nx) = nf(x)$
+			\item If $n < 0$, $-n > 0$,  then
+			$f(nx) = f((-n)(-x)) = (-n)f(-x) = (-n)(-1)f(x) = nf(x)$.
+		\end{itemize}
+		\item For unit fraction $\dfrac{1}{n}$.	
+		$$f(1) = f\bigg( \dfrac{1}{n} + \dfrac{1}{n} + \ldots + \dfrac{1}{n}\bigg)
+		= nf\bigg(\dfrac{1}{n}\bigg)$$			
+		So
+		$$f\bigg(\dfrac{1}{n}\bigg) = \dfrac{1}{n} f(1)$$
+		\item $f\bigg(\dfrac{p}{q}\bigg) = pf\bigg(\dfrac{1}{q}\bigg)
+		= \dfrac{p}{q}f(1)$
+		
+		\item $f(r) = r \cdot f(1)$ for all $r$ rational.
+		\item For all $x \in \mathbb{R}$, $f(x) = x \cdot f(1)$.			
+		Write $x = \displaystyle\lim_{n\to \infty} x_n$ for $x_n$ rational. But
+		$f(x) = f(\displaystyle\lim_{n\to \infty}x_n) = 
+		\displaystyle\lim_{n\to \infty}f(x_n) = 
+		(\displaystyle\lim_{n\to \infty}x_n) f(1) = xf(1)$.
+		$$f(x) = \log(E(x)) \Rightarrow f(x) = x \cdot f(1) \Rightarrow
+		\exp(f(x)) = E(x) \Rightarrow \exp(x \cdot f(1)) = E(x)$$
+		If $\lambda = f(1)$, $E(x) = \exp(\lambda \cdot x)$.
+	\end{enumerate}		
+	\textbf{Theorem. } There are $f$ not continuous that satisfy $f(x+y) = f(x) + f(y)$
+	for every $x, y \in \mathbb{R}$.
+	
+	
+	
+	
+	\end{proof}
+
+	\textbf{Vector space} \\
+	Vector space of real numbers scalars are rational numbers.  \\
+	\underline{Fact}: Every vector space has a basis. \\
+	There is a set $B$ of real number so that every real number $x$ 
+	can be written in a unique way as linear combination:
+	$$x = q_1\beta_1 + q_2\beta_2 + \ldots q_n\beta_n \,\,\, q_i \neq 0$$
+	where $q_1, q_2, \ldots q_n \in \mathbb{Q}$ and $\beta_1, \beta_2, \ldots \beta_n \in \mathbb{B}$. \\
+	
+	$\mathbb{B}$ is a infinite set, can't be constructed explicitly. \\
+	Let $f: \mathbb{R} \rightarrow \mathbb{R}$ \\
+	Fix $\beta_0 \in \mathbb{B}$, define $f$ on $\mathbb{B}$ by setting
+	\begin{align*}
+	f(\beta_0) &= 1 \\
+	f(\beta) &= 0   \text{ if } \beta \neq \beta_0
+	\end{align*}
+	For $x \in \mathbb{R}$, write $x = q_0\beta_0 + q_1\beta_1 + \ldots + q_n\beta_n$.
+	where
+	$$\beta_0, \beta_1, \beta_n \in \mathbb{B}$$
+	$$q_1, q_2, \ldots, q_n \neq 0 \text{ rational numbers }, q_0 \text{ may be } = 0$$
+	Then
+	$$f(x) = f(q_0\beta_0 + \ldots + q_n\beta_n) = q_0$$ 
+	So
+\begin{align*}
+	x &= q_0\beta_0 + q_1\beta_1 + \ldots + q_n\beta_n \\
+	y &= q_0'\beta_0' + q_1'\beta_1' + \ldots + q_m'\beta_m' \\
+	x + y &= (q_0 + q_0')\beta_0 
+\end{align*}
+	Then
+\begin{align*}
+	f(x + y) &= q_0 + q_0' \\
+	f(x) &= q_0 \\
+	f(y) &= q_0' \\ 
+\end{align*}	
+	$\therefore f(x + y) = f(x) + f(y)$ Cauchy functional equation (not constant),
+	$f$ is not continuous because $f$ takes only rational numbers. \\
+	
+	\textbf{Exam: } 
+\begin{enumerate}[(1)]
+	\item Prove that $\log(x)$ is not rational function.
+	\item Prove that $\exp(x)$ is not rational function.
+	\item For every $n > 0$, the limit $\displaystyle\lim_{x\to \infty} \dfrac{exp(x)}{x^n} = \infty$. \\
+	Hint: $n = 1$, consider
+	$$f(x) = \dfrac{\exp(x)}{x}$$
+	$$f'(x) = \dfrac{\exp(x)'x - \exp(x)}{x^2}
+	= \dfrac{\exp(x)(x - 1)}{x^2} > 0$$
+	So $f$ is increasing on $(1, \infty)$. When $x = 1$, $f(1) = e$ so $f(x) > f(1)$ for
+	$x \in (1, \infty)$ which implies $\dfrac{\exp(x)}{x} > e > 2$ for $x > 1$. \\
+	We have
+	$$\dfrac{\exp(x)}{x} = \dfrac{\exp(x/2 + x/2)}{2 \cdot \dfrac{x}{2}}
+	= \dfrac{\exp(x/2) \cdot \exp(x/2)}{2 \cdot \dfrac{x}{2}} > \dfrac{\exp(x/2)}{2} \cdot 2 = \exp(x/2)$$
+	Since $x > 2 \Rightarrow \dfrac{x}{2} > 1$. Also since 
+	$$\displaystyle\lim_{x\to \infty} \exp(x) = 0$$
+	we obtain
+	$$\displaystyle\lim_{x\to \infty} \dfrac{\exp(x)}{x} \geq 
+	\displaystyle\lim_{x\to \infty} \exp(\dfrac{x}{2}) = \infty$$
+	
+	\item $\lambda(x) = \dfrac{1}{\sqrt{1 - x^2}} \,\,\, -1 < x < 1$. \\
+	Define $L(x) = \displaystyle\int_{0}^{x} \lambda$.
+	
+	\item Suppose that $f$ is one-one on an interval, then $f$ has an inverse $f^{-1}$.
+	Also, $(f^{-1} \circ f)(x) = x$. If $f$ and $f^{-1}$ are differentiable at $x$ and $f(x)$.
+	$$(f^{-1})'(f(x)) \cdot f'(x) = 1$$
+	or $$(f^{-1})'(f(x)) = \dfrac{1}{f'(x)}$$
+	If $f$ is differentiable at $x$ and $f'(x) = 0$ then $f^{-1}$ cannot be differentiable at $f(x)$. \\
+	
+	\textbf{Theorem. } Let $f$ be one-one, with inverse $f^{-1}$. Let $f(a) = b$. If 
+	$f$ is differentiable at $a$ and $f'(a) \neq 0$, then $f^{-1}$ is differentiable at $b$ and 
+	$$(f^{-1})'(b) = \dfrac{1}{f'(f^{-1}(b))} = \dfrac{1}{f'(a)}$$
+\begin{proof}
+	If $f$ is differentiable at $a$ with $f'(a) = A \neq 0$, then there is a function $\alpha(x)$
+	which is defined for all $x$ near $a$, $x \neq a$. ($\exists \delta > 0$, $\alpha$ is defined for $x$ 
+	such that $0 < |x - a| < \delta$) such that
+	$$\displaystyle\lim_{x\to a}\alpha(x) = 0$$
+	and
+	$$f(x) - f(a) = (A + \alpha(x))(x - a)$$
+	We want to find $\beta$, a function defined for all $y \neq b$ near $b$, and such that
+	$$\displaystyle\lim_{y\to b}\beta(y) = 0$$
+	and
+	$$f^{-1}(y) - f^{-1}(b) = \bigg( \dfrac{1}{A} + \beta(y) \bigg)( y - b)$$
+	By definition of inverse function,
+	$$f(x) = y \Leftrightarrow x = f^{-1}(y)$$
+	So
+	$$y - b = (A + (\alpha \circ f^{-1})(y)) \cdot (f^{-1}(y) - f^{-1}(b)) \Leftrightarrow
+	f^{-1}(y) - f^{-1}(b) = \dfrac{1}{A + (\alpha \circ f^{-1})(y)}(y - b)$$	
+	Solve for $\beta$ in
+	$$\dfrac{1}{A} + \beta = \dfrac{1}{A + (\alpha \circ f^{-1})}$$
+	we obtain
+	$$\beta = \dfrac{1}{A + (\alpha \circ f^{-1})} - \dfrac{1}{A} 
+	= \dfrac{ -(\alpha \circ f^{-1})}{A \cdot (A + (\alpha \circ f^{-1})}$$
+	We claim
+$$\displaystyle\lim_{y\to b}\beta(y) = \displaystyle\lim_{y\to b}
+\dfrac{-(\alpha \circ f^{-1})(y)}{A \cdot (A + (\alpha \circ f^{-1})(y))} = 0$$
+because
+$$\displaystyle\lim_{y\to b}(\alpha \circ f^{-1})(y) = 
+\displaystyle\lim_{x\to a}\alpha(x) = 0$$
+
+	
+\end{proof}
+	
+	
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

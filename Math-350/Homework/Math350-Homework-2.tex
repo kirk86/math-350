@@ -1,0 +1,614 @@
+\documentclass[10pt,letterpaper]{article}
+\renewcommand{\rmdefault}{ptm}
+
+\usepackage[left=1in,right=1in,top=1in,bottom=1in]{geometry} 
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{polynomial}
+\usepackage{layouts}
+\usepackage{enumerate}
+\usepackage{syntax}
+\usepackage{gensymb}
+\usepackage{cancel}
+\usepackage{calc}
+\usepackage{enumerate}
+\usepackage{xcolor}
+
+\usepackage{minted}
+
+\usepackage[version=0.96]{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,automata,backgrounds,petri,positioning}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.shapes}
+\usetikzlibrary{decorations.text}
+\usetikzlibrary{decorations.fractals}
+\usetikzlibrary{decorations.footprints}
+\usetikzlibrary{shadows}
+\usetikzlibrary{calc}
+\usetikzlibrary{spy}
+\usetikzlibrary{matrix}
+
+\usepackage{tikz-qtree}
+
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{4}
+\usepackage[bookmarksopen,bookmarksdepth=3]{hyperref}
+\usepackage{titlesec}
+
+
+%define new colors
+\definecolor{dark-red}{rgb}{0.8,0.15,0.15}
+\definecolor{dark-blue}{rgb}{0.15,0.15,0.7}
+\definecolor{medium-blue}{rgb}{0,0,0.5}
+
+%set up color for table of contents
+\hypersetup{
+    colorlinks, linkcolor={dark-red},
+    citecolor={dark-blue}, urlcolor={medium-blue}
+}
+
+\usepackage{tocloft}
+
+%preven linebreak between subsection header and its content
+\titleformat{\subsection}[runin]{\normalfont\bfseries}{\thesubsection.}{2pt}{}
+%\titleformat{\section}[runin]{\normalfont\bfseries\filcenter}{\thesection.}{5pt}{}
+
+
+\titleformat{\section}[block]
+{\normalfont\sffamily\LARGE}
+{\thesection}{.2em}{\titlerule\\[.2ex]\bfseries}
+
+%title
+\title{\textbf{Math 350 - Advanced Calculus \\ Homework 2}}
+\author{Chan Nguyen}
+
+%set numwidth of section
+\setlength{\cftsecnumwidth}{1.5cm} 
+%make subsection numwidth different than as section
+\setlength{\cftsubsecnumwidth}{3cm}
+%make subsection indent the same as section
+\setlength{\cftsubsecindent}{\cftsecindent} 
+
+\newcommand{\sol}{\emph{\textbf{Solution. }}}
+
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usetikzlibrary{shapes,backgrounds}
+
+\makeatletter
+\newcommand{\DESCRIPTION@original@item}{}
+\let\DESCRIPTION@original@item\item
+\newcommand*{\DESCRIPTION@envir}{DESCRIPTION}
+\newlength{\DESCRIPTION@totalleftmargin}
+\newlength{\DESCRIPTION@linewidth}
+\newcommand{\DESCRIPTION@makelabel}[1]{\llap{#1}}%
+\newcommand{\DESCRIPTION@item}[1][]{%
+  \setlength{\@totalleftmargin}%
+       {\DESCRIPTION@totalleftmargin+\widthof{\textbf{#1 }}-\leftmargin}%
+  \setlength{\linewidth}
+       {\DESCRIPTION@linewidth-\widthof{\textbf{#1 }}+\leftmargin}%
+  \par\parshape \@ne \@totalleftmargin \linewidth
+  \DESCRIPTION@original@item[\textbf{#1}]%
+}
+\newenvironment{DESCRIPTION}
+  {\list{}{\setlength{\labelwidth}{0cm}%
+           \let\makelabel\DESCRIPTION@makelabel}%
+   \setlength{\DESCRIPTION@totalleftmargin}{\@totalleftmargin}%
+   \setlength{\DESCRIPTION@linewidth}{\linewidth}%
+   \renewcommand{\item}{\ifx\@currenvir\DESCRIPTION@envir
+                           \expandafter\DESCRIPTION@item
+                        \else
+                           \expandafter\DESCRIPTION@original@item
+                        \fi}}
+  {\endlist}
+\makeatother
+
+\begin{document}
+
+\tableofcontents 
+\maketitle
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex}
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 1}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 1}
+	Let $I$ be a set and for each $i \in I$, let $X_i$ be another set. We may speak of $I$ as being an
+	indexing set, whose elements, $i$, are indexes used to specify the sets $X_i$ which we direct our attention. 
+	The set of all sets $X_i$ as $i$ ranges over $I$ is denoted by $\{X_i \mid i \in I\}$, or $\{X_i\}_{i \in I}$
+	If all $X_i$ are subsets of a set $S$, let $\displaystyle{\bigcap_{i \in I}}X_i$ and $\displaystyle{\bigcup_{i \in I}X_i}$ be the subsets of $S$
+	given by:
+	$$\displaystyle{\bigcup_{i \in I}X_i} = \{x \in S \mid x \in X_i \text{ for some } i \in I\}$$
+	$$\displaystyle{\bigcap_{i \in I}X_i} = \{x \in S \mid x \in X_i \text{ for all } i \in I\}$$ 	
+	Prove the following:
+	\begin{enumerate}[(i)]
+		\item $S \setminus \displaystyle{\bigcup_{i \in I}}X_i = \displaystyle{\bigcap_{i \in I}}(S \setminus X_i)$ 
+\begin{proof}
+	Since all $X_i$ are subsets of $S$, we can write it as,
+		$$\bigg(\displaystyle{\bigcup_{i \in I}}X_i\bigg)^c = \displaystyle{\bigcap_{i \in I}}X_i^c$$
+		Suppose that $x \in \bigg(\displaystyle{\bigcup_{i \in I}}X_i\bigg)^c \implies
+		x \not\in \displaystyle{\bigcup_{i \in I}}X_i \implies 
+		x \not\in X_1 \text{ and } x \not\in X_2 \ldots \text{ and } x \not\in X_i, i \in I \implies 
+		x \in X_1^c \text{ and } x \in X_2^c \ldots \text{ and } x \in X_i^c, i \in I$. In other words,
+		$x \in \displaystyle{\bigcap_{i \in I}}X_i^c (1)$ \\
+		To go the other way, suppose that $x \in \displaystyle{\bigcap_{i \in I}}X_i^c 
+		\implies (x \in X_1^c) \cap (x \in X_2^c) \cap \ldots \cap (x \in X_i^c), i \in I
+		\implies (x \not\in X_1) \cup (x \not\in X_2) \cup \ldots \cup (x \not\in X_i), i \in I
+		\implies x \not\in \displaystyle{\bigcup_{i \in I}X_i} \implies 
+		x \in \bigg(\displaystyle{\bigcup_{i \in I}X_i}\bigg)^c (2)$ \\
+		From (1) and (2) we can conclude that 
+		$$\bigg(\displaystyle{\bigcup_{i \in I}}X_i\bigg)^c = \displaystyle{\bigcap_{i \in I}}X_i^c$$
+\end{proof}
+		\item $S \setminus \displaystyle{\bigcap_{i \in I}}X_i = \displaystyle{\bigcup_{i \in I}}(S \setminus X_i)$ 
+\begin{proof}
+	Similarly, we can rewrite it as,
+		$$\bigg(\displaystyle{\bigcap_{i \in I}}X_i\bigg)^c = \displaystyle{\bigcup_{i \in I}}X_i^c$$
+		Suppose that $x \in \bigg(\displaystyle{\bigcap_{i \in I}}X_i\bigg)^c \implies 
+		x \not\in \displaystyle{\bigcap_{i \in I}}X_i \implies 
+		x \in \displaystyle{\bigcup_{i \in I}}X_i^c$ (1) \\
+		To go the other way, suppose that $x \in \displaystyle{\bigcup_{i \in I}}X_i^c \implies
+		(x \in X_1^c) \cup (x \in X_2^c) \cup \ldots \cup (x \in X_i^c) \implies 
+		(x \not\in X_1) \cup (x \not\in X_2) \cup \ldots \cup (x \not\in X_i) \implies
+		x \not\in \displaystyle{\bigcap_{i \in I}}X_i \implies
+		x \in \bigg(\displaystyle{\bigcap_{i \in I}}X_i\bigg)^c 
+		$ (2) \\
+		From (1) and (2) we can conclude that
+		$$\bigg(\displaystyle{\bigcap_{i \in I}}X_i\bigg)^c = \displaystyle{\bigcup_{i \in I}}X_i^c$$
+\end{proof}
+		\item $\displaystyle{\bigcup_{i \in I}}X_i \cap \displaystyle{\bigcup_{j \in J}}Y_j 
+		= \displaystyle{\bigcup_{(i, j) \in I \times J}}(X_i \cap Y_j)$ 
+\begin{proof}
+	Suppose that $x \in \bigg(\displaystyle{\bigcup_{i \in I}}X_i \cap \displaystyle{\bigcup_{j \in J}}Y_j\bigg)
+		\implies x \in
+		\bigg((X_1 \cup X_2 \cup \ldots \cup X_i) \cap (Y_1 \cup Y_2 \cup \ldots \cup Y_i)\bigg)
+		\implies x \in
+		\bigg([X_1 \cap (Y_1 \cup Y_2 \cup \ldots \cup Y_i)] \cup [X_2 \cap (Y_1 \cup Y_2 \cup \ldots \cup Y_i)] 
+		\ldots [X_i \cap (Y_1 \cup Y_2 \cup \ldots \cup Y_i)] \bigg) \implies
+		x \in \displaystyle{\bigcup_{(i, j) \in I \times J}}(X_i \cap Y_j) 	
+		$ (1) \\
+		To go the other way around, suppose that $x \in \displaystyle{\bigcup_{(i, j) \in I \times J}}(X_i \cap Y_j) 
+		\implies x \in
+		\bigg([X_1 \cap (Y_1 \cup Y_2 \cup \ldots \cup Y_i)] \cup [X_2 \cap (Y_1 \cup Y_2 \cup \ldots \cup Y_i)] 
+		\ldots [X_i \cap (Y_1 \cup Y_2 \cup \ldots \cup Y_i)] \bigg) \implies 
+		x \in \bigg(\displaystyle{\bigcup_{i \in I}}X_i \cap \displaystyle{\bigcup_{j \in J}}Y_j\bigg) 		
+		$ (2) \\
+		From (1) and (2) we can conclude that 
+		$$\displaystyle{\bigcup_{i \in I}}X_i \cap \displaystyle{\bigcup_{j \in J}}Y_j 
+		= \displaystyle{\bigcup_{(i, j) \in I \times J}}(X_i \cap Y_j)$$
+\end{proof}		
+		
+		\item $\displaystyle{\bigcap_{i \in I}}X_i \cup \displaystyle{\bigcap_{j \in J}}Y_j 
+		= \displaystyle{\bigcap_{(i, j) \in I \times J}}(X_i \cup Y_j)$ 
+\begin{proof}
+	Similarly, suppose that $x \in \bigg(\displaystyle{\bigcap_{i \in I}}X_i \cup \displaystyle{\bigcap_{j \in J}}Y_j\bigg)
+		\implies x \in \bigg((X_1 \cap X_2 \cap \ldots \cap X_I) \cup (Y_1 \cap Y_2 \cap \ldots \cap Y_i)\bigg)
+		\implies x \in
+		\bigg(
+		[X_1 \cup (Y_1 \cap Y_2 \cap \ldots \cap Y_i)] \cap  		
+		[X_2 \cup (Y_1 \cap Y_2 \cap \ldots \cap Y_i)] \cap
+		\ldots
+		[X_i \cup (Y_1 \cap Y_2 \cap \ldots \cap Y_i)]
+		\bigg) \implies 
+		x \in \bigg(\displaystyle{\bigcap_{(i, j) \in I \times J}}(X_i \cup Y_j)\bigg)
+		$ (1) \\
+		To go the other way, suppose that $x \in \bigg(\displaystyle{\bigcap_{(i, j) \in I \times J}}(X_i \cup Y_j)\bigg)
+		\implies  
+		x \in
+		\bigg(
+		[X_1 \cup (Y_1 \cap Y_2 \cap \ldots \cap Y_i)] \cap  		
+		[X_2 \cup (Y_1 \cap Y_2 \cap \ldots \cap Y_i)] \cap
+		\ldots
+		[X_i \cup (Y_1 \cap Y_2 \cap \ldots \cap Y_i)]
+		\bigg)
+		\implies x \in \bigg((X_1 \cap X_2 \cap \ldots \cap X_I) \cup (Y_1 \cap Y_2 \cap \ldots \cap Y_i)\bigg)
+		\implies x \in \bigg(\displaystyle{\bigcap_{i \in I}}X_i \cup \displaystyle{\bigcap_{j \in J}}Y_j\bigg)$ (2)
+		From (1) and (2) we can conclude that
+		$$\displaystyle{\bigcap_{i \in I}}X_i \cup \displaystyle{\bigcap_{j \in J}}Y_j 
+		= \displaystyle{\bigcap_{(i, j) \in I \times J}}(X_i \cup Y_j)$$
+\end{proof}
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 2}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 2}
+	Prove that if a set $A$ is enumerable (at most countable), then either $A = \emptyset$ or there is a
+	surjective mapping $f: \mathbf{N} \rightarrow A$. 
+\begin{proof}
+	First we recall 4 properties of set:
+	\begin{enumerate}
+		\item Two sets are equipotent if there is a bijection between them. To be equipotent
+		is an equivalence relation among sets. 
+		\item A set is finite if it's equipotent to one of the finite sets $\mathbf{0}, \mathbf{1}, \ldots$.
+		\item A set is countable if it is equipotent to the set $\mathbf{N}$ for all natural numbers. 
+		\item A set is enumerable if it is either finite or countable.
+	\end{enumerate}
+	Essentially, we know that $A$ is either finite or countable, so we have two cases:
+	\begin{itemize}
+		\item Assume that $A$ is finite then $A$ is equipotent to one of the sets $\mathbf{0}, \mathbf{1}, \ldots$.
+		Next let's assume that $A$ is equipotent to $\mathbf{0} = \emptyset$, thus $A$ must equal to $\emptyset$.
+		\item Assume that $A$ is countable, then $A$ is equipotent to $\mathbf{N}$ which implies there is a bijection between 
+		$A$ and $\mathbf{N}$. Thus there is a surjective mapping $f: \mathbf{N} \rightarrow A$
+	\end{itemize}
+	$\therefore A = \emptyset$ or there is a surjective mapping $f: \mathbf{N} \rightarrow A$.
+\end{proof}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 3}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 3}
+	\text{ }
+	\begin{enumerate}[(i)]
+\item Prove that if $\{X_i \mid i \in I\}$ is a set of sets where the indexing set $I$ is countable
+		and each $X_i$ is countable, then $\displaystyle{\bigcup_{i \in I}}X_i$ is countable.
+
+		To be precise, first we recall the definition of countable set. What does it mean to count 
+		the number of elements in the set? What we really do we count is to assign each element of the 
+		set a unique natural number, either starting from 0 or 1. and proceeding upward. For example,
+		count the set of lower-case letters in alphabet:
+		$$S = \{a, b, c, \ldots, x, y, z\}$$
+		\begin{center}
+		\begin{tabular}{ccccccc}
+			$a$ & $b$ & $c$ & $\ldots$ & $x$ & $y$ & $z$ \\
+			$\updownarrow$ & $\updownarrow$ & $\updownarrow$ & $\ldots$ & $\updownarrow$ & $\updownarrow$ & $\updownarrow$ \\
+			$1$ & $2$ & $3$ & $\ldots$ & $24$ & $25$ & $26$ 
+		\end{tabular}
+		\end{center}
+		In fact, when we count we are using a function from our set $S$ to a subset of the natural number $\mathbf{N}$
+		that is both one-to-one and onto. \\
+		\begin{itemize}
+			\item A function is \emph{one-to-one} if two distinct inputs always have two distinct outputs. 
+			\item A function is \emph{onto} if every element in the range is the output of one or more elements
+			in the domain.
+			\item \emph{bijection} = \emph{one-to-one} + \emph{onto}. 
+		\end{itemize}
+	
+	\begin{proof}
+		First we have that the indexing set $I$ is countable, so there is a mapping from $\mathbf{N}$ to $I$,
+		symbolically,
+		$$f: \mathbf{N} \rightarrow I$$
+		so we can label each element $x \in I$ with the natural number $1, 2, 3, \ldots$ 
+		Let denote all countable sets $X_i$ as:
+		$$X_1, X_2, X_3, X_4 \ldots$$
+		What we want to show is the union of these sets is also countable.
+		$$X = \displaystyle\bigcup_{i=1}^{\infty} X_i = X_1 \cup X_2 \cup X_3 \cup \ldots$$
+		Suppose $X_i$ has elements:
+		$$a_{i1}, a_{i2}, a_{i3} \ldots$$
+		Next we put these elements of the union of these countable set into a 2-dimension infinite array: \\
+		\begin{center}
+		\begin{tabular}{ccccc}
+			$a_{11}$ & $a_{12}$ & $a_{13}$ & $a_{14}$ & $\ldots$ \\
+			$a_{21}$ & $a_{22}$ & $a_{23}$ & $a_{24}$ & $\ldots$ \\
+			$a_{31}$ & $a_{32}$ & $a_{33}$ & $a_{34}$ & $\ldots$ \\
+			$a_{41}$ & $a_{42}$ & $a_{43}$ & $a_{44}$ & $\ldots$ \\
+			$\ldots$ & $\ldots$ & $\ldots$ & $\ldots$ & $\ldots$ 
+		\end{tabular}
+		\end{center}
+		Now to show that this is a countable set, we need to create bijection mapping between these elements with the
+		natural number sets $\mathbf{N}$ using the method as described in lecture:
+	
+	\begin{center}	
+	\begin{tikzpicture}[shorten >=1pt,node distance=2cm,minimum size=1cm, on grid,auto] 
+   	\node[] (a11)  			      {$a_{11}$};
+   	\node[] (a12) [right =of a11] {$a_{12}$};
+   	\node[] (a13) [right =of a12] {$a_{13}$};
+   	\node[] (a14) [right =of a13] {$a_{14}$};
+   	
+   	\node[] (a21) [below =of a11] {$a_{21}$};
+   	\node[] (a22) [right =of a21] {$a_{22}$};
+   	\node[] (a23) [right =of a22] {$a_{23}$};
+   	\node[] (a24) [right =of a23] {$a_{24}$};
+   	
+   	\node[] (a31) [below =of a21] {$a_{31}$};
+   	\node[] (a32) [right =of a31] {$a_{32}$};
+   	\node[] (a33) [right =of a32] {$a_{33}$};
+   	\node[] (a34) [right =of a33] {$a_{34}$};                
+   
+   	\node[] (a41) [below =of a31] {$a_{41}$};
+   	\node  		 (a42) [right =of a41] {$\ldots$};
+   	\path[->] 
+   	(a11) edge (a12)
+   	(a12) edge (a21)
+   	(a21) edge (a31)
+   	(a31) edge (a22)
+   	(a22) edge (a13)
+   	(a13) edge (a14)
+   	(a14) edge (a23)
+   	(a23) edge (a32)
+   	(a32) edge (a41)
+   	(a41) edge (a42)
+   	;
+	\end{tikzpicture}
+	\end{center}		
+	The bijection mapping above indeed map each element in the union to the set of natural number $\mathbf{N}$ \\
+	\begin{center}
+	\begin{tabular}{cccccccc}
+		$a_{11}$ & $a_{12}$ & $a_{21}$ & $a_{31}$ & $a_{22}$ & $a_{13}$ & $a_{14}$ & $\ldots$ \\
+		$\updownarrow$ & $\updownarrow$ & $\updownarrow$ & $\updownarrow$ & $\updownarrow$ & $\updownarrow$ & $\updownarrow$ & \\
+		$1$ & $2$ & $3$ & $3$ & $4$ & $5$ & $6$ & $\ldots$
+	\end{tabular}
+	\end{center}
+	Therefore $X$ is countable.
+\end{proof}	
+	
+\item Prove that $P(\mathbf{N})$, the set of all finite subsets of $\mathbf{N}$ is countable.
+\begin{proof}
+			
+		Let $S = P(\mathbf{N})$ be the set of all finite subset of $\mathbf{N}$. In addition, 
+		we have that if a set is finite, then it is countable. Now let $S_k$ be the set of subsets of $\mathbf{N}$
+		that consists of $k$ elements, we can reorder these $k$ elements in increasing order as follows:
+		$$x_0 < x_1 < x_2 < \ldots x_k$$
+		Let define the sum and sum square of all elements in $S_k$ as:
+		$$s = \displaystyle\sum_{i=0}^{k}x_i \text{ and } 
+			sq = \displaystyle\sum_{i=0}^{k}x_i^2$$
+		It's easy to see that a triplet of $(s, sq, k)$ is unique. 
+		Since $S_k$ is finite, we can list all the finite subsets of $\mathbf{N}$ as:
+	\end{proof}
+\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 4}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 4}
+	Prove the following:
+	\begin{enumerate}[(i)]
+	\item $a \cdot c^{-1} = (a \cdot b) \cdot (b \cdot c)^{-1}$ if $b, c \neq 0$ 
+	\item $a \cdot b^{-1} + c \cdot d^{-1} = (a \cdot d + b \cdot c) \cdot (b \cdot d)^{-1}$ if $b, d \neq 0$ 
+	\item $(a \cdot b)^{-1} = a^{-1} \cdot b^{-1}$ if $a, b \neq 0$ 
+	\item $ (a \cdot b^{-1}) \cdot (c \cdot d^{-1}) = (ac) \cdot (db)^{-1}$ if $b, d \neq 0$
+	\item $(a \cdot b^{-1}) \cdot (c \cdot d^{-1})^{-1} = (a \cdot d) \cdot (b \cdot c)^{-1}$ if $b, c, d \neq 0$
+	\item If $b, d \neq 0$, then $a \cdot b^{-1} = c \cdot d^{-1}$ if and only if $a \cdot d = b \cdot c$
+	\end{enumerate}
+\begin{proof}
+	\text{ }
+	\begin{enumerate}[(i)]
+	\item  Multiply both sides by $(b \cdot c)$ to obtain, 
+	\begin{eqnarray*}
+		& & a \cdot c^{-1} (b \cdot c) = (a \cdot b) \cdot (b \cdot c)^{-1} \cdot (b \cdot c) \\
+		&\Leftrightarrow & a \cdot c^{-1} (c \cdot b) = (a \cdot b) \cdot 1 \text{ (multiplicative inverse, associative)} \\
+		&\Leftrightarrow & a \cdot (c^{-1} \cdot c) \cdot b = a \cdot b \text{ (associative, neutral element)} \\
+		&\Leftrightarrow & (a \cdot 1) \cdot b = a \cdot b \text{ (multiplicative inverse)}\\
+		&\Leftrightarrow & a \cdot b = a \cdot b \text{ (neutral element)}\\
+	\end{eqnarray*}
+	\item From (i) we have
+	\begin{eqnarray*}
+		& &  a \cdot b^{-1} + c \cdot d^{-1} = (a \cdot d + b \cdot c) \cdot (b \cdot d)^{-1} \\
+		&\Leftrightarrow & (a \cdot d) \cdot (d \cdot b)^{-1} + (c \cdot b) \cdot (b \cdot d)^{-1} =
+		(a \cdot d + b \cdot c) \cdot (b \cdot d)^{-1}
+		\text{ (from (i))} \\
+		&\Leftrightarrow & (a \cdot d + b \cdot c) \cdot (b \cdot b)^{-1} =
+		(a \cdot d + b \cdot c) \cdot (b \cdot d)^{-1}
+		\text{ (associative, distributive)} \\
+	\end{eqnarray*}
+	\item Multiply both side by $(a \cdot b)$ to obtain
+	\begin{eqnarray*}
+		& & (a \cdot b)^{-1} = a^{-1} \cdot b^{-1} \\
+		& \Leftrightarrow & (a \cdot b)^{-1} \cdot (a \cdot b) = a^{-1} \cdot b^{-1} \cdot (a \cdot b) \\
+		& \Leftrightarrow & 1 = (a^{-1} \cdot a) \cdot (b^{-1} \cdot b) 
+		\text{ (multiplicative inverse, associative)}\\
+		& \Leftrightarrow & 1 = 1 \cdot 1 
+		\text{ (multiplicative inverse)}\\
+		& \Leftrightarrow & 1 = 1 
+		\text{ (neutral element)}\\
+	\end{eqnarray*}
+	
+	\item We have
+	\begin{eqnarray*}
+	& & (a \cdot b^{-1}) \cdot (c \cdot d^{-1}) = (ac) \cdot (db)^{-1} \\
+	& \Leftrightarrow & (ac) \cdot (b^{-1} \cdot d^{-1}) = (ac) \cdot (db)^{-1} 
+	\text{ (associative) }\\
+	& \Leftrightarrow & (ac) \cdot (bd)^{-1} = (ac) \cdot (db)^{-1} 
+	\text{ (from (iii)) }\\
+	\end{eqnarray*}
+	
+	\item First we prove that $(d^{-1})^{-1} = d$. Multiply both sides by $d^{-1}$ to obtain:
+	\begin{eqnarray*}	
+	& & (d^{-1})^{-1} \cdot d^{-1} = d \cdot d^{-1} \\
+	& \Leftrightarrow & 1 = 1 \text{ (multiplicative inverse)} \\
+	\end{eqnarray*}
+	Now we have,
+	\begin{eqnarray*}
+	& & (a \cdot b^{-1}) \cdot (c \cdot d^{-1})^{-1} = (a \cdot d) \cdot (b \cdot c)^{-1} \\
+	& \Leftrightarrow & (a \cdot b^{-1}) \cdot (c^{-1} \cdot (d^{-1})^{-1}) = (a \cdot d) \cdot (b \cdot c)^{-1}
+	\text{ (from (iii)) }\\
+	& \Leftrightarrow & (a \cdot b^{-1}) \cdot (c^{-1} \cdot d) = (a \cdot d) \cdot (b \cdot c)^{-1}
+	\text{ (from proof above)) }\\
+	& \Leftrightarrow & (a \cdot d) \cdot (b^{-1} \cdot c^{-1}) = (a \cdot d) \cdot (b \cdot c)^{-1}
+	\text{ (associative)) }\\
+	& \Leftrightarrow & (a \cdot d) \cdot (b \cdot c)^{-1} = (a \cdot d) \cdot (b \cdot c)^{-1}
+	\text{ (from (iii)) }\\
+	\end{eqnarray*}
+	
+	\item We have, \\
+	$\Rightarrow$: If $a \cdot b^{-1} = c \cdot d^{-1}$ where $b, d \neq 0$, then there exists 
+	multiplicative inverse of $b$ and $d$. Next we multiply both sides by $bd$ to obtain:
+	$a \cdot b^{-1} \cdot (bd) = c \cdot d^{-1} (bd) \Leftrightarrow
+	a \cdot d = c \cdot b$ \\
+	$\Leftarrow$: If $a \cdot d = b \cdot c$ where $b, d \neq 0$, then there exists a multiplicative
+	of $b$ and $d$. Again, we multiply both sides of this equality by $(bd)^{-1}$ to obtain, 
+	$a \cdot d \cdot d^{-1} \cdot b^{-1} = b \cdot c \cdot b^{-1} \cdot d^{-1}$. Using associative and 
+	multiplicative inverse property we reduce it to: $a \cdot b^{-1} = c \cdot d^{-1}$	
+	\end{enumerate}
+\end{proof}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 5}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 5}
+	Find all the numbers $x$ such that:
+	\begin{enumerate}[(i)]
+		\item $x^2 - 3x - 16 < 2$ 
+		\item $\dfrac{1}{x + 1} + \dfrac{1}{x + 2} < 0$ 
+		\item $\dfrac{x - 1}{x + 1} > 0$
+	\end{enumerate}
+	
+\begin{proof}
+	\text{ }
+	\begin{enumerate}[(i)]
+		\item 
+		\begin{eqnarray*}
+		& & x^2 - 3x - 16 < 2 \\
+		& \Leftrightarrow & x^2 - 3x - 18 < 0 \\
+		& \Leftrightarrow & (x + 3)(x - 6) < 0 \\
+		\end{eqnarray*}
+		We have two cases:
+		$$
+		\begin{cases}
+			x + 3 < 0 \text{ and } x - 6 > 0 \rightarrow \text{ no solution }\\
+			x + 3 > 0 \text{ and } x - 6 < 0 \rightarrow x \in (-3, 6)\\
+		\end{cases}		
+		$$
+		$$\therefore x \in (-3, 6)$$
+			
+		\item
+		\begin{eqnarray*}
+		& & \dfrac{1}{x + 1} + \dfrac{1}{x + 2} < 0 \\
+		& \Leftrightarrow & \dfrac{(x + 2) + (x + 1)}{(x + 1)(x + 2)} < 0 \\
+		& \Leftrightarrow & \dfrac{2x + 3}{(x + 1)(x + 2)} < 0 \\
+		\end{eqnarray*} 
+		We have \\
+		\begin{tabular}{c|ccccccc}
+			x & & -2 & & -3/2 & & -1 & \\
+			\hline
+			y & $-$ & \text{und.} & $+$ & 0 & $-$ & \text{und.} & $+$ \\
+		\end{tabular}
+		$$\therefore x \in (-\infty, -2) \cup (-3/2, -1)$$
+		\item We have \\
+		\begin{tabular}{c|ccccc}
+			x & & -1 & & 1 & \\
+			\hline
+			y & $+$ & \text{und.} & $-$ & 0 & $+$ \\
+		\end{tabular}
+		$$\therefore x \in (-\infty, -1) \cup (0, \infty)$$
+	\end{enumerate}
+\end{proof}
+
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 6}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 6}
+	Prove the following and write $ab$ for $a \cdot b$:
+	\begin{enumerate}[(i)]
+		\item If $a < b$ and $c \leq d$ then $a + c < b + d$ 
+		\item If $a < b$ then $-b < -a$ 
+		\item If $a < b$ and $c < d$ then $a - d < b - c$ 
+		\item If $a < b$ and $0 < c$, then $ac < bc$ 
+		\item If $a > 1$ then $a^2 > a$
+		\item If $0 < a < 1$ then $a^2 < a$
+		\item If $0 \leq a < b$ and $0 \leq c < d$ then $ac < bd$
+		\item If $0 \leq a < b$ then $a^2 < b^2$ 
+		\item If $a \geq 0, b \geq 0$, and $a^2 > b^2$ then $a > b$
+	\end{enumerate}
+
+\begin{proof}
+	\text{ }
+	\begin{enumerate}[(i)]
+		\item Consider $a < b$
+		\begin{eqnarray*}
+		& & a < b \\
+		& \Leftrightarrow & a + c < b + c \\
+		& \Leftrightarrow & a + c < b + d \text{ (since } c \leq d ) \\
+		\end{eqnarray*} 
+		
+		\item Consider $a < b$
+		\begin{eqnarray*}
+		& & a < b \\
+		& \Leftrightarrow & a \cdot -1 < b \cdot -1\\
+		& \Leftrightarrow & -b < -a \\
+		\end{eqnarray*}
+		
+		\item Consider $c < d$
+		\begin{eqnarray*}
+		& & c < d \\
+		& \Leftrightarrow & -d < -c\\
+		& \Leftrightarrow & -d + a < -c + a \\
+		& \Leftrightarrow & -d + a < -c + a < -c + b \\
+		& \Leftrightarrow & a - d < b - c \\
+		\end{eqnarray*}
+		
+		\item Consider $a < b \rightarrow b - a \in \mathbf{F_{+}}$.
+		Since $\mathbf{F_{+}} \cdot \mathbf{F_{+}} \subset \mathbf{F_{+}}$, we have
+		$(b - a) \cdot c \in \mathbf{F_{+}} \Leftrightarrow bc - ac \in \mathbf{F_{+}}
+		\Leftrightarrow bc > ac$ by definition of "$<$".
+		
+		\item Consider If $a > 1$ 
+		\begin{eqnarray*}
+		& & a \cdot a > 1 \cdot a \\
+		& \Leftrightarrow & a^2 > a \\
+		\end{eqnarray*}
+		
+		\item Consider $0 < a < 1$ then $a^2 < a$
+		\begin{eqnarray*}
+		& & a < 1 \\
+		& \Leftrightarrow & a \cdot a < 1 \cdot a \\
+		& \Leftrightarrow & a^2 < a \\
+		\end{eqnarray*}
+		
+		\item Consider $a < b$ 
+		\begin{eqnarray*}
+		& & a < b \\
+		& \Leftrightarrow & a \cdot c < b \cdot c \\
+		& \Leftrightarrow & a \cdot c < b \cdot c < b \cdot d \\
+		& \Leftrightarrow & a \cdot c < b \cdot d \\
+		\end{eqnarray*}
+		
+		\item Consider $a < b$
+		\begin{eqnarray*}
+		& & a < b \\
+		& \Leftrightarrow & a \cdot a < b \cdot a \\
+		& \Leftrightarrow & a \cdot a < b \cdot a < b \cdot b \\
+		& \Leftrightarrow & a^2 < b^2 \\
+		\end{eqnarray*}
+		
+		\item Consider $a^2 > b^2$ 		
+		\begin{eqnarray*}
+		& & a^2 > b^2 \\
+		& \Leftrightarrow & a^2 - b^2 > 0 \\
+		& \Leftrightarrow & (a - b)(a + b) > 0 \\
+		& \Leftrightarrow & (a - b) > 0 \\
+		& \Leftrightarrow & a > b \\
+		\end{eqnarray*}
+	\end{enumerate}
+\end{proof}
+
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 7}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 7}
+	A \emph{Peano} system is a triple $(P, z, \sigma)$ where $P$ is a set ($\neq \emptyset$), $z \in P$, and 
+	$\sigma: P \rightarrow P$ is a function such that:
+	\begin{enumerate}[(a)]
+		\item $\sigma(p) \neq z$ for every $p \in P$ 
+		\item $\sigma$ is one to one
+		\item {\color{red}If $B \subset P$ satisfies $z \in B$ and $\sigma(b) \in B$ whenever $b \in B$ then $B = P$.} \\
+		For a \emph{Peano} system $(P, z, \sigma)$ prove the following:
+		\begin{enumerate}[(i)]
+			\item $P = \{z\} \cup \sigma(P)$ 
+			\item For any $p \in P$, either $p = z$ or there is exactly one number $n = 1, 2, 3 \ldots$ such that
+			$p = \overbrace{\sigma(\sigma(\sigma(\ldots(\sigma(z)))))}_{\sigma \text{ applied } n \text{ times }}$
+			\item If $(Q, w, \tau)$ is any other \emph{Peano} system, then there is a bijection $f: P \rightarrow Q$
+			such that $f(z) = w$ and $\tau(f(p)) = f(\sigma(p))$ for any $p \in P$
+		\end{enumerate}
+	\end{enumerate}
+\begin{proof}
+	\text{ }
+	\begin{enumerate}[(i)]
+		\item $P = \{z\} \cup \sigma(P)$
+		Since $z \in P$ and $\sigma(p) \neq z$ for every $p \in P$, 
+		we have that $\sigma(P) = P \setminus \sigma(p)$ where $\sigma(p) = z$. Thus
+		$(P \setminus \{z\}) \cup \{z\} = P$ 
+		\item Since $z \in P$, saying either $p \in P$ is equal to $z$ is trivial. Now suppose that
+		$z \neq p$, we need to show that  there is exactly one number $n = 1, 2, 3 \ldots$ such that
+			$p = \overbrace{\sigma(\sigma(\sigma(\ldots(\sigma(z)))))}_{\sigma \text{ applied } n \text{ times }}$ \\
+		Let's define:
+			$$\sigma(z) = x, \text{ for some } x \text{ such that } x \not\in P$$
+		Next, we have
+		\begin{eqnarray*}
+		\sigma(z) & = & x \\
+		\sigma(\sigma(z)) & = & x \\
+		\end{eqnarray*}
+	\end{enumerate}
+\end{proof}	
+	
+	
+	
+	
+	
+\end{document}

@@ -1,0 +1,925 @@
+\documentclass[10pt,letterpaper]{article}
+\renewcommand{\rmdefault}{ptm}
+
+\usepackage[left=1in,right=1in,top=1in,bottom=1in]{geometry} 
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{polynomial}
+\usepackage{layouts}
+
+\usepackage{enumerate}
+
+\usepackage{syntax}
+\usepackage{gensymb}
+\usepackage{cancel}
+\usepackage{calc}
+\usepackage{enumerate}
+\usepackage{xcolor}
+
+\usepackage{minted}
+
+\usepackage[version=0.96]{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,automata,backgrounds,petri,positioning}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.shapes}
+\usetikzlibrary{decorations.text}
+\usetikzlibrary{decorations.fractals}
+\usetikzlibrary{decorations.footprints}
+\usetikzlibrary{shadows}
+\usetikzlibrary{calc}
+\usetikzlibrary{spy}
+\usetikzlibrary{matrix}
+
+\usepackage{tikz-qtree}
+
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{4}
+\usepackage[bookmarksopen,bookmarksdepth=3]{hyperref}
+\usepackage{titlesec}
+
+
+%define new colors
+\definecolor{dark-red}{rgb}{0.8,0.15,0.15}
+\definecolor{dark-blue}{rgb}{0.15,0.15,0.7}
+\definecolor{medium-blue}{rgb}{0,0,0.5}
+\definecolor{dark-green}{rgb}{0.2,0.7,0.7}
+
+%set up color for table of contents
+\hypersetup{
+    colorlinks, linkcolor={dark-green},
+    citecolor={dark-blue}, urlcolor={medium-blue}
+}
+
+\usepackage{tocloft}
+
+%preven linebreak between subsection header and its content
+\titleformat{\subsection}[runin]{\normalfont\bfseries}{\thesubsection.}{2pt}{}
+%\titleformat{\section}[runin]{\normalfont\bfseries\filcenter}{\thesection.}{5pt}{}
+
+
+\titleformat{\section}[block]
+{\normalfont\sffamily\LARGE}
+{\thesection}{.2em}{\titlerule\\[.2ex]\bfseries}
+
+%title
+\title{\textbf{Math 350 - Advanced Calculus \\ Homework 10}}
+\author{Chan Nguyen}
+
+%set numwidth of section
+\setlength{\cftsecnumwidth}{1.5cm} 
+%make subsection numwidth different than as section
+\setlength{\cftsubsecnumwidth}{3cm}
+%make subsection indent the same as section
+\setlength{\cftsubsecindent}{\cftsecindent} 
+
+\newcommand{\sol}{\textbf{Solution}}
+
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usetikzlibrary{shapes,backgrounds}
+
+\makeatletter
+\newcommand{\DESCRIPTION@original@item}{}
+\let\DESCRIPTION@original@item\item
+\newcommand*{\DESCRIPTION@envir}{DESCRIPTION}
+\newlength{\DESCRIPTION@totalleftmargin}
+\newlength{\DESCRIPTION@linewidth}
+\newcommand{\DESCRIPTION@makelabel}[1]{\llap{#1}}%
+\newcommand{\DESCRIPTION@item}[1][]{%
+  \setlength{\@totalleftmargin}%
+       {\DESCRIPTION@totalleftmargin+\widthof{\textbf{#1 }}-\leftmargin}%
+  \setlength{\linewidth}
+       {\DESCRIPTION@linewidth-\widthof{\textbf{#1 }}+\leftmargin}%
+  \par\parshape \@ne \@totalleftmargin \linewidth
+  \DESCRIPTION@original@item[\textbf{#1}]%
+}
+\newenvironment{DESCRIPTION}
+  {\list{}{\setlength{\labelwidth}{0cm}%
+           \let\makelabel\DESCRIPTION@makelabel}%
+   \setlength{\DESCRIPTION@totalleftmargin}{\@totalleftmargin}%
+   \setlength{\DESCRIPTION@linewidth}{\linewidth}%
+   \renewcommand{\item}{\ifx\@currenvir\DESCRIPTION@envir
+                           \expandafter\DESCRIPTION@item
+                        \else
+                           \expandafter\DESCRIPTION@original@item
+                        \fi}}
+  {\endlist}
+\makeatother
+
+\allowdisplaybreaks[1]
+
+\begin{document}
+
+\tableofcontents 
+\maketitle
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex}
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 1}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 1}
+	\text{ } 
+	\begin{enumerate}[(a)]
+	\item Prove that if $f$ and $g$ are continuous on $[a, b]$ if $m \leq f(x) \leq M$ for all $x$ in $[a, b]$ and
+	if $g$ is non-negative on $[a, b]$ then
+	$$m \cdot \displaystyle\int_{a}^{b} g \leq \displaystyle\int_a^b f \cdot g \leq M \cdot \displaystyle\int_a^b g$$
+\begin{proof}
+	Since $m \leq f(x) \leq M$ and $g(x)$ is non-negative on $[a, b]$, we have
+	$$mg(x) \leq f(x) \cdot g(x) \leq Mg(x)$$
+	Thus
+	$$m \int_{a}^{b} g(x) dx \leq \int_{a}^{b} f(x)g(x) dx \leq M \int_a^b g(x) dx$$
+\end{proof}	
+	
+	
+	\item Use part (a) to prove that
+	$$\dfrac{1}{7\sqrt{2}} \leq \displaystyle\int_0^1 \dfrac{x^6}{\sqrt{1 + x^2}} dx \leq \dfrac{1}{7}$$
+\begin{proof}
+	Let
+\begin{align*}
+	f(x) &= \dfrac{1}{\sqrt{1 + x^2}} \\
+	g(x) &= x^6
+\end{align*} 
+	Also 
+	$$f'(x) = \dfrac{-1}{2} \cdot (1 + x^2)^{-1/2 - 1} \cdot 2x
+	= \dfrac{-x}{(1 + x^2)^{3/2}} < 0 \text{ for all } x \in [0, 1]$$
+	So $f$ is decreasing on $[0, 1]$ and it attains min and max at two end points, $\dfrac{1}{\sqrt{2}} \leq f(x) \leq 1$.
+	On the other hand,
+	$$\int_0^1 g(x) = \int_0^1 x^6 = \dfrac{x^7}{7} \bigg|_0^1 = \dfrac{1}{7}$$
+	Apply part (a), it follows that
+	$$\dfrac{1}{7\sqrt{2}} \leq \displaystyle\int_0^1 \dfrac{x^6}{\sqrt{1 + x^2}} dx \leq \dfrac{1}{7}$$
+
+
+\end{proof}	
+	
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 2}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 2}
+	Prove that 
+	$$\dfrac{3}{8} \leq \displaystyle\int_0^{1/2} \sqrt{\dfrac{1-x}{1+x}dx} \leq \dfrac{\sqrt{3}}{4}$$
+	\begin{proof}
+	We want to apply the Theorem from Problem 1., we need to find $f$ and $g$ that disguised in the form
+	of $\sqrt{\dfrac{1-x}{1+x}}$. The most obvious choice is to complete the square, we have
+	\begin{align*}
+	\sqrt{\dfrac{1-x}{1+x}} &= \sqrt{\dfrac{1-x}{1+x}} \cdot \dfrac{\sqrt{1-x}}{\sqrt{1-x}} \\
+	&= \dfrac{1-x}{\sqrt{1 - x^2}} 
+	\end{align*}
+	Let
+	\begin{align*}
+	f(x) &= \dfrac{1}{\sqrt{1 - x^2}} \\
+	g(x) &= 1 - x 
+	\end{align*}	 
+	Then $g(x) > 0$ for all $x \in [0, 1/2]$. And
+	$$\displaystyle\int_{0}^{1/2} g(x) 
+	= \bigg(x - \dfrac{x^2}{2}\bigg)\bigg|_0^{1/2} = \dfrac{1}{2} - \dfrac{1}{8} = \dfrac{3}{8}$$		
+	On the other hand, 
+	$$f'(x) = \dfrac{-x}{(1 - x^2)^{3/2}} \geq 0 \text{ for all } x \in [0, 1/2]$$
+	So $f$ is increasing so it attains min at $x = 0$ and max at $x = \dfrac{1}{2}$.
+	\begin{align*}
+	m &= f(0) = \dfrac{1}{1 - 0^2} = 1 \\
+	M &= f(1/2) = \dfrac{1}{1 - \frac{1}{4}} = \dfrac{2}{\sqrt{3}} 
+	\end{align*}
+	Hence,
+	$$1 \leq f(x) \leq \dfrac{2}{\sqrt{3}}$$
+	combine with the integral of $g(x)$, we obtain
+	\begin{align*}
+	& 1  \cdot \dfrac{3}{8} \leq \displaystyle\int_{1}^{1/2} 
+	 \sqrt{\dfrac{1-x}{1+x}} \leq \dfrac{3}{8} \cdot \dfrac{2}{\sqrt{3}} \\
+	\Leftrightarrow &
+	 \dfrac{3}{8} \leq \displaystyle\int_{1}^{1/2} 
+	 \sqrt{\dfrac{1-x}{1+x}} \leq \dfrac{\sqrt{3}}{4} 
+	\end{align*}
+	
+	
+	
+	
+	
+	\end{proof}		
+
+	
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 3}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 3}
+	Let $f$ be integrable on $[a, b]$, let $c$ be in $(a, b)$ and let 
+	$$F(x) = \displaystyle\int_a^x f \,\,\,\, \, ,a \leq x \leq b$$
+	For each of the following statements, give either a proof or a counterexample
+	\begin{enumerate}[(a)]
+	\item If $f$ is differentiable at $c$, then $F$ is differentiable at $c$.
+	\begin{proof}
+	Recall the Fundamental Theorem of Calculus, \\
+	\textbf{Theorem .} If $f$ is integrable on $[a, b]$ and define $F$ on $[a, b]$
+	by $F(x) = \displaystyle\int_a^x f$. If $f$ is continuous at $c$ in $[a, b]$,
+	then $F$ is differentiable at $c$ and $F'(c) = f(c)$. \\
+	
+	From theorem we see that this is true because $f$ is differentiable at $c$ which implies
+	$f$ is continuous at $c$.
+	\end{proof}
+	
+	\item If $f$ is differentiable at $c$, then $F'$ is continuous at $c$.
+	\begin{proof}
+	This is also true because $F'(c) = f(c)$ where $f$ is continuous at $c$, so is
+	$F'(c)$.
+	\end{proof}		
+	
+	\item If $f'$ is continuous at $c$, then $F'$ is continuous at $c$.
+	\begin{proof}
+	If $f'$ is continuous at $c$, then first, $f$ has to be differentiable at $c$
+	so $f$ is continuous at $c$ which implies $F'$ is continuous at $c$.	
+	\end{proof}
+	
+	
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 4}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 4}
+	Around 1671, Newton discovered the approximation rule for the integral of a continuous function $f$,
+	$$\displaystyle\int_a^b f \approx \dfrac{b - a}{8}(f_0 + 3f_1 + 3f_2 + f_3)$$
+	where 
+	$$f_i = f(a + \dfrac{(b - a)i}{3}) \text{ for } i = 0, 1, 2, 3$$
+	Prove that this Newton approximation gives exact value if $f(x) = a_0 + a_1x + a_2x^2 + a_3x^3$ is 
+	a polynomial function of degree $\leq 3$.
+\begin{proof}
+	Integrate $f(x)$ by regular method we obtain,
+	\begin{align*}
+\displaystyle\int_{a}^{b} f(x) &= 
+\displaystyle\int_{a}^{b} a_0 + a_1x + a_2x^2 + a_3x^3 \\
+&= (a_0x + \dfrac{a_1}{2} x^2 + \dfrac{a_2}{3}x^3 + \dfrac{a_3}{4} x^4)\bigg|_{a}^{b} \\
+&= a_0(b - a) + \dfrac{a_1}{2}(b^2 - a^2) + \dfrac{a_2}{3}(b^3 - a^3) 
++ \dfrac{a_3}{4}(b^4 - a^4)
+	\end{align*}
+	To use Newton method, first we need to compute $f_0, f_1, f_2, f_3$
+\begin{align*}
+	f_0 &= f(a + 0) = f(a) \\
+	f_1 &= f(a + (b-a)/3) \\
+	f_2 &= f(a + 2(b-a)/3) \\
+	f_3 &= f(a + 3(b - a)/3) = f(b) 		
+\end{align*}		
+	Substitute into the original expression to obtain,
+\begin{align*}
+	\displaystyle\int_a^b f &\approx \dfrac{b - a}{8} \cdot (f_0 + 3f_1 + 3f_2 + f_3) \\
+&= \dfrac{b-a}{8} \cdot (f(a) + 3f(a + (b-a)/3) + 3f(a + 2(b-a)/3) + f(b)) \\
+&= \dfrac{b-a}{8} \cdot \bigg[ 
+(a_0 + a_1a + a_2a^2 + a_3a^3) \\ 
+&+ 3(a_0 + a_1(a + (b-a)/3) + a_2(a + (b-a)/3)^2 + a_3(a + (b-a)/3)^3) \\
+&+ 3(a_0 + a_1(a + 2(b-a)/3) + a_2(a + 2(b-a)/3)^2 + a_3(a + 2(b-a)/3)^3)\\
+&+ (a_0 + a_1b + a_2b^2 + a_3b^3)\bigg]
+\end{align*}	
+	To avoid lengthy expression, we manipulate each coefficient $a_0, a_1, a_2, a_3$ one by one, \\
+	For $a_0$,
+\begin{align*}
+	a_0 + 3a_0 + 3a_0 + a_0 = 8a_0
+\end{align*}
+	For $a_1$,
+\begin{align*}
+	& a_1\bigg(a + 3a + 3 \cdot \dfrac{b-a}{3} + 3a + 3 \cdot \dfrac{2(b-a)}{3} + b\bigg)\\
+&= a_1(7a + 3(b-a) + b) \\
+&= a_1(4a + 4b) 
+\end{align*}
+	For $a_2$,
+	\begin{align*}
+& a_2\bigg[a^2 +  3 \cdot \bigg(a +\dfrac{b-a}{3}\bigg)^2 + 3 \cdot \bigg(a + \dfrac{2(b-a)}{3}\bigg)^2 + b^2\bigg]\\
+&= a_2\bigg( \dfrac{8a^2}{3} + \dfrac{8ab}{3} + \dfrac{8b^2}{3} \bigg) \\
+	\end{align*}
+	For $a_3$,
+\begin{align*}
+& a_3\bigg[a^3 +  3 \cdot \bigg(a +\dfrac{b-a}{3}\bigg)^3 + 3 \cdot \bigg(a + \dfrac{2(b-a)}{3}\bigg)^3 + b^3\bigg]\\
+&= a_3(2a^3 + 2a^2b + 2ab^2 + 2b^3) \\
+	\end{align*}
+ 	Put altogether, we have
+\begin{align*}
+	\displaystyle\int_a^b f &\approx \dfrac{b - a}{8} \cdot (f_0 + 3f_1 + 3f_2 + f_3) \\
+&= \dfrac{b-a}{8}\bigg[ 8a_0 + a_1(4a + 4b) + a_2\bigg( \dfrac{8a^2}{3} + \dfrac{8ab}{3} + \dfrac{8b^2}{3} \bigg)
++ a_3(2a^3 + 2a^2b + 2ab^2 + 2b^3)] \\
+&= a_0(b - a) + \dfrac{a_1}{2}(b^2 - a^2) + 
+\dfrac{a_2}{3}(b^3 - a^3) + 
+\dfrac{a_3}{4}(b^4 - a^4)
+\end{align*}	 	
+
+\end{proof}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 5}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 5}
+	Let 
+	$$f(x) = 
+	\begin{cases}
+		1, & x \neq 0 \\
+		0, & x = 0
+	\end{cases}
+	$$
+	\begin{enumerate}[(a)]
+		\item Prove that $f$ is integrable on $[0, 1]$.
+	\begin{proof}
+	Fix $\epsilon > 0$, choose a partition. 
+	Let $P = \{t_0, t_1, t_2, \ldots, t_n\}$ be a partition of $[0, 1]$ such that
+	$t_i - t_{i-1} < \epsilon$. Also, let
+\begin{align*}
+	m_i &= \inf\{f(x): t_{i-1} \leq x \leq t_i\} \\
+	M_i &= \sup\{f(x): t_{i-1} \leq x \leq t_i\} 
+\end{align*}
+	Note that $m_1 = \{0, t_1\} = 0$ because $f(x) = 0$ only if $x = 0$, where 
+	$m_i = 1$ for all $1 < i \leq n$. But $M_i = 1$ for all $i, 1 \leq i \leq n$ because
+	$f(x) = 1$ for all $x \neq 0$. Hence,
+\begin{align*}
+	L(f, P) &= \displaystyle\sum_{i=1}^{n} m_i(t_i - t_{i-1}) < 0 + (n - 1) \cdot \epsilon \\
+	U(f, P) &= \displaystyle\sum_{i=1}^{n} M_i(t_i - t_{i-1}) < n \cdot \epsilon
+\end{align*}
+	It follows that
+	$$U(f, P) - L(f, P) < (n - n + 1) \epsilon = \epsilon$$
+	Since $\epsilon$ is arbitrarily chosen, $f$ is integrable on $[0, 1]$.
+	\end{proof}
+		\item Compute $\displaystyle\int_0^1 f$.
+	\begin{proof}
+		It's obvious that $\displaystyle\int_0^1 f = 1$.	
+	\end{proof}		
+	
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 6}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 6}
+	Let $f(x) = x^2$, and let $a < b$.
+	\begin{enumerate}
+		\item Prove that $f$ is integrable on $[a, b]$ by finding, for any $\epsilon > 0$, a
+		partition $P$ of $[a, b]$ such that $$U(f, P) - L(f, P) < \epsilon$$
+		\begin{proof}
+	The tricky part in this problem is $f(x) = x^2$, so we need to consider two cases:
+	$0 < a < b$ ($a < b < 0$) and $a < 0 < b$ since the $\inf\{f(x)\}$ and $\sup\{f(x)\}$ will 
+	be different for each of these cases. \\
+	
+	Case 1: $0 < a < b$, \\
+	Fix $\epsilon > 0$. Let $P = \{t_0, t_1, \ldots, t_n\}$ be a partition of $[a, b]$ where
+	each interval is of equal length $\dfrac{b - a}{n}$. 
+\begin{align*}
+	L(f, P) &= \displaystyle\sum_{i=1}^{n} m_i(t_i - t_{i-1}) \\
+	&= \displaystyle\sum_{i=1}^{n} t_{i-1}^2(t_i - t_{i-1}) \\
+	&= \displaystyle\sum_{i=1}^{n} \bigg(\dfrac{(i - 1)(b - a)}{n}\bigg)^2 \cdot \dfrac{b - a}{n} \\
+	&= \bigg(\dfrac{b - a}{n}\bigg)^3 \displaystyle\sum_{i=1}^{n} (i - 1)^2 \\
+	&= \bigg(\dfrac{b - a}{n}\bigg)^3 \cdot \dfrac{n(n - 1)(2n - 1)}{6} \\
+\end{align*}
+	Similarly,
+\begin{align*}
+	U(f, P) &= \displaystyle\sum_{i=1}^{n} m_i(t_i - t_{i-1}) \\
+	&= \displaystyle\sum_{i=1}^{n} t_{i-1}^2(t_i - t_{i-1}) \\
+	&= \displaystyle\sum_{i=1}^{n} \bigg(\dfrac{i(b - a)}{n}\bigg)^2 \cdot \dfrac{b - a}{n} \\
+	&= \bigg(\dfrac{b - a}{n}\bigg)^3 \displaystyle\sum_{i=1}^{n} i^2 \\
+	&= \bigg(\dfrac{b - a}{n}\bigg)^3 \cdot \dfrac{n(n + 1)(2n + 1)}{6} \\
+\end{align*}
+	Then
+\begin{align*}
+	U(f, P) - L(f, P) 
+&=
+	\bigg(\dfrac{b - a}{n}\bigg)^3 \cdot \dfrac{n(n + 1)(2n + 1)}{6} - 
+	\bigg(\dfrac{b - a}{n}\bigg)^3 \cdot \dfrac{n(n - 1)(2n - 1)}{6} \\
+&= 
+	\bigg(\dfrac{b - a}{n}\bigg)^3 \cdot \dfrac{6n^2}{6} \\
+&= (b - a)^3 \cdot \dfrac{n^2}{n^3} \\
+&= (b - a)^3 \cdot \dfrac{1}{n}
+\end{align*}
+	But $\displaystyle\lim_{n\to \infty} (b - a)^3 \cdot \dfrac{1}{n} = 0 < \epsilon$
+	Thus for sufficiently large $n$ we have $U(f, P) - L(f, P) < \epsilon$. 
+	
+	
+	Case 2: $a < 0 < b$,
+	Fix $\epsilon > 0$, but this time we consider divide $[a, b]$ into two partitions 
+	$P_1 = \{a, 0\}$ and $P_2 = \{0, b\}$ then $P = P_1 \cup P_2$ where each subinterval
+	length of $P_1, P_2$ is defined as $\dfrac{a}{n/2}, \dfrac{b}{n/2}$ respectively.
+\begin{align*}
+	L(f, P) &= \displaystyle\sum_{i=1}^{n} m_i(t_i - t_{i-1}) \\
+	&= \displaystyle\sum_{i=1}^{n} t_{i-1}^2(t_i - t_{i-1}) \\
+	&= \displaystyle\sum_{i=1}^{n} \bigg(\dfrac{(i - 1)(b - a)}{n}\bigg)^2 \cdot \dfrac{b - a}{n} \\
+	&= \bigg(\dfrac{b - a}{n}\bigg)^3 \displaystyle\sum_{i=1}^{n} (i - 1)^2 \\
+	&= \bigg(\dfrac{b - a}{n}\bigg)^3 \cdot \dfrac{n(n - 1)(2n - 1)}{6} \\
+\end{align*}
+	Similarly,
+\begin{align*}
+	U(f, P) &= \displaystyle\sum_{i=1}^{n} m_i(t_i - t_{i-1}) \\
+	&= \displaystyle\sum_{i=1}^{n} t_{i-1}^2(t_i - t_{i-1}) \\
+	&= \displaystyle\sum_{i=1}^{n} \bigg(\dfrac{i(b - a)}{n}\bigg)^2 \cdot \dfrac{b - a}{n} \\
+	&= \bigg(\dfrac{b - a}{n}\bigg)^3 \displaystyle\sum_{i=1}^{n} i^2 \\
+	&= \bigg(\dfrac{b - a}{n}\bigg)^3 \cdot \dfrac{n(n + 1)(2n + 1)}{6} \\
+\end{align*}	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		\end{proof}
+		
+		
+		\item Use your work on part (a) to compute $\displaystyle\int_a^b f$.
+		\begin{proof}
+$$\displaystyle\int_a^b x^2 dx = \dfrac{b^3}{3} - \dfrac{a^3}{3}$$		
+		\end{proof}
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 7}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 7}
+	If $f(x) = \displaystyle\int_0^x \sqrt{t + t^6} dt$. Find $f'(3)$.
+	\begin{proof}
+		From Fundamental Theorem of Calculus, we have that
+		$$f'(x) = \sqrt{x + x^6}$$
+		Hence,
+		$$f'(3) = \sqrt{3 + 3^6}$$
+	\end{proof}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 8}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 8}
+	Let $f(x) = \displaystyle\int_1^x (1 + \sin(\sin(t))) dt$. Compute $f'(x)$ and
+	prove that $f$ is increasing.
+	\begin{proof}
+	From Fundamental Theorem of Calculus, we have that
+	$$f'(x) = (1 + \sin(\sin(x)))$$
+	To prove that $f$ is increasing, note that
+	\begin{alignat*}{12}
+	            &	-1     & \leq &        \sin(x) &  \leq & 1 \\
+\Leftrightarrow & \sin(-1) & \leq &  \sin(\sin(x)) &  \leq & \sin(1) \\
+\Leftrightarrow & \sin(-1) + 1 & \leq & 1 + \sin(\sin(x)) &  \leq & \sin(1) + 1 \\
+	\end{alignat*}	 
+	So $f'(x) > 0$ for all $x$ which implies $f(x)$ is increasing.
+	
+	\end{proof}
+	
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 9}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 9}
+	Find the derivatives of the following functions. 
+	\begin{enumerate}[(a)]
+\item $F(x) = \displaystyle\int_x^b \dfrac{1}{1 + t^2 + \sin^2(t)} dt$
+\begin{proof}
+	$F'(x) = \dfrac{1}{1 + x^2 + \sin^2(x)}$
+\end{proof}
+
+\item $F(x) = \displaystyle\int_a^b \dfrac{x}{1 + t^2 + \sin^2(t)} dt$ 
+\begin{proof}
+	$F'(x) = \dfrac{1}{1 + x^2 + \sin^2(x)}$
+\end{proof}
+
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 10}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 10}
+	Prove that
+	$$\displaystyle\int_0^x \dfrac{1}{1 + t^2} dt = c + \displaystyle\int_{1/x}^0 
+	\dfrac{1}{1 + t^2} dt$$
+	for some constant $c$.
+\begin{proof}
+	The equation is equivalent to 
+\begin{align*}
+	\displaystyle\int_0^x \dfrac{1}{1 + t^2} dt - \displaystyle\int_{1/x}^0 
+	\dfrac{1}{1 + t^2} dt &= c \\
+	 \displaystyle\int_0^x \dfrac{1}{1 + t^2} dt + \displaystyle\int_{0}^{1/x} 
+	\dfrac{1}{1 + t^2} dt &= c
+\end{align*}
+	Let $F(x) =  \displaystyle\int_0^x \dfrac{1}{1 + t^2} dt + \displaystyle\int_{0}^{1/x} 
+	\dfrac{1}{1 + t^2} dt$
+	We want to show that $F'(x) = 0$ so that $F(x) = c$. By the First Fundamental
+	Theorem of Calculus, we have
+\begin{align*}
+	\int_0^x \dfrac{1}{1 + t^2} dt - \int_{1/x}^0 \dfrac{1}{1 + t^2} dt
+	&= \dfrac{1}{1 + x^2} + \dfrac{1}{1 + (1/x)^2} \cdot \dfrac{-1}{x^2} \\
+	&= \dfrac{1}{1 + x^2} - \dfrac{1}{x^2} \cdot \dfrac{x^2}{x^2 + 1} \\
+	&= 0
+\end{align*}
+	
+	
+\end{proof}	
+	
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 11}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 11}
+	Prove that if $h$ is continuous, $f$ and $g$ are differentiable and 
+	$$F(x) = \displaystyle\int_{f(x)}^{g(x)} h$$
+	then 
+	$F'(x) = h(g(x)) \cdot g'(x) - h(f(x)) \cdot f'(x)$.
+	\begin{proof}
+	We have
+\begin{align*}
+	F(x) &= \displaystyle\int_{f(x)}^{g(x)} h \\
+	&= \displaystyle\int_{f(x)}^{0}h + \displaystyle\int_{0}^{g(x)}h \\
+	&= \displaystyle\int_{0}^{g(x)}h - \displaystyle\int_{0}^{f(x)}h \\
+	&= h(g(x)) \cdot g'(x) - h(f(x)) \cdot f'(x)
+\end{align*}	
+	\end{proof}
+	
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 12}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 12}
+	Find all the continuous functions $f$ satisfying 
+	$$\displaystyle\int_0^x f = (f(x))^2 + C$$
+	for some constant $C$.
+\begin{proof}
+	By the First Fundamental Theorem of Calculus, we have if 
+	$$F(x) = \int_a^x f$$
+	and if $f$ is continuous then $F'(x) = f(x)$. \\
+	Let $F(x) = (f(x))^2 + C \Rightarrow F'(x) = 2f(x)f'(x)$, it follows that
+	if $f$ is continuous, then
+	$$F'(x) = f(x) \Leftrightarrow 2f(x)f'(x) = f(x) \Leftrightarrow f'(x) = \dfrac{1}{2}$$
+	Integrate $f'(x)$ we obtain
+	$$f(x) = \int f'(x) dx = \int \dfrac{1}{2} dx = \dfrac{1}{2}x + k$$ 
+	for some $k \in \mathbb{R}$. To solve for $k$, we substitute $f(x)$ into the original 
+	equation, we have
+\begin{eqnarray*}
+	& & \int_0^x \bigg(\dfrac{1}{2}t + k \bigg) dt = \bigg(\dfrac{x}{2} + k\bigg)^2 + C \\
+	& \Leftrightarrow & \bigg(\dfrac{1}{2} \cdot \dfrac{t^2}{2} + kt \bigg)\bigg|_0^x = \dfrac{x^2}{4} + 
+	xk + k^2 + C\\
+	& \Leftrightarrow & \dfrac{x^2}{4} + kx = \dfrac{x^2}{4} + kx + k^2 + C \\
+	& \Leftrightarrow & k^2 = -C \\
+	& \Leftarrow & k = \sqrt{-C}
+\end{eqnarray*}
+	Therefore
+	$$f(x) = \dfrac{x}{2} + \sqrt{-C} \text{ for } C \leq 0 $$
+	
+	
+
+\end{proof}	
+	
+	
+	
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 13}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 13}	
+	Prove that if $f$ and $g$ have continuous derivatives on $[a, b]$, then
+	
+$$\displaystyle\int_a^b fg' 
+= f(b)g(b) - f(a)g(a) - \displaystyle\int_a^b f'g$$
+\begin{proof}
+	By Algebra Integral Theorem, 
+	we have 
+	$$\int_a^b (fg' + f'g) = \int_a^b fg' + \int_a^b f'g$$
+	Moreover from Chain Rule, we know that 
+		$$(f \cdot g)' = f'g + fg'$$
+	Apply the Second Fundamental Theorem of Calculus to $(f \cdot g)$, to obtain
+	$$\int_a^b (fg' + f'g) = (f \cdot g)(b) - (f \cdot g)(a)
+	= f(b)g(b) - f(a)g(a)$$
+	which implies
+	$$\displaystyle\int_a^b fg' 
+= f(b)g(b) - f(a)g(a) - \displaystyle\int_a^b f'g$$
+
+
+\end{proof}
+	
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 14}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 14}
+	Let $f(x) = \log|x|$ for $x \neq 0$. Prove that $f'(x) = \dfrac{1}{x}$ for $x \neq 0$.
+\begin{proof}
+	Using the definition of $\log(x)$, we have
+	$$\int_1^x \dfrac{1}{t} dt = \log(x)$$
+	So there are two cases, \\
+	If $x > 0$, then $f'(x) = [\log(x)]' = \dfrac{1}{x}$. \\
+	If $x < 0$, then $f'(x) = [\log(-x)]' = \dfrac{1}{-x} \cdot -1 = \dfrac{1}{x}$. 
+\end{proof}
+
+
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 15}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 15}
+	Let $e$ be the number such that $\log(e) = 1$. Prove that $\dfrac{5}{2} < e < 3$.
+\begin{proof}
+	Consider the definition of $\log(x)$, 
+	$$\log(x) = \int_1^x\dfrac{1}{t}dt$$ and using a constant lower and upper bound for $1/t$ on the interval $[1, x]$ it follows that $$1 - \frac{1}{x} \leq \log(x) \leq x - 1$$ for all $x > 0$.  Taking inverse functions this becomes $$1 +x \leq e^x \leq \frac{1}{1-x}$$ for all $x < 1$. \\
+	Choose $n \geq 1$, substitute $x \leftarrow x/n$ and raise to the power $n$ to get $$\left(1 + \frac{x}{n}\right)^n \leq e^{\frac{x}{n}n} = e^x \leq \left(1 - \frac{x}{n}\right)^{-n}$$ for all $x < n$.  For $x=1$ and $n=6$ this becomes
+
+$$\frac{5}{2} < \left(1 + \frac{1}{6}\right)^6 \leq e \leq \left(1-\frac{1}{6}\right)^{-6} < 3.$$
+	
+\end{proof}
+	
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 16}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 16}
+	\text{ } 
+	\begin{enumerate}[(a)]
+\item Prove that $\dfrac{\log(x)}{x} \leq \dfrac{1}{\sqrt{x}} 
+\displaystyle\int_1^x \dfrac{1}{t^{3/2}} dt$ for all $x \geq 1$.
+
+\item Prove that $\displaystyle\lim_{x\to \infty} \dfrac{\log(x)}{x} = 0$.
+\begin{proof}
+From the definition of $\log(x)$,
+$$\log(x) = \int_1^x  \dfrac{1}{t} dt$$
+Since $1$ is the $\sup\{f(t) : m_{i-1} \leq t \leq m_i\}$, it follows that
+$$ \int_1^x  \dfrac{1}{t} dt \leq U(f, P) < x - 1$$
+So $$\log(x) < x - 1 < x \Rightarrow \dfrac{\log(x)}{x} < 1$$
+On the other hand, we have
+$$\log(x) \leq \sqrt{x} \text{ because }  \int_1^x\dfrac{1}{t} dt < \int_1^x\dfrac{1}{\sqrt{t}}dt$$
+Or another way to prove this fact is to consider $\log(x) < x$ for all $x > 0 \Rightarrow \log(x) = 2 \log \sqrt{x} < 2 \sqrt{x}$. \\
+
+Our goal is to apply Squeeze's Theorem (Sandwich's Lemma) to $\displaystyle\lim_{x\to \infty} \dfrac{\log(x)}{x}$. \\
+In fact,
+$$\dfrac{1}{x} \leq \dfrac{\log(x)}{x} \leq \dfrac{\sqrt{x}}{x} = \dfrac{1}{\sqrt{x}}$$
+where
+$$
+	\displaystyle\lim_{x\to \infty} \dfrac{1}{x} 
+	= \displaystyle\lim_{x\to \infty} \dfrac{1}{\sqrt{x}} = 0
+$$
+Therefore,
+$$\displaystyle\lim_{x\to \infty} \dfrac{\log(x)}{x} = 0$$
+
+\end{proof}
+
+
+
+\item Prove that 
+$\displaystyle\lim_{x\to \infty} \dfrac{\log(x)}{x^n} = 0$ for any $n > 0$.	
+\begin{proof}
+	Consider
+	$$
+	\displaystyle\lim_{x\to \infty} \bigg[\dfrac{\log(x)}{x} \cdot \dfrac{1}{x^{n-1}} \bigg]$$
+	From part (b), we know that $\dfrac{\log(x)}{x} < 1$ and as $x \rightarrow \infty$, it's obvious
+	that $\dfrac{1}{x^{n-1}} \rightarrow 0$. So
+	$$\displaystyle\lim_{x\to \infty} \dfrac{\log(x)}{x^n} = 0$$
+\end{proof}
+
+
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 17}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 17}
+	Prove that if $f$ is differentiable and $f'(x) = f(x)$ for all real number $x$, then 
+	there is a number $c$ such that $f(x) = c \cdot \exp(x)$ for all $x$.
+	
+	Let $g(x) = \dfrac{f(x)}{e^x} \,\,\,\,\, ,e^x \neq 0 \,\,\, \forall x \in \mathbb{R}$. 
+	Then
+	$$g'(x) = \dfrac{e^xf'(x) - f(x)e^x}{(e^x)^2} = 
+	\dfrac{e^x[f(x) - f(x)]}{e^{2x}} = 	
+	0$$
+	So 
+	$$g(x) = \int g'(x)dx = \int 0 dx = c $$	
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 18}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 18}
+	Let $f(x) = \displaystyle\int_0^x f$, then prove that $f(x) = 0$ for all $x$.
+\begin{proof}
+	Since $f(x)$ is defined by $f(x) = \displaystyle\int_0^x f$, $f$ is continuous on $[a, b]$.
+	Moreover, by the First Fundamental Theorem of Calculus, we have 
+	$$f(x) = f'(x)$$
+	So $f(x) = ce^{x}$ by Problem 17, and integrate $f(x)$ over $[0, x]$ yields
+	$$\int_0^x ce^{t}dt = ce^{x} - ce^0 = ce^{x} - c = ce^{x}$$
+	which implies
+	$$c(e^x - 1) = ce^x \Leftrightarrow c = 0$$
+	Thus $f(x) = 0 \cdot e^x = 0$.
+\end{proof}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 19}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 19}
+	Prove that
+	$$\displaystyle\lim_{x\to \infty} \dfrac{x^n}{\exp(x)} = 0$$
+	for any $n > 0$.
+	
+\begin{proof}
+Consider the definition of $\log(x)$, 
+	$$\log(x) = \int_1^x\dfrac{1}{t}dt$$ and using a constant lower and upper bound for $1/t$ on the interval $[1, x]$ it follows that 
+		$$\log(x) \leq x - 1 < x \text{ for all } x > 0$$  
+		Raise to the power $e$ of both sides, the inequality becomes 
+		$$x < \exp(x) \Rightarrow \dfrac{x}{\exp(x)} < 1 \text{ for all } x > 0$$
+		Next consider
+\begin{align*}
+	\lim_{x\to \infty} \dfrac{x}{\exp(x)} 
+	&= \lim_{x\to \infty} \dfrac{\dfrac{x}{2} \cdot 2}{\exp(x/2) \cdot \exp(x/2)} \\
+	&= \lim_{x\to \infty} \bigg[ \dfrac{x/2}{\exp(x/2)} \bigg] \cdot \dfrac{1}{\exp(x/2)} \\
+	&= 0 
+\end{align*}	
+	because $\displaystyle\lim_{x\to \infty} \dfrac{1}{\exp(x/2)} = 0$ and $\dfrac{x/2}{\exp(x/2)} < 1$.
+	Now write $\dfrac{x^n}{\exp(x)}$ as
+	$$\dfrac{(x/n)^n \cdot n^n}{\exp(x/n)^n}
+	= \bigg[\dfrac{x/n}{\exp(x/n)}\bigg]^n \cdot n^n$$
+	Since $n^n$ is just a constant, Algebra Limit Theorem allows us to write
+$$\displaystyle\lim_{x\to \infty} \bigg[\dfrac{x/n}{\exp(x/n)}\bigg]^n \cdot n^n
+= n^n \cdot \displaystyle\lim_{x\to \infty} \bigg[\dfrac{x/n}{\exp(x/n)}\bigg]^n
+= n^n \cdot 0 = 0$$
+	
+	
+	
+	
+\end{proof}
+	
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 20}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 20}
+	Let $f(x) = \dfrac{\exp(x)}{x^n}$ for $x > 0$.
+	\begin{enumerate}[(a)]
+\item Find the minimum value of $f(x)$ for $x > 0$, and conclude that 
+$f(x) > \dfrac{\exp(n)}{n^n}$ for all $x > n$.
+\item Using the expression for $f'(x)$ found in $(a)$, prove that 
+$f'(x) > \dfrac{\exp(n + 1)}{(n + 1)^{n+1}}$, for $x > n + 1$.
+	\end{enumerate}
+	
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 21}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 21}
+	Let $f(x) = \dfrac{1}{\sqrt{1 + x^2}}$ and let $F(x) = \displaystyle\int_0^x f$.
+\begin{enumerate}[(a)]
+\item Prove that $F$ is uniformly continuous on $\mathbb{R}$.
+\begin{proof}
+	Consider
+	$$\displaystyle\int_{0}^{x} \dfrac{1}{\sqrt{1 + t^2}}dt$$
+	First we integrate $f(x)$ by substitution. Let $t = \tan(u)$, so 
+	$dt = \sec^2(u) du$. Substitute into $F(x)$ to obtain,
+\begin{align*}
+	F(x) &= \displaystyle\int_0^{\tan(u)} f \\
+&= \displaystyle\int_{0}^{x} \dfrac{\sec^2(u)}{\sqrt{1 + \tan^2(u)}} \\
+&= \displaystyle\int_{0}^{x} \sec(u)du \\
+&= \log(\sec(u) + \tan(u))\bigg|_{0}^{x}\\
+&= \log(t + \sqrt{1 + t^2})\bigg|_{0}^{x} \\
+&= \log(x + \sqrt{1 + x^2}) - \log(0 + \sqrt{1 + 0^2}) \\	
+&= \log(x + \sqrt{1 + x^2})
+\end{align*}
+	Since $\sqrt{1 + x^2} > 0$ for all $x \in \mathbb{R}$, we have that
+	$f(x)$ is continuous on $\mathbb{R}$. By Fundamental Theorem of Calculus, $F(x)$
+	is differentiable on $\mathbb{R}$. By Mean Value Theorem, there is a number $c \in \mathbb{R}$
+	such that 
+	$$F'(c) = \dfrac{f(x) - f(y)}{x - y}$$
+	but 
+	$$F'(x) = f(x) = \dfrac{1}{\sqrt{1 + x^2}} > 0 \, \, \, \, \forall x \in \mathbb{R}$$
+	which implies $F'(c) > 0$. And this satisfies Lipschitz condition because
+	$$|f(x) - f(y)| \leq F'(c)|x - y|$$
+	where $F'(c) > 0$. As we shown in class if $F(x)$ is a Lipschitz function then $f$ is uniformly continuous.
+	If we haven't proved it, then the proof should be straightforward as follows, \\
+	Given $\epsilon > 0$, choose $\delta = \dfrac{\epsilon}{K}$. If $x, y \in \mathrm{dom}(f)$ satisfy
+	$|x - y| < \delta$, then
+	$$|f(x) - f(y)| < K \cdot \dfrac{\epsilon}{K} = \epsilon$$
+	In fact, compute the integral is redundant in this case.
+\end{proof}
+
+
+
+\item Prove that $F(-x) = -F(x)$.
+	\begin{proof}
+	To show that $F(-x) = -F(x)$ is the same as $F(-x) + F(x) = 0$. So we have
+\begin{align*}
+	F(-x) + F(x) &= \log(-x + \sqrt{1 + x^2}) + \log(x + \sqrt{1 + x^2}) \\
+&= \log((-x + \sqrt{1 + x^2}) \cdot (x + \sqrt{1 + x^2}) \\
+&= \log(x^2 + 1 - x^2) \\ 
+&= \log(1) = 0 
+\end{align*}
+	Another way to prove is consider the definition 
+	$$F(x) = \displaystyle\int_0^x \dfrac{1}{\sqrt{1 + x^2}} \cdot dx$$
+ 	Then
+\begin{align*}
+	F(-x) + F(x) &= \displaystyle\int_{0}^{-x} \dfrac{1}{\sqrt{1 + x^2}} + 
+	\displaystyle\int_{0}^{x} \dfrac{1}{\sqrt{1 + x^2}} \\
+&= -\displaystyle\int_{0}^{x} \dfrac{1}{\sqrt{1 + x^2}} + 
+   \displaystyle\int_{0}^{x} \dfrac{1}{\sqrt{1 + x^2}} \\
+&= 0
+\end{align*}
+	which implies $F(-x) = F(x)$.
+	\end{proof}
+	
+\item Prove that $F$ is increasing on $\mathbb{R}$.
+	\begin{proof}
+		Follows from (a) since $F'(x) = f(x) = \dfrac{1}{\sqrt{1 + x^2}} > 0$ for all
+		$x \in \mathbb{R}$.
+	\end{proof}
+\item Prove that $F(x) \geq \log(\sqrt{x})$ for all $x \geq 1$.
+	\begin{proof} 
+	For $x \geq 1$, we have $x + \sqrt{1 + x^2} \geq \sqrt{x}$, it follows
+	that $F(x) = \log(x + \sqrt{1 + x^2}) \geq \log(\sqrt{x})$ because 
+	$\log(x)$ is a decreasing function ($\log(x)' = \dfrac{1}{x} > 0$ for $x \geq 1$). \\
+	
+	To prove it using the first Fundamental Theorem of Calculus, we note that
+	$$G(x) = \log(\sqrt{x}) = \displaystyle\int_{1}^{\sqrt{x}} \dfrac{1}{t} dt$$
+	So 
+	$$G'(x) = \dfrac{1}{\sqrt{x}} \cdot (\sqrt{x})'
+	= \dfrac{1}{\sqrt{x} \cdot \sqrt{x}} \cdot \dfrac{1}{2} = \dfrac{1}{2x}$$
+	where 
+	$$F'(x) = f(x) = \dfrac{1}{\sqrt{x^2 + 1}}$$
+	For all $x \geq 1$, we have that $F'(x) \geq G'(x)$ since 
+	$\sqrt{x^2 + 1} \leq 2x \Leftrightarrow x^2 + 1 \leq 4x^2$. 
+	Thus $F(x) \geq G(x)$.
+	
+	\end{proof}
+
+\item Prove that $F$ takes on all real numbers: if $y$ is any number, there is a number $x$
+such that $F(x) = y$.
+	\begin{proof}
+	Since $\sqrt{x^2 + 1} > |x| \Rightarrow x + \sqrt{x^2 + 1} > 0$, so that $F(x) = 
+	\log(x + \sqrt{x^2 + 1})$ is defined on $\mathbb{R}$. If $F(x) = y$
+	then
+\begin{eqnarray*}
+	& & y = \log(x + \sqrt{x^2 + 1}) \\
+	& \Leftrightarrow & e^y = x + \sqrt{x^2 + 1} \\
+	& \Leftrightarrow & e^y - x = \sqrt{x^2 + 1} \\
+	& \Leftrightarrow & (e^y - x)^2 = x^2 + 1 \\
+	& \Leftrightarrow & e^{2y} - 2e^yx + x^2 = x^2 + 1 \\
+	& \Leftrightarrow & e^{2y} - 1 = 2e^yx \\
+	& \Leftrightarrow & x = \dfrac{e^{2y} - 1}{2e^y} 
+\end{eqnarray*}
+	\end{proof}
+	To prove it without using $\log(x + \sqrt{x^2 + 1})$, notice that the derivative of 
+	$F(x)$ is $f(x) = \dfrac{1}{\sqrt{1 + x^2}} > 0$ for all $x \geq 1$, so it is increasing on
+	$[1, \infty)$ which implies $F(x)$ is one to one. Moreover, $f$ is continuous so $F$ is differentiable
+	which is continuous. Hence $F(x)$ is also onto or if $y$ is any number, there is a number $x$
+	such that $F(x) = y$.
+\end{enumerate}
+	
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 22}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 22}
+	Let $F$ be the function constructed in Problem 21. Let $S(x)$ be defined by $S(x) = y$ if
+	and only if $F(y) = x$ (that is, $S$ is the inverse function of $F$).
+	\begin{enumerate}[(a)]
+\item Prove that $S$ is differentiable.
+\begin{proof}
+	From Problem 21, we know that $F(x)$ is differentiable because $f(x)$ is continuous, and $F(x)$
+	is also one-one. Since $S(x)$ is the inverse of $F(x)$, by Inverse Differentiation Theorem (proved in class),
+	we have $S(x)$ is also differentiable.
+\end{proof}
+\item Prove that $S'(x) = \sqrt{1 + S^2(x)}$ for all numbers $x$.
+\begin{proof}
+	Since $S(x)$ is the inverse of $F(x)$, we have $F(S(x)) = x$. Take the derivative of 
+	from both side we have $[F(S(x))]' = 1 \Rightarrow
+	F'(S(x)) \cdot S'(x) = 1 \Rightarrow S'(x) = \dfrac{1}{F'(S(x))}$. Moreover
+	since $F'(x) = f(x)$, we have
+	$$S'(x) = \dfrac{1}{1/\sqrt{1 + S^{2}(x)}} = \sqrt{1 + S^{2}(x)}$$
+
+\end{proof}
+
+\item Prove that $S''(x) = S(x)$.
+\begin{proof}
+	We have
+\begin{align*}
+	S''(x) &= (\sqrt{1 + S^2(x)})' \\
+	&= \dfrac{1}{2}(1 + S^2(x))^{-1/2} \cdot 2S(x)S'(x) \\
+	&= \dfrac{S(x)S'(x)}{\sqrt{1 + S^2(x)}} \\
+	&= \dfrac{S(x) \cdot \sqrt{1 + S^2(x)}}{\sqrt{1 + S^2(x)}} \\
+	&= S(x)
+\end{align*}
+\end{proof}
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 23}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 23}
+	Let $S$ be the function constructed in Problem 22 and let $C(x) = S'(x)$. Prove that
+	$S(x) + C(x) = \exp(x)$ for all $x$.
+\begin{proof}
+	Let $g(x) = S(x) + C(x) = S(x) + S'(x)$, we have 
+	$$g'(x) = S'(x) + S''(x) = S'(x) + S(x) = g(x)$$
+	By Problem 17, it follows that $g(x) = \exp(x)$.
+\end{proof}	
+	
+	
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 24}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 24}
+	If $f$ has $n$ derivatives at $a$, then
+	$$P_{n,a} = f(a) + \dfrac{1}{1!}f'(a)(x - a) + 
+	\dfrac{1}{2!}f''(a)(x - a)^2 + \ldots + \dfrac{1}{n!} f^{(n)}(a)(x - a)^n$$
+	is called the Taylor polynomial of degree $n$ for $f$ at $a$. \\
+	Find the Taylor polynomial of degree $n$ for $f(x) = \log(1 + x)$ at $a = 0$.
+	\begin{proof}
+	We have $$f^{(k)} = \log^{(k)}(1 + x)$$	
+	so $$f^{(k)}(0) = \log^{(k)}(1) = (-1)^{k-1}(k - 1)!$$
+	Therefore the Taylor polynomial of degree $n$ for $f$ at $0$ is
+$$P_{n,0}(x) = x - \dfrac{x^2}{2} + \dfrac{x^3}{3} - \dfrac{x^4}{4} + \ldots
++ \dfrac{(-1)^{n-1}x^n}{n}$$
+	\end{proof}
+	
+	
+	
+\end{document}

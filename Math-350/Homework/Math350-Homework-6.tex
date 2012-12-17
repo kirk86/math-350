@@ -1,0 +1,665 @@
+\documentclass[10pt,letterpaper]{article}
+\renewcommand{\rmdefault}{ptm}
+
+\usepackage[left=1in,right=1in,top=1in,bottom=1in]{geometry} 
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{polynomial}
+\usepackage{layouts}
+
+\usepackage{enumerate}
+
+\usepackage{syntax}
+\usepackage{gensymb}
+\usepackage{cancel}
+\usepackage{calc}
+\usepackage{enumerate}
+\usepackage{xcolor}
+
+\usepackage{minted}
+
+\usepackage[version=0.96]{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,automata,backgrounds,petri,positioning}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.shapes}
+\usetikzlibrary{decorations.text}
+\usetikzlibrary{decorations.fractals}
+\usetikzlibrary{decorations.footprints}
+\usetikzlibrary{shadows}
+\usetikzlibrary{calc}
+\usetikzlibrary{spy}
+\usetikzlibrary{matrix}
+
+\usepackage{tikz-qtree}
+
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{4}
+\usepackage[bookmarksopen,bookmarksdepth=3]{hyperref}
+\usepackage{titlesec}
+
+
+%define new colors
+\definecolor{dark-red}{rgb}{0.8,0.15,0.15}
+\definecolor{dark-blue}{rgb}{0.15,0.15,0.7}
+\definecolor{medium-blue}{rgb}{0,0,0.5}
+\definecolor{dark-green}{rgb}{0.2,0.7,0.7}
+
+%set up color for table of contents
+\hypersetup{
+    colorlinks, linkcolor={dark-green},
+    citecolor={dark-blue}, urlcolor={medium-blue}
+}
+
+\usepackage{tocloft}
+
+%preven linebreak between subsection header and its content
+\titleformat{\subsection}[runin]{\normalfont\bfseries}{\thesubsection.}{2pt}{}
+%\titleformat{\section}[runin]{\normalfont\bfseries\filcenter}{\thesection.}{5pt}{}
+
+
+\titleformat{\section}[block]
+{\normalfont\sffamily\LARGE}
+{\thesection}{.2em}{\titlerule\\[.2ex]\bfseries}
+
+%title
+\title{\textbf{Math 350 - Advanced Calculus \\ Homework 6}}
+\author{Chan Nguyen}
+
+%set numwidth of section
+\setlength{\cftsecnumwidth}{1.5cm} 
+%make subsection numwidth different than as section
+\setlength{\cftsubsecnumwidth}{3cm}
+%make subsection indent the same as section
+\setlength{\cftsubsecindent}{\cftsecindent} 
+
+\newcommand{\sol}{\textbf{Solution}}
+
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usetikzlibrary{shapes,backgrounds}
+
+\makeatletter
+\newcommand{\DESCRIPTION@original@item}{}
+\let\DESCRIPTION@original@item\item
+\newcommand*{\DESCRIPTION@envir}{DESCRIPTION}
+\newlength{\DESCRIPTION@totalleftmargin}
+\newlength{\DESCRIPTION@linewidth}
+\newcommand{\DESCRIPTION@makelabel}[1]{\llap{#1}}%
+\newcommand{\DESCRIPTION@item}[1][]{%
+  \setlength{\@totalleftmargin}%
+       {\DESCRIPTION@totalleftmargin+\widthof{\textbf{#1 }}-\leftmargin}%
+  \setlength{\linewidth}
+       {\DESCRIPTION@linewidth-\widthof{\textbf{#1 }}+\leftmargin}%
+  \par\parshape \@ne \@totalleftmargin \linewidth
+  \DESCRIPTION@original@item[\textbf{#1}]%
+}
+\newenvironment{DESCRIPTION}
+  {\list{}{\setlength{\labelwidth}{0cm}%
+           \let\makelabel\DESCRIPTION@makelabel}%
+   \setlength{\DESCRIPTION@totalleftmargin}{\@totalleftmargin}%
+   \setlength{\DESCRIPTION@linewidth}{\linewidth}%
+   \renewcommand{\item}{\ifx\@currenvir\DESCRIPTION@envir
+                           \expandafter\DESCRIPTION@item
+                        \else
+                           \expandafter\DESCRIPTION@original@item
+                        \fi}}
+  {\endlist}
+\makeatother
+
+\begin{document}
+
+\tableofcontents 
+\maketitle
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex}
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 1}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 1}
+	Let $0 < a < 3$ be a number. Let $x_0 = a$ and $y_0 = a - 1$, and inductively define
+	$$x_{n+1} = x_n - \dfrac{x_ny_n}{2}$$
+	$$y_{n+1} = \dfrac{y_n^2(y_n - 3)}{4}$$
+	\begin{enumerate}[(a)]
+		\item Prove that $a(1 + y_n) = x_n^2$ for all $n$.
+		\item Prove that the sequence $(y_n)$ converges to $0$.
+		\item Prove that the sequence $(x_n)$ converges to $\sqrt{a}$
+	\end{enumerate}
+	\textbf{Solution. }
+	\begin{enumerate}[(a)]
+		\item
+		\begin{proof} 
+		We will prove by induction $n$. Base case:
+		$$\text{lhs} = x_0^2 = a^2 = \text{rhs} = a(1 + y_0) = a(1 + a - 1) = a^2$$
+		Suppose $a(1 + y_n) = x_n^2$, we will show that it's also true for $n + 1$.
+		We have
+		\begin{eqnarray*}
+		x^2_{n+1} &=& \bigg(x_n - \dfrac{x_ny_n}{2}\bigg)^2 \\
+			    &=& x_n^2 - 2\cdot x_n \cdot \dfrac{x_ny_n}{2} + \dfrac{x_n^2y_n^2}{4} \\
+		&=& x_n^2(1 - y_n + \dfrac{y_n^2}{4}) \\
+		&=& a(1 + y_n)(1 - y_n + \dfrac{y_n^2}{4}) \\
+		&=& a(1 - y_n^2 + \dfrac{y_n^2}{4} + \dfrac{y_n^3}{4}) \\
+		&=& a(1 - \dfrac{3y_n^2}{4} + \dfrac{y_n^3}{4}) \\
+		&=& a(1 + \dfrac{y_n^2(y_n - 3)}{4}) \\
+		&=& a(1 + y_{n+1})  
+		\end{eqnarray*}
+		
+		\end{proof}
+		\item
+		\begin{proof} 
+		Since $0 < a < 3 \Rightarrow -1 < a - 1 = y_0 < 2$. A brief C++ program shows that:
+\begin{verbatim}
+a = -0.5
+------------------	
+-0.5
+-0.21875
+-0.0385056
+-0.00112628
+-9.51739e-007
+-6.79356e-013
+-3.46143e-025
+-8.98612e-050
+-6.05628e-099
+-2.75089e-197
+-0
+-0
+-0
+-0
+-0
+\end{verbatim}
+\begin{verbatim}
+initial a = 0.5
+------------------
+0.5
+-0.15625
+-0.0192642
+-0.00028012
+-5.88559e-008
+-2.59801e-015
+-5.06225e-030
+-1.92198e-059
+-2.77049e-118
+-5.75673e-236
+-0
+-0
+-0
+-0
+-0
+\end{verbatim}
+\begin{minted}{c++}
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+void generate_sequence(double init) {
+	cout << "initial a = " << init << endl;
+	cout << "------------------\n";
+	double y0 = init;
+	for (int i = 0; i < 15; ++i) {
+		cout << y0 << endl;
+		y0 = y0*y0*(y0 - 3)/4.0;
+	}
+	cout << endl << endl;
+}
+
+int main() {
+	double inits[5] = {-0.5, 0.0, 0.5, 1.0, 1.5};
+	for (int i = 0; i < 5; ++i) {
+		generate_sequence(inits[i]);
+	}
+	return 0;
+}
+\end{minted}
+	As we can see if the initial value falls in the range between $(-1, 2)$ , the sequence is actually increasing 
+	and converges to $0$ except for the first value. So our goal is to prove that it's bounded by $0$ and increasing.
+	First we will prove that $(y_n)$ is bounded by $0$ for all $n \geq 1$. Base case $n = 1$, we have
+	$$y_1 = \dfrac{y_0^3 - 3y_0^2}{4}$$
+	where $-1 < y_0 < 2 \Rightarrow -1 < y_0^3 < 8$, and $0 \leq 3y_0^2 < 12$. Thus $\dfrac{y_0^3 - 3y_0^2}{4} < 0$.
+	Suppose that $y_n < 0$, we want to show that it's also true for $n + 1$. Indeed,
+	$y_{n+1} = \dfrac{y_n^3 - 3y_n^2}{4} < 0$ because $y_n^3 < 0$ and $3y_n^2 > 0$. Therefore,
+	$(y_n)$ is bounded above by $0$. \\
+	Next we want to show that $(y_n)$ is increasing starting from $y_1$, so we want to show
+	that
+	\begin{eqnarray*}
+		& & y_{n+1} \geq y_n \, \, \, ,\forall n \\
+		&\Leftrightarrow & \dfrac{y_n^2(y_n - 3)}{4} \geq y_{n} \\
+		&\Leftrightarrow & y_n^3 - 3y_n^2 - 4y_n \geq 0 
+	\end{eqnarray*}	 
+	We have $$y(a) = y_n^3 - 3y_n^2 - 4y_n = y_n(y_n - 4)(y_n + 1)$$ where $y_n \leq 0$.  
+	$$\underbrace{y_n}_{\leq 0}\underbrace{(y_n - 4)}_{\leq 0}\underbrace{(y_n + 1)}_{???}$$
+ 	To make this expression greater than 0, we need $y_n \geq -1$ which is true because 
+ 	$y_n \leq 0$ for all $n$, so it will never be able to reach $-1$ except for the initial
+ 	value which is consistent with our data from the program. Hence $(y_n)$ is bounded by $0$
+ 	and it's increasing after the first few terms, so there exists $N \in \mathbb{N}$ such that
+ 	if $n > N$ then $(y_n)$ is bounded and increasing. By Monotone Theorem, we can conclude
+ 	that $(y_n)$ converges or the limit of $(y_n)$ exists. 
+	To show that this limit is $0$, let $L$ be the limit of the sequence. We have
+	$$\displaystyle\lim_{n\to\infty}y_n = \displaystyle\lim_{n\to\infty} = L$$
+	Hence,
+	\begin{eqnarray*}
+		&& \dfrac{L^2(L - 3)}{4} = L \\
+		&\Leftrightarrow & L^3 - 3L - 4L = 0 \\
+		&\Leftrightarrow & L(L - 4)(L + 1) = 0 \\
+	\end{eqnarray*}
+	There are 3 solutions to this equation, however only $0$ actually works. $4$ can be eliminated because 
+	$4 \not\in (-1, 2)$ and we know that the $(y_n)$ is bounded by $0$. The same logic applies to $-1$,
+	since the sequence is bounded by $0$ and increasing, it can't be $-1$. Therefore the limit of $(y_n)$
+	must be $0$.
+	\end{proof}
+	
+	\item
+	\begin{proof} 
+	From part (a) we have that:
+	$$x_n^2 = a(1 + y_n) \Leftrightarrow x_n = \sqrt{a(1 + y_n)}$$ 
+	Hence,
+	$$\displaystyle\lim_{n\to\infty}x_n = \displaystyle\lim_{n\to\infty} \sqrt{a(1 + y_n)}$$
+	By Algebra Limit Theorem, we have
+	\begin{eqnarray*}
+		\displaystyle\lim_{n\to\infty} \sqrt{a(1 + y_n)} &=&
+		\displaystyle\lim_{n\to\infty} \sqrt{a}  + \displaystyle\lim_{n\to\infty}ay_n \\
+		&=& \sqrt{a} + a \cdot 0 \\
+		&=& \sqrt{a}
+	\end{eqnarray*}
+	\end{proof}
+
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 2}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 2}
+	Let $S \subset \mathbb{R}$. A number $x$ is an interior point of the set $S \subset R$ if there is $r > 0$
+	such that the interval $(x - r, x + r) \subset S$. The set of all interior points of $S$ is denoted by $S^{\circ}$.
+	Prove the following properties:
+	\begin{enumerate}[(i)]
+		\item $S^{\circ} \subset S$
+		\item $(S \cap T)^{\circ} = S^{\circ} \cap T^{\circ}$	
+		\item $S^{\circ} \cup T^{\circ} \subset (S \cup T)^{\circ}$, but these two sets are not necessarily equal.
+		\item $S^{\circ}$ is the largest open set contained in $S$, that is $S^{\circ}$ is an open set, and if
+		$U \subset S$ is an open set, then $U \subset S^{\circ}$.
+	\end{enumerate}
+	\textbf{Solution. }
+	\begin{enumerate}[(i)]
+		\item Let $x \in S^{\circ}$, then by definition of interior point,
+		there exists $r > 0$ such that $(x - r, x + r) \subset S \Rightarrow
+		x \in S \Rightarrow S^{\circ} \subset S$.
+		
+		\item $\subset:$ Let $x \in (S \cap T)^{\circ}$, then by definition of interior point, there exists
+		$r > 0$ such that $(x - r, x + r) \subset (S \cap T)$ which implies
+		$$(x - r, x + r) \subset S$$
+		and 
+		$$(x - r, x + r) \subset T$$
+		Hence, $x \in S^{\circ}$ and $x \in T^{\circ} \Rightarrow x \in (S^{\circ} \cap T^{\circ})
+		\Rightarrow (S \cap T)^{\circ} \subset (S^{\circ} \cap T^{\circ})$. (1)\\
+		$\supset:$ Let $x \in (S^{\circ} \cap T^{\circ}) \Rightarrow
+		x \in S^{\circ}$ and $x \in T^{\circ}$. By definition of interior point, $\exists r_1, r_2 > 0$ such 
+		that
+		$$(x - r_1, x + r_1) \subset S \text{ and } (x - r_2, x + r_2) \subset T$$
+		Let $r = \min(r_1, r_2) \Rightarrow (x - r, x + r) \subset (S \cap T) \Rightarrow
+		x \in (S \cap T)^{\circ}$. (2) \\
+		From $(1)$ and $(2)$ we have $(S \cap T)^{\circ} = S^{\circ} \cap T^{\circ}$
+		
+		\item Let $x \in (S^{\circ} \cup T^{\circ}) \Rightarrow x \in S^{\circ}$ or $x \in T^{\circ}$.
+		By definition of interior point, and without loss of generality, we assume that there exists
+		$r > 0$ in such that $(x - r, x + r) \subset S \Rightarrow x \in (S \cup T) \Rightarrow
+		x \in (S \cup T)^{\circ}$. Thus $(S^{\circ} \cup T^{\circ}) \subset (S \cup T)^{\circ}$. \\
+		However, it's not always true that $(S \cup T)^{\circ} \subset (S^{\circ} \cup T^{\circ})$.
+		For example if $S = (-\infty, 0)$ and $T = (0, +\infty)$
+		
+		\item Recall
+		\newtheorem*{tm}{Theorem 7.3}
+		\begin{tm}
+		A set $S \in \mathbb{R}$ is open if and only if $\forall x \in S$, $\exists r > 0$ such that
+		$(x - r, x + r) \subset S$.
+		\end{tm}
+		By definition of interior sets, $\forall x \in S^{\circ}$, $\exists r > 0$ such that
+		$(x - r, x + r) \subset S^{\circ}$. Apply Theorem 7.3 to $S^{\circ}$, we have that $S^{\circ}$ is open.
+		Let $U$ be a set such that $U \subset S$
+		and $U$ is open, then $\forall x \in U$, $\exists r > 0$ such that $(x - r, x + r) \subset U$,
+		but $U \subset S$, thus $\forall x \in U$, $\exists r > 0$ such that $(x - r, x + r) \subset U \subset S$.
+		In other words, $U$ is also a set that contains interior points of $S$, where $S^{\circ}$ is the 
+		set that contains "all" interior points of $S$, thus $U \subset S^{\circ}$. Since $U$ is arbitrarily chosen,
+		$S^{\circ}$ is the largest open set contained in $S$. 
+		 
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 3}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 3}
+	The closure of a set of numbers $S \subset \mathbb{R}$ is the set $S^{-} = S \cup S'$, the union of the set
+	and its set of limit points $S'$. Prove the following properties.
+	\begin{enumerate}[(i)]
+		\item If $S \subset T$ then $S^{-} \subset T^{-}$
+		\item If $(S \cup T)^{-} = S^{-} \cup T^{-}$
+		\item If $(S \cap T)^{-} \subset S^{-} \cap T^{-}$
+		\item $S^{-}$ is the smallest closed set that contains $S$.
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 4}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 4}
+	Define $\displaystyle\lim_{x\to\ a}f(x) = \infty$ to mean that for every $N$ there is
+	a $\delta > 0$ such that for all $x$ if $0 < |x - a| < \delta$ then $f(x) > N$. Prove that 
+	$$\displaystyle\lim_{x\to\ 3}\dfrac{1}{(x - 3)^2} = \infty$$
+	\textbf{Solution.}
+	\begin{proof}
+		Let $N \in \mathbb{R+}$, and $\delta = \dfrac{1}{\sqrt{N}} > 0$. Thus if 
+		$0 < |x - 3| < \dfrac{1}{\sqrt{N}} \Rightarrow (|x - 3|)^2 < \dfrac{1}{N}
+		\Rightarrow \dfrac{1}{(x - 3)^2} > N$. Since $N$ is arbitrarily chosen,
+		$\dfrac{1}{(x - 3)^2} > N$ for all $N$. Therefore,
+		$$\displaystyle\lim_{x\to\ 3}\dfrac{1}{(x - 3)^2} = \infty$$
+	\end{proof}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 5}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 5} 
+	Prove that if $\displaystyle\lim_{x\to\ 0} \dfrac{f(x)}{x} = L$ and $b \neq 0$, then 
+	$\displaystyle\lim_{x\to\ 0} \dfrac{f(bx)}{x} = bL$ \\
+	\textbf{Solution. }
+	\begin{proof}
+		By definition of limit, we have that there exists $\epsilon > 0$, and $\delta > 0$
+		such that if $|x - 0| = |x| < \delta$ then 
+		$$\bigg|\dfrac{f(x)}{x} - L\bigg| < \epsilon$$
+		Now consider,
+		$$\displaystyle\lim_{x\to\ 0} \dfrac{f(bx)}{x} 
+		= \displaystyle\lim_{x\to\ 0} \dfrac{bf(bx)}{bx}
+		= b \displaystyle\lim_{x\to\ 0} \dfrac{f(bx)}{bx}
+		\text{ since } b \neq 0$$
+		On the other hand, $|x| < \delta \Rightarrow |x| < \dfrac{\delta}{|b|}$ because $\dfrac{\delta}{|b|} > 0
+		\Rightarrow |bx| < \delta \Rightarrow \bigg|\dfrac{f(bx)}{bx} - L\bigg| < \epsilon$. \\
+		Therefore,
+		$$b \displaystyle\lim_{x\to\ 0} \dfrac{f(bx)}{bx} = bL$$
+	\end{proof}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 6}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 6} 
+	Let $S$ be a nonempty subset of real numbers that is bounded above but has no greatest element.
+	Prove that $\sup(S)$ is a limit point of $S$.
+	\begin{proof}
+	
+	\end{proof}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 7}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 7}
+	A sequence $(a_n)$ is a Cauchy sequence if, for any $\epsilon > 0$, there is a natural number $N$
+	such that if $n, m > N$, then $|a_n - a_m| < \epsilon$. Prove the following:
+	\begin{enumerate}[(a)]
+		\item Any convergent sequence is a Cauchy sequence.
+		\item Any Cauchy sequence is bounded.
+		\item Any subsequence of a Cauchy sequence is a Cauchy sequence.
+		\item If a subsequence of Cauchy sequence converges, then the whole sequence also converges.	
+	\end{enumerate}
+	\textbf{Solution. }
+	\begin{enumerate}[(a)]
+		\item 
+		\begin{proof}
+			Let $(a_n)$ be a convergent sequence to $L$, then $\forall \epsilon > 0, \exists N \in \mathbb{N}$ 
+			such that if $n > N$, then $|a_n - L| < \dfrac{\epsilon}{2}$. 
+			Given $\epsilon > 0$, we choose $n, m > N$, then 
+			$$|a_n - L| < \dfrac{\epsilon}{2} \text{ and } 
+			|a_m - L| < \dfrac{\epsilon}{2}$$
+			Consider, $|a_n - a_m| = |a_{n} - L + L - a_{m}|
+			< |a_{n} - L| + |a_{m} - L|$ by Triangle Inequality. Hence,
+			$$|a_{n} - a_{m}| = |a_{n} - L| + |a_{m} - L| < \dfrac{\epsilon}{2} + \dfrac{\epsilon}{2} = \epsilon$$ 
+			And this shows that a convergent sequence satisfy all Cauchy sequence property which implies
+			it must be a Cauchy sequence.
+		\end{proof}
+		
+		\item 
+		\begin{proof}
+			Let $(a_n)$ be such a Cauchy sequence, then by definition for any $\epsilon > 0$, there is a natural number $N$ such that if $n, m > N$, then $|a_n - a_m| < \epsilon$. Let $m = N + 1, n > m$ and $\epsilon = 1$, then
+			$$1 > |a_n - a_{N+1}| > |a_n| - |a_{N+1}| \Leftrightarrow
+			|a_n| < (|a_{N+1}| + 1) \text{ for all } n$$
+			Let $M = \max\{a_0, a_1, a_2, \ldots, |a_{N+1}| + 1\}$, then $a_n < M$ for all $n \in \mathbb{N}$.
+			Thus $(a_n)$ is bounded.
+		\end{proof}
+		
+		\item 
+		\begin{proof}
+		Let $(a_n)$ be such a Cauchy sequence. From (ii), we know that $(a_n)$ is bounded. By Theorem
+		6.6 
+		\newtheorem*{tm1}{Theorem 6.6}
+		\begin{tm1}
+			Every bounded sequence of real numbers has a convergent susbequence.
+		\end{tm1}
+		We have, $(a_n)$ has a convergent subsequene, and since it converges, it is a Cauchy sequence
+		as proved in (i).		
+		\end{proof}
+		
+		\item
+		\begin{proof} 
+		Let $A = (a_n)$ be such a Cauchy sequence, then given $\epsilon > 0$, $\exists N \in \mathbb{N}$ 
+		such that if $n, m > N$ then 
+		$$|a_n - a_m| < \dfrac{\epsilon}{2}$$
+		Also, let $B = (a_{n_i}) = \{a_{n_1}, a_{n_2}, a_{n_3}, a_{n_4}, \ldots\}$ 
+		be a convergent subsequence of $A$ that converges to $L$, then $\exists
+	 	M \in \mathbb{N}$ such that 
+	 	$$|a_M - L| < \dfrac{\epsilon}{2}$$
+	 	Hence, if $n \geq M$, we have
+	 	\begin{eqnarray*}
+	 		|a_n - L| &=& |a_n - a_M + a_M - L| \\
+	 		& \leq & |a_n - a_M| + |a_M - L| \text{ (Triangle Inequality) }\\
+	 		& < & \dfrac{\epsilon}{2} + \dfrac{\epsilon}{2} \\
+	 		& = & \epsilon
+	 	\end{eqnarray*}
+	 	Therefore, $(a_n)$ converges.
+		\end{proof}					
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 8}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 8}	
+	\begin{enumerate}
+		\item Prove that a set $U \subset \mathbb{R}$ is open if and only if for any $x \in U$
+		there is $r > 0$ such that the interval $(x - r, x + r) \subset U$.
+		\item Prove that a set $U \subset \mathbb{R}$ is open if and only if $U$ is a union of open intervals.
+		\item Prove that a set $U \subset \mathbb{R}$ if and only if $U$ is a union of countably many disjoint open
+		intervals.
+	\end{enumerate}
+	
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 9}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 9}
+	Give an example of open sets $U_1 \supset U_2 \supset U_2 \ldots$ in $\mathbb{R}$ such that the intersection
+	$\displaystyle\bigcap_{n=1}^{\infty} U_n$ is closed and non-empty.
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 10}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 10}
+	Give an example of closed sets $C_1 \supset C_2 \supset C_3 \ldots$ in $\mathbb{R}$ such that the intersection
+	$\displaystyle\bigcup_{n=1}^{\infty} C_n$ is empty.
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 11}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 11}
+	\begin{enumerate}[(a)]
+		\item Suppose that $\displaystyle\lim_{x\to\ a}f(x) = L \neq 0$. Prove that 
+		$\displaystyle\lim_{x\to\ a}\dfrac{1}{f(x)} = \dfrac{1}{L}$.
+	\begin{proof}
+		By definition of limit, fix $\epsilon > 0$, there exists $\delta > 0$ such that
+		$|x - a| < \delta \Rightarrow |f(x) - L| < \epsilon \cdot f(x) \cdot L$. Consider,
+		$$\bigg|\dfrac{1}{f(x)} - \dfrac{1}{L}\bigg|
+		= \bigg|\dfrac{L - f(x)}{f(x) \cdot L}\bigg| < \dfrac{\epsilon f(x) \cdot L}{f(x) \cdot L} = \epsilon$$
+	\end{proof}
+		\item Let $r(x) = \dfrac{p(x)}{q(x)}$ be a rational function, where $p(x)$ and $q(x)$ are
+		polynomials in $x$. Prove that $r$ is continuous at all $x$ such that $q(x) \neq 0$.
+	\begin{proof}
+	
+	\end{proof}
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 12}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 12}
+	Let $I$ be an interval in $\mathbb{R}$ and let $a \in I$. If $f$ is a function whose domain contains
+	$I \setminus \{a\}$ define
+	$$\displaystyle\lim_{x\to\ a+} f(x) = \displaystyle\lim_{x\to\ a} f_{+}(a)$$
+	where $f_{+}$ is the function with domain $I \cap (a, \infty)$ given by $f_{+}(x) = f(x)$. Similarly, 
+	define 
+	$$\displaystyle\lim_{x\to\ a_{-}}f(x) = \displaystyle\lim_{x\to a}f_{-}(x)$$
+	where $f_{-}$ is the function with domain $I \cap (-\infty, a)$ given by $f_{+}(x) = f(x)$. Prove that
+	$\displaystyle\lim_{x\to\ a}f(x)$ exists if and only if both $\displaystyle\lim_{x\to\ a+}$ and
+	$\displaystyle\lim_{x\to\ a-}f(x)$ exist and are equal.
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 13}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 13}
+	 Let $f$ be a real valued function defined on $(a, \infty)$, where $a > 0$ is some positive real number.
+	 Let $\displaystyle\lim_{x\to\infty+}f(x)$ given by
+	 $$\displaystyle\lim_{x\to\infty+} = \displaystyle\lim_{y\to\ 0}g(y)$$
+	 where $g: (0, 1/a) \rightarrow \mathbb{R}$ is given by $g(y) = f(1/y)$ if the latter limit exists.
+	 Prove that $\displaystyle\lim_{x\to\infty+}f(x)$ exists if and only if for any $\epsilon > 0$ there
+	 exists a number $N \geq a$ such that $|f(x) - f(y)| < \epsilon$ if $x, y > N$.
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 14}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 14}
+	\begin{enumerate}[(a)]
+		\item If $\displaystyle\lim_{x\to a}g(x)$ does not exist, can $\displaystyle\lim_{x\to a}[f(x) + g(x)]$
+		exist? Can $\displaystyle\lim_{x\to a}f(x)g(x)$ exist?
+		\begin{proof}
+		Yes, for example if $g(x) = 1 - f(x)$ then $\displaystyle\lim_{x\to a}[f(x) + g(x)] = 
+		\displaystyle\lim_{x\to a}[f(x) + 1 - f(x)]$ exists even if $\displaystyle\lim_{x\to a}f(x)$
+		does not exist; and if $g(x) = \dfrac{1}{f(x)}$ where $f(x) \neq 0$ for all $x \neq a$, then
+		$\displaystyle\lim_{x\to a}f(x)g(x)$ does exists even if $\displaystyle\lim_{x\to a}f(x)$
+		and $\displaystyle\lim_{x\to a}g(x)$ do not exist. For example, if $f(x) = 1/(x - a)$ for $x \neq a$,
+		and $g(x) = x - a$.
+		\end{proof}
+		
+		\item If $\displaystyle\lim_{x\to a}f(x)$ exist and $\displaystyle\lim_{x\to a}[f(x) + g(x)]$ exists,
+		must $\displaystyle\lim_{x\to a}g(x)$ exists?
+		\begin{proof}
+			Yes, again we can write $g(x) = (f(x) + g(x)) - f(x)$.Each of the terms $f(x) + g(x)$
+			and $f(x)$ on the right side has limit when $x \rightarrow a$,
+			so their difference also has limit when $x \rightarrow a$.
+		\end{proof}
+		
+		\item If $\displaystyle\lim_{x\to a}f(x)$ exists, and $\displaystyle\lim_{x\to a}g(x)$ does not exist,
+		can $\displaystyle\lim_{x\to a}[f(x) + g(x)]$ exist?
+		\begin{proof}
+			No. This is just another of starting part (b).
+		\end{proof}
+		
+		\item If $\displaystyle\lim_{x\to a}f(x)$ exist, and $\displaystyle\lim_{x\to a}f(x)g(x)$ exists,
+		does it follow that $\displaystyle\lim_{x\to a}g(x)$ exists?	
+		\begin{proof}
+			No. Let $f(x) = 0$ for all $x$ and let $g(x) = 1$ if $x$ is rational and $-1$ if $x$
+			is irrational. Then for any $a$, $f(x)$ and $f(x)g(x) = 0$ both have limit when $x \rightarrow a$.
+			but the limit of $g(x)$ does not exist when $x \rightarrow a$.
+		\end{proof}
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 15}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 15}
+	\begin{enumerate}[(a)]
+		\item Prove that if $0 < a < 2$ then $a < \sqrt{2a} < 2$.
+		\begin{proof}
+			If $0 < a < 2$ then $a^2 < 2a < 4 \Rightarrow a < \sqrt{2a} < 2$.
+		\end{proof}
+		\item Prove that the sequence,,
+		$$\sqrt{2}, \sqrt{2\sqrt{2}}, \sqrt{2\sqrt{2\sqrt{2}}}, \ldots$$
+		converges.
+		\begin{proof}
+			Part (a) show that
+			$\sqrt{2} < \sqrt{2\sqrt{2}} < \sqrt{2\sqrt{2\sqrt{2}}} < \ldots < 2$.
+			so by Monotonic Convergence Theorem, the sequence converges. 
+		\end{proof}
+		\item Find the limit. Hint: Notice that if $\displaystyle\lim_{n\to \infty}a_n = L$
+		then $\displaystyle\lim_{n\to \infty}\sqrt{2a_n} = \sqrt{2L}$.
+		\begin{proof}
+			If this sequence is denoted by $\{a_n\}$, then the sequence $\{\sqrt{2a_n}\}$ is
+			the same as $\{a_{n+1}\}$ for all $n$. So the hint show that $L = \sqrt{2L} \Leftrightarrow L = 2$.
+		\end{proof}
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 16}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 16}
+	\begin{enumerate}[(a)]
+		\item Prove that a convergent sequence is always bounded.
+		\begin{proof}
+			Suppose that $\displaystyle\lim_{n\to \infty}a_n = L$. Choose $N$ so that 
+			$|a_n - L| < 1$ for $n > N$. Then $|a_n| < \max(|L| + 1, |a_1|, |a_2|, \ldots, |a_N|)$ for all $n$.
+		\end{proof}
+		\item Suppose that $\displaystyle\lim_{n\to \infty}a_n = 0$, and that some $a_n > 0$. Prove that
+		the sets of all numbers $a_n$ actually has a maximum member.
+		\begin{proof}
+			Choose $N$ so that $|a_n - 0| < a_1$ for $n > N$. Then the maximum of $a_1, a_2, a_3, \ldots, a_N$
+			is the maximum of $a_n$ for all $n$.
+		\end{proof}
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 17}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 17}
+	Prove that $\displaystyle\lim_{n\to \infty}a_n = L$, then
+	$$\displaystyle\lim_{n\to \infty} \dfrac{a_1 + \ldots + a_n}{n} = L$$
+	\begin{proof}
+		If $\epsilon > 0$, pick $N$ so that $|a_n - L| < \epsilon$. Then 
+		$$|a_N + a_{N+1} + a_{N + 2} + a_{N + M} - ML| < \epsilon M$$
+		so 
+		$$\bigg|\dfrac{1}{N + M} \cdot [a_N + a_{N+1} + \ldots + a_{N+M}]  - \dfrac{ML}{N + M}\bigg| < \dfrac{\epsilon M}{N + M} < \epsilon$$
+		Choose $M$ so that,
+		$$\bigg|\dfrac{ML}{N + M} - L\bigg| < \epsilon \text{ and } \bigg| \dfrac{1}{N + M}[a_1 + a_2 + \ldots + a_N]\bigg| < \epsilon$$
+		Then,
+		$$\bigg| \dfrac{1}{N + M}[a_1 + a_2 + \ldots + a_N] - L\bigg| < 3 \epsilon$$
+	\end{proof}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 18}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 18}
+	\begin{enumerate}[(a)]
+		\item Prove that if $\displaystyle\lim_{n\to \infty}(a_{n+1} - a_n) = L$, then $\displaystyle\lim_{n\to \infty}a_n/n = L$. 
+		\begin{proof}
+		Let $b_n = a_{n+1} - a_n$. Then $\{b_n\}$ satisfies the hypothesis of Problem 17 and the conclusion says that
+		$$L = \displaystyle\lim_{n\to \infty} \dfrac{b_1 + \ldots + b_n}{n} = \displaystyle\lim_{n\to \infty}\dfrac{a_{n+1} - a_1}{n} = \displaystyle\lim_{n\to \infty}
+		\dfrac{a_n}{n}$$
+		
+		\end{proof}
+		\item Suppose that $f$ is continuous and $\displaystyle\lim_{x\to \infty} [f(x+1) - f(x)] = L$. Prove that
+		$\displaystyle\lim_{x\to \infty}f(x)/x = L$.
+		\begin{proof}
+		The hypothesis $\displaystyle\lim_{x\to \infty}[f(x+1) - f(x)] = L$ implies that $a_n$ and $b_n$, the $\inf$ and
+		$\sup$ of $f$ on $[n, n + 1]$ satisfy $\displaystyle\lim_{n\to \infty}[a_{n+1} - a_n] = L$ and 
+		$\displaystyle\lim_{n\to \infty}[b_{n+1} - b_n] = L$. So by part (a), we have 
+		$\displaystyle\lim_{n\to \infty}a_n/n = \displaystyle\lim_{n\to \infty}b_n/n = L$, which implies that
+		$\displaystyle\lim_{x\to \infty}f(x)/x = L$.
+		\end{proof}
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 19}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 19}
+	\begin{enumerate}
+		\item Suppose that $\{a_n\}$ is a convergent sequence of points all in $[0, 1]$. Prove that
+		$\displaystyle\lim_{n\to \infty} a_n$ is also in $[0, 1]$.
+		\begin{proof}
+			Suppose $\displaystyle\lim_{n\to \infty}a_n = L > 1$. Since $L - 1 > 0$, there would be some $n$
+			with $|L - a_n| < L - 1$, hence $a_n > 1$, a contradiction. Similarly, we cannot have $L < 0$.
+		\end{proof}
+		
+		\item Find a convergent sequence $\{a_n\}$ of points all in $(0, 1)$ such that 
+		$\displaystyle\lim_{n\to \infty}a_n$ is not on $(0, 1)$.
+		\begin{proof}
+			$a_n = 1/n$.
+		\end{proof}
+	\end{enumerate}
+	
+	\phantomsection
+	\subsection*{{\color{purple}\underline{Problem 20}}}
+	\addcontentsline{toc}{subsection}{\numberline{}Problem 20}
+	Suppose that $f$ is a function on $\mathbb{R}$ such that
+	$$|f(x) - f(y)| \leq c|x - y| \text{     for all } x, y$$
+	Prove that $f$ is continuous.
+	\begin{proof}
+		If $c = 0$ then $f$ is constant, so continuous. If $c \neq 0$, then $\epsilon > 0$, then 
+		$|f(x) - f(a)| < \epsilon$ for $|x - a| < \epsilon/c$.
+	\end{proof}
+\end{document}
